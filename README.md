@@ -1,1 +1,1 @@
-# OpenPets
+# MojiPets
