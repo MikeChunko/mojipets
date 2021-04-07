@@ -1,0 +1,20 @@
+/*
+Michael Chunko
+Dominick DiMaggio
+Marcus Simpkins
+Elijah Wendel
+CS 546A
+I pledge my honor that I have abided by the Stevens Honor System.
+*/
+
+.formError {
+    box-shadow: 0 0 5px red;
+    border: 1px solid red;
+}
+
+input {
+    padding: 3px 3px 3px 3px;
+    margin: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 0, 255);
+}

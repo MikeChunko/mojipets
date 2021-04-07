@@ -7,11 +7,12 @@ CS 546A
 I pledge my honor that I have abided by the Stevens Honor System.
 */
 
-// This code is heavily supplemented by lecture 8 code
-
-const path = require("path");
+const mainRoutes = require("./main"),
+    path = require("path");
 
 const constructorMethod = (app) => {
+    app.use("/", mainRoutes);
+
     app.use("*", (req, res) => {
         res.sendStatus(404);
     });
