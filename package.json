@@ -1,0 +1,27 @@
+{
+  "name": "mojipets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeChunko/mojipets.git"
+  },
+  "author": "Michael Chunko, Dominick DiMaggio, Marcus Simpkins, Elijah Wendel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MikeChunko/mojipets/issues"
+  },
+  "homepage": "https://github.com/MikeChunko/mojipets#readme",
+  "dependencies": {
+    "express": "*",
+    "express-handlebars": "*",
+    "handlebars": "*",
+    "mongo": "*",
+    "path": "*"
+  }
+}
