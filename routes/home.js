@@ -8,8 +8,7 @@ I pledge my honor that I have abided by the Stevens Honor System.
 */
 
 const express = require("express"),
-    router = express.Router(),
-    path = require("path");
+    router = express.Router();
 
 // Temporary route faking for debug purposes
 router.get("/", async (req, res) => {

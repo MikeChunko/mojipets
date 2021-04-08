@@ -23,33 +23,34 @@
 <body>
     <h1>Welcome to <strong>MojiPets</strong>!</h1>
     <div id="content-wrapper">
-        <p>Already have an account? Sign in!</p>
-        <form id="loginForm">
+        <p>Create an account!</p>
+        <form id="signupForm">
             <label for="usernameInput">
                 <input id="usernameInput" name="usernameInput" type="text" class="center" placeholder="Username" />
+            </label>
+            <br />
+            <label for="displaynameInput">
+                <input id="displaynameInput" name="displaynameInput" type="text" class="center" placeholder="Display name" />
             </label>
             <br />
             <label for="passwordInput">
                 <input id="passwordInput" name="passwordInput" type="password" class="center" placeholder="Password" />
             </label>
             <br />
-            <label for="loginSubmit">
-                <input id="loginSubmit" name="loginSubmit" type="submit" class="center" value="Sign in" />
+            <label for="passwordRepeatInput">
+                <input id="passwordRepeatInput" name="passwordRepeatInput" type="password" class="center" placeholder="Repeat your password" />
+            </label>
+            <br />
+            <label for="createSubmit">
+                <input id="createSubmit" name="createSubmit" type="submit" class="center" value="Sign up" />
             </label> 
         </form>
         <p id="errorMessage" hidden></p>
-
-        <p>OR</p>
-        <form id="createForm" method="GET" action="/signup">
-            <label for="createSubmit">
-                <input id="createSubmit" name="createSubmit" type="submit" class="center" value="Create an Account" />
-            </label> 
-        </form>
     </div>
 
     <p id="petScroll" class="mover-1">🐱  🐶  🐳  🐧  🦂  🐜  🦑  🐢  🐛  🐍  🐱  🐶  🐳  🐧  🦂  🐜  🦑  🐢  🐛  🐍  🐱  🐶  🐳  🐧  🦂  🐜  🦑  🐢  🐛  🐍  🐱  🐶  🐳  🐧  🦂  🐜  🦑  🐢  🐛  🐍  🐱  🐶  🐳  🐧  🦂  🐜  🦑  🐢  🐛  🐍  🐱  🐶  🐳  🐧  🦂  🐜  🦑  🐢  🐛  🐍  🐱  🐶  🐳  🐧  🦂  🐜  🐳  🐧</div>
 
-    <script src=/public/login.js></script>
+    <script src=/public/signup.js></script>
 </body>
 
 </html>

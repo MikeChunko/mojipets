@@ -55,8 +55,7 @@ if (document.getElementById("loginForm")) {
             return;
         }
 
-        const hashedPassword = hashCode(s);
-        console.log(hashedPassword);
+        const hashedPassword = hashCode(password);
 
         // TODO: Send (username, hashedPassword) to the db to check if the combo exists
         // TODO: If so, great! Send a GET request for homepage with the username as the body
