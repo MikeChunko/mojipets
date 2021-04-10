@@ -7,12 +7,12 @@ CS 546A
 I pledge my honor that I have abided by the Stevens Honor System.
 */
 
-const mainRoutes = require("./main"),
+const loginRoutes = require("./login"),
     homeRoutes = require("./home"),
     signupRoutes = require("./signup");
 
 const constructorMethod = (app) => {
-    app.use("/", mainRoutes);
+    app.use("/", loginRoutes);
     app.use("/signup", signupRoutes);
     app.use("/home", homeRoutes);
 

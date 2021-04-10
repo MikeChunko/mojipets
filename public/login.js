@@ -60,5 +60,10 @@ if (document.getElementById("loginForm")) {
         // TODO: Send (username, hashedPassword) to the db to check if the combo exists
         // TODO: If so, great! Send a GET request for homepage with the username as the body
         // TODO: Else, display an error to the user
+
+        // ! Debug testing of jquery
+        $.get("/", function (data, status) {
+            console.log(`${data}`);
+        });
     })
 }
