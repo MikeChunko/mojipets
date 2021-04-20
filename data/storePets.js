@@ -9,15 +9,23 @@ function isEmoji(emoji) {
 } // https://stackoverflow.com/questions/18862256/how-to-detect-emoji-using-javascript
 
 function isImg(img) {
-    return /.(jpeg|jpg|png|gif|bmp)/.test(img)
+    return /.(jpeg|jpg|png|gif|bmp|svg)/.test(img)
 }
 
-function isDate(img) {
+function isDate(d) {
     if (!d || !(d instanceof Date)) return false
     return true
 }
 
-async function addStorePet(emoji, price, rarity) {
+function clean(obj) {
+    obj._id = obj._id.toString()
+    return obj
+}
+
+async function add(body) {
+    let emoji = body.emoji
+    let price = body.price
+    let rarity = body.rarity
     if (!emoji) throw 'Error: must provide an emoji for the pet.'
     if (!price) throw 'Error: must provide an price for the pet.'
     if (!rarity) throw 'Error: must provide an rarity for the pet.'
@@ -46,41 +54,23 @@ async function addStorePet(emoji, price, rarity) {
     let insertInfo = await storePetCollection.insertOne(newStorePet)
     if (insertInfo.insertedCount == 0) throw 'Error: could not add storePet.'
     const newId = insertInfo.insertedId
-    const pet = await getStorePet2(newId.toString())
+    const pet = await get(newId.toString())
     return pet
 }
 
-async function getStorePet(id) {
+async function get(id) {
     if (!id) throw 'Error: id not given.'
     if (typeof(id) != "string") throw 'Error: type of id not string.'
     if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
     
     const storePetCollection = await storePets()
 
-    try {
-        return await storePetCollection.find({ _id: ObjectID(id) })
-    } catch (e) {
-        throw e
-    }
-}
-
-async function getStorePet2(id) {
-    if (!id) throw 'Error: id not given.'
-    if (typeof(id) != "string") throw 'Error: type of id not string.'
-    if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-    
-    const storePetCollection = await storePets()
-    const petArr = await storePetCollection.find({}).toArray()
-    for (i of petArr) {
-        if (i._id.toString() == id) {
-            i._id = i._id.toString()
-            return i
-        }
-    }
-    throw `Error: no pets in store have the id ${id}.`
+    const pet = await storePetCollection.findOne({ _id: ObjectID(id) })
+    if (pet === null) throw `No pet could be found with the id '${id}'`
+    return clean(pet)
 }
 
 module.exports = {
-    addStorePet,
-    getStorePet
+    add,
+    get
 }

@@ -8,15 +8,22 @@ function isEmoji(emoji) {
 } // https://stackoverflow.com/questions/18862256/how-to-detect-emoji-using-javascript
 
 function isImg(img) {
-    return /.(jpeg|jpg|png|gif|bmp)/.test(img)
+    return /.(jpeg|jpg|png|gif|bmp|svg)/.test(img)
 }
 
-function isDate(img) {
+function isDate(d) {
     if (!d || !(d instanceof Date)) return false
     return true
 }
 
-async function addStoreFood(emoji, price) {
+function clean(obj) {
+    obj._id = obj._id.toString()
+    return obj
+}
+
+async function add(body) {
+    let emoji = body.emoji
+    let price = body.price
     if (!emoji) throw 'Error: must provide an emoji for the pet.'
     if (!price) throw 'Error: must provide an price for the pet.'
     
@@ -41,41 +48,24 @@ async function addStoreFood(emoji, price) {
     let insertInfo = await storeFoodCollection.insertOne(newStoreFood)
     if (insertInfo.insertedCount == 0) throw 'Error: could not add storeFood.'
     const newId = insertInfo.insertedId
-    const food = await getStoreFood2(newId.toString())
+    const food = await get(newId.toString())
     return food
 }
 
-async function getStoreFood(id) {
+async function get(id) {
     if (!id) throw 'Error: id not given.'
     if (typeof(id) != "string") throw 'Error: type of id not string.'
     if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
     
     const storeFoodCollection = await storeFood()
 
-    try {
-        return await storeFoodCollection.find({ _id: ObjectID(id) })
-    } catch (e) {
-        throw e
-    }
+    const food =  await storeFoodCollection.findOne({ _id: ObjectID(id) })
+    if (food === null) throw `No food could be found with the id '${id}'`
+    return clean(food)
 }
 
-async function getStoreFood2(id) {
-    if (!id) throw 'Error: id not given.'
-    if (typeof(id) != "string") throw 'Error: type of id not string.'
-    if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-    
-    const storeFoodCollection = await storeFood()
-    const foodArr = await storeFoodCollection.find({}).toArray()
-    for (i of foodArr) {
-        if (i._id.toString() == id) {
-            i._id = i._id.toString()
-            return i
-        }
-    }
-    throw `Error: no foods in store have the id ${id}.`
-}
 
 module.exports = {
-    addStoreFood,
-    getStoreFood
+    add,
+    get
 }

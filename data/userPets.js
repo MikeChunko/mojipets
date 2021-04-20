@@ -9,15 +9,23 @@ function isEmoji(emoji) {
 } // https://stackoverflow.com/questions/18862256/how-to-detect-emoji-using-javascript
 
 function isImg(img) {
-    return /.(jpeg|jpg|png|gif|bmp)/.test(img)
+    return /.(jpeg|jpg|png|gif|bmp|svg)/.test(img)
 }
 
-function isDate(img) {
+function isDate(d) {
     if (!d || !(d instanceof Date)) return false
     return true
 }
 
-async function addUserPet(owner, name, emoji) {
+function clean(obj) {
+    obj._id = obj._id.toString()
+    return obj
+}
+
+async function add(body) {
+    let owner = body.owner
+    let name = body.name
+    let emoji = body.emoji
     if (!owner) throw 'Error: must provide owner id of the pet.'
     if (!name) throw 'Error: must provide the name of the pet.'
     if (!emoji) throw 'Error: must provide an emoji for the pet.'
@@ -56,14 +64,11 @@ async function addUserPet(owner, name, emoji) {
 
     let user = null;
     try {
-        user = await usersJs.getUser(owner)
+        user = await usersJs.get(owner)
     } catch (e) {
         throw e
     }
-
-    console.log(user.pets)
     user.pets.push(newPet)
-    console.log(user.pets)
 
     delete user._id;
 
@@ -73,29 +78,53 @@ async function addUserPet(owner, name, emoji) {
 
     const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: user })
     if (updateInfo.modifiedCount == 0) throw 'Error: could not add new pet to user.'
-    return await getUserPet(newPet._id.toString())
+    return await get(newPet._id.toString())
 }
 
-async function getUserPet(id) {
-    if (!id) throw 'Error: Must provide an id to search for.'
-    if (typeof(id) != 'string') throw 'Error: id must be a string.'
+async function get(id) {
+    let _id = null
+    // Error checking
+    if (!id) throw 'Error: must provide an id for get.'
+    if (typeof(id) != "string") throw 'Error: type of id not string.'
     if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-
+    try { _id = ObjectIdMongo(id) }
+    catch (e) { throw `Error: id '${id}' is not a valid ObjectID.` }
+    // Logic
     const userCollection = await users()
-    const userArr = await userCollection.find({}).toArray()
-
-    for (i of userArr) {
-        for (pet of i.pets) {
-            if (pet._id == id) {
-                pet._id = id.toString()
-                return pet
-            }
-        }
-    }
-    throw 'Error: no pets have the id provided.'
+    const user = await userCollection.findOne({'pets._id': _id})
+    if (user === null) throw `No pet could be found with the id '${id}'.`
+    const userPet = user.pets.find(p => p._id.toString() === id)
+    return clean(userPet)
 }
+  
+async function getPetsFromUser(id) {
+    let user = null
+    try { user = await usersJs.get(id) }
+    catch (e) { throw e }
+    return user.pets.map(clean)
+}
+
+// async function getUserPet(id) {
+//     if (!id) throw 'Error: Must provide an id to search for.'
+//     if (typeof(id) != 'string') throw 'Error: id must be a string.'
+//     if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+
+//     const userCollection = await users()
+//     const userArr = await userCollection.find({}).toArray()
+
+//     for (i of userArr) {
+//         for (pet of i.pets) {
+//             if (pet._id == id) {
+//                 pet._id = id.toString()
+//                 return pet
+//             }
+//         }
+//     }
+//     throw 'Error: no pets have the id provided.'
+// }
 
 module.exports = {
-    addUserPet,
-    getUserPet
+    add,
+    get,
+    getPetsFromUser
 }

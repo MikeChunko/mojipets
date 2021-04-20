@@ -10,7 +10,15 @@ function validPassword (pwdStr) {
     return false
 } // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 
-async function addUser(username, plaintextPassword, displayname) {
+function clean(obj) {
+    obj._id = obj._id.toString()
+    return obj
+}
+
+async function add(body) {
+    username = body.username
+    plaintextPassword = body.plaintextPassword
+    displayname = body.displayname
     if (!username) throw 'Error: must provide the username of the user.'
     if (!plaintextPassword) throw 'Error: must provide a password for the user.'
     if (!displayname) { displayname = username }
@@ -32,7 +40,6 @@ async function addUser(username, plaintextPassword, displayname) {
     
     const userCollection = await users()
     const passwordhash = await bcrypt_pass.hash_password(plaintextPassword)
-    console.log(passwordhash)
 
     newUser = {
         username: username.trim(),
@@ -47,34 +54,29 @@ async function addUser(username, plaintextPassword, displayname) {
     let insertInfo = await userCollection.insertOne(newUser)
     if (insertInfo.insertedCount == 0) throw 'Error: could not add user.'
     const newId = insertInfo.insertedId
-    const user = await getUser(newId.toString())
+    const user = await get(newId.toString())
     return user
 }
 
 async function getAllUsers() {
     const userCollection = await users()
     const userArr = await userCollection.find({}).toArray()
-    return userArr
+    return userArr.map(clean)
 }
 
-async function getUser(uid) {
-    if (!uid) throw 'Error: uid not given.'
-    if (typeof(uid) != "string") throw 'Error: type of uid not string.'
-    if (uid.trim().length == 0) throw 'Error: uid is either an empty string or just whitespace.'
+async function get(id) {
+    if (!id) throw 'Error: id not given.'
+    if (typeof(id) != "string") throw 'Error: type of id not string.'
+    if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
     
     const userCollection = await users()
-    const userArr = await userCollection.find({}).toArray()
 
-    for (i of userArr) {
-        if (i._id.toString() == uid) {
-            i._id = i._id.toString()
-            return i
-        }
-    }
-    throw `Error: no users have the uid ${uid}.`
+    const user = await userCollection.findOne({ _id: ObjectID(id) })
+    if (user === null) throw `No user could be found with the id '${id}'`
+    return clean(user)
 }
 
-async function updateUser(uid, username, plaintextPassword, displayname) {
+async function update(uid, username, plaintextPassword, displayname) {
     if (!uid) throw 'Error: uid not given.'
     if (!username) throw 'Error: must provide the username of the user.'
     if (!plaintextPassword) throw 'Error: must provide a password for the user.'
@@ -119,8 +121,8 @@ async function updateUser(uid, username, plaintextPassword, displayname) {
 }
 
 module.exports = {
-    addUser,
-    getUser,
+    add,
+    get,
     getAllUsers,
-    updateUser
+    update
 }
