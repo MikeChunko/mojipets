@@ -1,5 +1,6 @@
 function start() {
     renderPets()
+    startClickToPlace()
 }
 
 /** global vars  **/
@@ -164,7 +165,7 @@ function renderPets() {
 
         // create html node for item
         let placedItem = document.createElement('div');
-        placedItem.classList.add('item');
+        placedItem.classList.add('pet');
         placedItem.id = `pet${_items.length}`
         placedItem.style.left = `${pt.x}px`;
         placedItem.style.top = `${pt.y}px`;
