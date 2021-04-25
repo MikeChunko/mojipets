@@ -164,22 +164,22 @@ function renderPets() {
         }
 
         // create html node for item
-        let placedItem = document.createElement('div');
-        placedItem.classList.add('pet');
-        placedItem.id = `pet${_items.length}`
-        placedItem.style.left = `${pt.x}px`;
-        placedItem.style.top = `${pt.y}px`;
-        _container.appendChild(placedItem);
+        let petNode = document.createElement('div');
+        petNode.classList.add('pet');
+        petNode.id = `pet${_items.length}`
+        petNode.style.left = `${pt.x}px`;
+        petNode.style.top = `${pt.y}px`;
+        _container.appendChild(petNode);
         
         // add pet to list
         _pets.push({
-            id: placedItem.id,
+            id: petNode.id,
             // vars for animation
             pos: pt,
             delta: { x: 0, y: 0 },
             rot: { degrees: 0, direction: 'L' }, // rotation
             target: null,
-            node: placedItem,
+            node: petNode,
             data: petData
         })
     }
