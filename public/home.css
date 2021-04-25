@@ -49,6 +49,23 @@ body {
   border-radius: 0.5vw;
   padding-top: 1vh;
   padding-bottom: 93vh;
+  position: relative;
+}
+
+.pet {
+  background-color: red;
+  width: 5vw;
+  height: 5vw;
+  border-radius: 0.5vw;
+  position: absolute;
+}
+
+.food {
+  background-color: blue;
+  width: 5vw;
+  height: 5vw;
+  border-radius: 0.5vw;
+  position: absolute;
 }
 
 input[type="image"] {
