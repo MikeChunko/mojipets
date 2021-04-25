@@ -60,7 +60,7 @@ body {
   position: absolute;
 }
 
-.food {
+.item {
   background-color: blue;
   width: 5vw;
   height: 5vw;
