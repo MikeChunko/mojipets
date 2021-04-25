@@ -8,97 +8,97 @@ I pledge my honor that I have abided by the Stevens Honor System.
 */
 
 .formError {
-    box-shadow: 0 0 5px red;
-    border: 1px solid red;
+  box-shadow: 0 0 5px red;
+  border: 1px solid red;
 }
 
 input {
-    padding: 3px 3px 3px 3px;
-    margin: 3px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0);
-    border: 1px solid rgba(0, 0, 0, 255);
+  padding: 3px 3px 3px 3px;
+  margin: 3px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 255);
 }
 
 body {
-    background-color: #FF8787;
-    font-family: 'Roboto', sans-serif;
+  background-color: #FF8787;
+  font-family: 'Roboto', sans-serif;
 }
 
 h1 {
-    position: absolute;
-    width: 774px;
-    height: 90px;
-    left: calc(50% - 774px/2);
-    top: 40px;
-    
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 72px;
-    line-height: 84px;
-    text-align: center;
-    
-    color: #FFFFFF;
+  position: absolute;
+  width: 774px;
+  height: 90px;
+  left: calc(50% - 774px/2);
+  top: 40px;
+  
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 72px;
+  line-height: 84px;
+  text-align: center;
+  
+  color: #FFFFFF;
 }
 
 #content-wrapper {
-    position: absolute;
-    width: 50em;
-    height: 30em;
-    left: calc(50% - (50em + 20px)/2 - 0.5px);
-    top: 160px;
-    margin-top: 50px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 30px;
+  position: absolute;
+  width: 50em;
+  height: 30em;
+  left: calc(50% - (50em + 20px)/2 - 0.5px);
+  top: 160px;
+  margin-top: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
 
-    background: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
 }
 
 p {
-    font-weight: bold;
-    text-align: center;
-    padding-bottom: 22px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 22px;
 }
 
 .center {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+  position: relative;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 input {
-    background: #ECECEC;
-    border-radius: 5px;
-    border: none;
+  background: #ECECEC;
+  border-radius: 5px;
+  border: none;
 
-    width: 20em;
-    height: 2.5em;
+  width: 20em;
+  height: 2.5em;
 
-    padding-left: 15px;
-    outline: none;
+  padding-left: 15px;
+  outline: none;
 }
 
 input[type="submit"] {
-    background-color: #FF8787;
-    color: white;
-    font-size: 110%;
-    font-weight: bolder;
+  background-color: #FF8787;
+  color: white;
+  font-size: 110%;
+  font-weight: bolder;
 
-    width: 12em;
+  width: 12em;
 }
 
 #petScroll {
-    position: absolute;
-    bottom: 0;
-    overflow: hidden;
-    height: 50pt;
-    margin-bottom: 10px;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+  height: 50pt;
+  margin-bottom: 10px;
 
-    font-size: 55pt;
-    color: #000000;
+  font-size: 55pt;
+  color: #000000;
 }
