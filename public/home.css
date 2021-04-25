@@ -53,7 +53,6 @@ body {
 }
 
 .pet {
-  /* background-color: red; */
   width: 5vw;
   height: 5vw;
   border-radius: 0.5vw;
@@ -61,7 +60,6 @@ body {
 }
 
 .item {
-  /* background-color: blue; */
   width: 5vw;
   height: 5vw;
   border-radius: 0.5vw;

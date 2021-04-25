@@ -156,6 +156,22 @@ function renderPets() {
                 fetch: [ Date("3/13/2021"), Date("3/18/2021") ],
                 feed: [ Date("3/16/2021"), Date("3/17/2021") ]
             }
+        },
+        {
+            _id: "6052b0cf75f96d53fb455de8",
+            name: "Slow Hill",
+            birthday: Date("10/16/2020"),
+            emoji: {
+                codepoint: "🐌",
+                name: "snail",
+                img: "https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/512/emoji_u1f40c.png"
+            },
+            happiness: Date("3/18/2021"), 
+            health: Date("3/17/2021"), 
+            interactions: {
+                fetch: [ Date("3/13/2021"), Date("3/18/2021") ],
+                feed: [ Date("3/16/2021"), Date("3/17/2021") ]
+            }
         }
     ]
 
