@@ -42,7 +42,11 @@ router.get("/", async (req, res) => {
     friends = friends.slice(0, 20);
     
     res.render("mojipets/home", {
-        title: "MojiPets", favorites: favorites, inventory: inventory, friends: friends
+        title: "MojiPets",
+        favorites: favorites,
+        inventory: inventory,
+        friends: friends,
+        onload: "start()"
     });
 });
 
