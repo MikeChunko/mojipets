@@ -1,5 +1,5 @@
 function start() {
-    startClickToPlace();
+    renderPets()
 }
 
 /** global vars  **/
