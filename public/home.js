@@ -1,9 +1,3 @@
-function start() {
-    renderPets()
-    startClickToPlace()
-    startAnimation()
-}
-
 /** global vars  **/
 const _container = document.getElementById('container');
 
@@ -158,7 +152,7 @@ function renderPets() {
             }
         },
         {
-            _id: "6052b0cf75f96d53fb455de8",
+            _id: "6085f46b8efba9956bcc6fe5",
             name: "Slow Hill",
             birthday: Date("10/16/2020"),
             emoji: {
@@ -177,6 +171,7 @@ function renderPets() {
 
     for (var petData of data) {
         // pick a random point
+        // TODO: make it so that pets don't spawn on top of each other
         let pt = { // TODO: use a more accurate area than between 1 & 100
             x: Math.floor((Math.random() * 100) + 1),
             y: Math.floor((Math.random() * 100) + 1)
@@ -203,4 +198,11 @@ function renderPets() {
             data: petData
         })
     }
+}
+
+/** Entrypoint! Should be run onload in homepage **/
+function start() {
+    renderPets()
+    startClickToPlace()
+    startAnimation()
 }
