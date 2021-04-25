@@ -43,7 +43,7 @@ body {
   position: relative;
 }
 
-.content-wrapper {
+#content {
   grid-area: 1 / 2 / 2 / 5;
   background-color: #FFFFFF;
   border-radius: 0.5vw;
