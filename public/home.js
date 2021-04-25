@@ -148,7 +148,7 @@ function renderPets() {
             emoji: {
                 codepoint: "🐶",
                 name: "dog",
-                img: "/public/images/dog.jpg"
+                img: "https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/512/emoji_u1f436.png"
             },
             happiness: Date("3/18/2021"), 
             health: Date("3/17/2021"), 
@@ -167,7 +167,8 @@ function renderPets() {
         }
 
         // create html node for item
-        let petNode = document.createElement('div');
+        let petNode = document.createElement('img');
+        petNode.src = petData.emoji.img;
         petNode.classList.add('pet');
         petNode.id = `pet${_items.length}`
         petNode.style.left = `${pt.x}px`;

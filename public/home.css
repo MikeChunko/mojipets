@@ -53,7 +53,7 @@ body {
 }
 
 .pet {
-  background-color: red;
+  /* background-color: red; */
   width: 5vw;
   height: 5vw;
   border-radius: 0.5vw;
