@@ -7,8 +7,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>MojiPets</title>
@@ -18,41 +17,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/public/site.css">
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>Welcome to <strong>MojiPets</strong>!</h1>
     <div id="content-wrapper">
-        <p>Already have an account? Sign in!</p>
-        <form id="loginForm">
-            <label for="usernameInput">
-                <input id="usernameInput" name="usernameInput" type="text" class="center" placeholder="Username" />
-            </label>
-            <br />
-            <label for="passwordInput">
-                <input id="passwordInput" name="passwordInput" type="password" class="center" placeholder="Password" />
-            </label>
-            <br />
-            <label for="loginSubmit">
-                <input id="loginSubmit" name="loginSubmit" type="submit" class="center" value="Sign in" />
-            </label>
-        </form>
-        <p id="errorMessage" hidden></p>
+      <p>Already have an account? Sign in!</p>
+      <form id="loginForm">
+        <label for="usernameInput">
+          <input id="usernameInput" name="usernameInput" type="text" class="center" placeholder="Username" />
+        </label>
+        <br />
+        <label for="passwordInput">
+          <input id="passwordInput" name="passwordInput" type="password" class="center" placeholder="Password" />
+        </label>
+        <br />
+        <label for="loginSubmit">
+          <input id="loginSubmit" name="loginSubmit" type="submit" class="center" value="Sign in" />
+        </label>
+      </form>
+      <p id="errorMessage" hidden></p>
 
-        <p>OR</p>
-        <form id="createForm" method="GET" action="/signup">
-            <label for="createSubmit">
-                <input id="createSubmit" name="createSubmit" type="submit" class="center" value="Create an Account" />
-            </label>
-        </form>
+      <p>OR</p>
+      <form id="createForm" method="GET" action="/signup">
+        <label for="createSubmit">
+          <input id="createSubmit" name="createSubmit" type="submit" class="center" value="Create an Account" />
+        </label>
+      </form>
     </div>
 
     <p id="petScroll" class="mover-1">🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑
-        🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧
-        🦂 🐜 🐳 🐧</div>
+      🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧
+      🦂 🐜 🐳 🐧</div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src=/public/login.js></script>
-</body>
-
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src=/public/login.js></script>
+  </body>
 </html>
