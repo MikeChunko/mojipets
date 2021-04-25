@@ -1,6 +1,7 @@
 function start() {
     renderPets()
     startClickToPlace()
+    startAnimation()
 }
 
 /** global vars  **/
@@ -107,6 +108,7 @@ function startAnimation() {
 /** Proof of concept click-to-place **/
 function startClickToPlace() {
     // TODO: place food or toy contextually
+    // TODO: subtract correct val so obj is placed in center of mouse
     _container.addEventListener('click', event => {
         let pt = {
             x: event.offsetX-25,
@@ -114,7 +116,8 @@ function startClickToPlace() {
         };
         
         // create html node for item
-        let placedItem = document.createElement('div');
+        let placedItem = document.createElement('img');
+        placedItem.src = 'https://github.com/googlefonts/noto-emoji/raw/main/png/512/emoji_u1f356.png'
         placedItem.classList.add('item');
         placedItem.id = `item${_items.length}`
         placedItem.style.left = `${pt.x}px`;

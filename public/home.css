@@ -61,7 +61,7 @@ body {
 }
 
 .item {
-  background-color: blue;
+  /* background-color: blue; */
   width: 5vw;
   height: 5vw;
   border-radius: 0.5vw;
