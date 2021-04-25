@@ -1,5 +1,5 @@
 function start() {
-    console.log('testing!')
+    startClickToPlace();
 }
 
 /** global vars  **/
@@ -11,7 +11,7 @@ let _items = []; // items (food or toys) that the pets will chase
 let _looper = null; // for loop iteration
 
 /** setup and start animation **/
-function setupPetAnimation() {
+function startAnimation() {
     // run frame function every 5 ms
     clearInterval(_looper);
     _looper = setInterval(frame, 5);
@@ -104,7 +104,7 @@ function setupPetAnimation() {
 }
 
 /** Proof of concept click-to-place **/
-function setupClickToPlace() {
+function startClickToPlace() {
     // TODO: place food or toy contextually
     _container.addEventListener('click', event => {
         let pt = {
@@ -118,7 +118,7 @@ function setupClickToPlace() {
         placedItem.id = `item${_items.length}`
         placedItem.style.left = `${pt.x}px`;
         placedItem.style.top = `${pt.y}px`;
-        container.appendChild(placedItem);
+        _container.appendChild(placedItem);
 
         // update info and add item to list
         _items.push({
@@ -131,4 +131,55 @@ function setupClickToPlace() {
 
         console.log(`X: ${pt.x}, Y: ${pt.y}`)
     })
+}
+
+/** gets the user's pets from the db and renders them **/
+function renderPets() {
+    // TODO: get real data from the db (atm data is mocked)
+    data = [
+        {
+            _id: "6052b0cf75f96d53fb455de8",
+            name: "Fido Hill",
+            birthday: Date("10/13/2020"),
+            emoji: {
+                codepoint: "🐶",
+                name: "dog",
+                img: "/public/images/dog.jpg"
+            },
+            happiness: Date("3/18/2021"), 
+            health: Date("3/17/2021"), 
+            interactions: {
+                fetch: [ Date("3/13/2021"), Date("3/18/2021") ],
+                feed: [ Date("3/16/2021"), Date("3/17/2021") ]
+            }
+        }
+    ]
+
+    for (var petData of data) {
+        // pick a random point
+        let pt = { // TODO: use a more accurate area than between 1 & 100
+            x: Math.floor((Math.random() * 100) + 1),
+            y: Math.floor((Math.random() * 100) + 1)
+        }
+
+        // create html node for item
+        let placedItem = document.createElement('div');
+        placedItem.classList.add('item');
+        placedItem.id = `pet${_items.length}`
+        placedItem.style.left = `${pt.x}px`;
+        placedItem.style.top = `${pt.y}px`;
+        _container.appendChild(placedItem);
+        
+        // add pet to list
+        _pets.push({
+            id: placedItem.id,
+            // vars for animation
+            pos: pt,
+            delta: { x: 0, y: 0 },
+            rot: { degrees: 0, direction: 'L' }, // rotation
+            target: null,
+            node: placedItem,
+            data: petData
+        })
+    }
 }
