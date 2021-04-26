@@ -9,7 +9,9 @@
 
 const express = require("express"),
       router = express.Router(),
-      path = require("path");;
+      path = require("path"),
+      bcrypt = require("bcrypt");
+
 
 router.get("/", async (req, res) => {
   // Logged-in users should never see the login screen

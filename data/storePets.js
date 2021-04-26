@@ -1,3 +1,12 @@
+/*
+  Michael Chunko
+  Dominick DiMaggio
+  Marcus Simpkins
+  Elijah Wendel
+  CS 546A
+  I pledge my honor that I have abided by the Stevens Honor System.
+*/
+
 const { ObjectID } = require('bson');
 ObjectIdMongo = require('mongodb').ObjectID;
 const mongoCollections = require('../config/mongoCollections');
@@ -29,7 +38,7 @@ async function add(body) {
   if (!emoji) throw 'Error: must provide an emoji for the pet.'
   if (!price) throw 'Error: must provide an price for the pet.'
   if (!rarity) throw 'Error: must provide an rarity for the pet.'
-  
+
   if (typeof(price) != 'number') throw 'Error: price must be a number.'
   if (typeof(rarity) != 'number') throw 'Error: rarity must be a number.'
   if (typeof(emoji) != 'object') throw 'Error: emoji must be an object.'
@@ -62,7 +71,7 @@ async function get(id) {
   if (!id) throw 'Error: id not given.'
   if (typeof(id) != "string") throw 'Error: type of id not string.'
   if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-  
+
   const storePetCollection = await storePets()
 
   const pet = await storePetCollection.findOne({ _id: ObjectID(id) })

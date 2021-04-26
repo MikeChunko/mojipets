@@ -1,3 +1,12 @@
+/*
+  Michael Chunko
+  Dominick DiMaggio
+  Marcus Simpkins
+  Elijah Wendel
+  CS 546A
+  I pledge my honor that I have abided by the Stevens Honor System.
+*/
+
 const { ObjectID } = require('bson');
 ObjectIdMongo = require('mongodb').ObjectID;
 const mongoCollections = require('../config/mongoCollections');
@@ -28,7 +37,7 @@ async function add(body) {
   let price = body.price
   if (!emoji) throw 'Error: must provide an emoji for the pet.'
   if (!price) throw 'Error: must provide an price for the pet.'
-  
+
   if (typeof(price) != 'number') throw 'Error: price must be a number.'
   if (typeof(emoji) != 'object') throw 'Error: emoji must be an object.'
   if (!('codepoint' in emoji)) throw 'Error: emoji object must have a codepoint.'
@@ -58,7 +67,7 @@ async function get(id) {
   if (!id) throw 'Error: id not given.'
   if (typeof(id) != "string") throw 'Error: type of id not string.'
   if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-  
+
   const storeFoodCollection = await storeFood()
 
   const food =  await storeFoodCollection.findOne({ _id: ObjectID(id) })
@@ -78,7 +87,7 @@ async function buy(body) {
   if (typeof(quantity) != "number") throw 'Error: type of quantity not number.'
   if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
   if (foodId.trim().length == 0) throw 'Error: foodId is either an empty string or just whitespace.'
-  if (quantity < 0) throw 'Error: quantity must be a positive number.' 
+  if (quantity < 0) throw 'Error: quantity must be a positive number.'
 
   let user = null
   try {
@@ -108,7 +117,7 @@ async function buy(body) {
   }
 
   delete user._id
-  
+
   let userCollection = await users()
 
   let updateId = ObjectIdMongo(userId)

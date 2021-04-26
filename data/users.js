@@ -1,9 +1,19 @@
+/*
+  Michael Chunko
+  Dominick DiMaggio
+  Marcus Simpkins
+  Elijah Wendel
+  CS 546A
+  I pledge my honor that I have abided by the Stevens Honor System.
+*/
+
 const { ObjectID } = require('bson');
 ObjectIdMongo = require('mongodb').ObjectID;
 const mongoCollections = require('../config/mongoCollections');
 const { users } = require('../config/mongoCollections');
 const bcrypt = require('bcrypt');
-const saltRounds = 16;
+const settings = require("../config.json");
+const saltRounds = settings.saltRounds;
 
 async function hash_password(plaintextPassword) {
   return await bcrypt.hash(plaintextPassword, saltRounds);
@@ -41,7 +51,7 @@ async function add(body) {
       throw 'Error: username already taken.'
     }
   }
-  
+
   const userCollection = await users()
   const passwordhash = await hash_password(plaintextPassword)
 
@@ -72,7 +82,7 @@ async function get(id) {
   if (!id) throw 'Error: id not given.'
   if (typeof(id) != "string") throw 'Error: type of id not string.'
   if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-  
+
   const userCollection = await users()
 
   const user = await userCollection.findOne({ _id: ObjectID(id) })
@@ -132,7 +142,7 @@ async function updatePassword(body) {
   if (typeof(plaintextPassword) != 'string') throw 'Error: password must be a string.'
   if (uid.trim().length == 0) throw 'Error: uid is either an empty string or just whitespace.'
   if (plaintextPassword.trim().length == 0) throw 'Error: password is either an empty string or just whitespace.'
-  
+
   let userCollection = await users()
 
   let user = null
@@ -165,7 +175,7 @@ async function updatePassword(body) {
 async function modifyCredits(body) {
   let uid = body.userId
   let credits = body.credits
-  
+
   if (!uid) throw 'Error: uid not given.'
   if (!credits) throw 'Error: must provide a credits.'
   if (typeof(uid) != "string") throw 'Error: type of uid not string.'

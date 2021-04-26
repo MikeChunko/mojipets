@@ -9,9 +9,6 @@
 
 // JS for login.html
 
-// String hasher courtesy of https://stackoverflow.com/a/15710692
-hashCode = s => s.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0)
-
 if (document.getElementById("loginForm")) {
   // Then we know these elements exist
   const loginForm = document.getElementById("loginForm"),
