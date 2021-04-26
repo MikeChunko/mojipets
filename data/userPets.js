@@ -1,3 +1,12 @@
+/*
+  Michael Chunko
+  Dominick DiMaggio
+  Marcus Simpkins
+  Elijah Wendel
+  CS 546A
+  I pledge my honor that I have abided by the Stevens Honor System.
+*/
+
 const { ObjectID } = require('bson');
 ObjectIdMongo = require('mongodb').ObjectID;
 const mongoCollections = require('../config/mongoCollections');
@@ -32,7 +41,7 @@ async function add(body) {
   if (!name) throw 'Error: must provide the name of the pet.'
   if (!emoji) throw 'Error: must provide an emoji for the pet.'
   if (!price) { price = 0 }
-  
+
   if (typeof(owner) != 'string') throw 'Error: owner must be a string.'
   if (typeof(name) != 'string') throw 'Error: name must be a string.'
   if (typeof(emoji) != 'object') throw 'Error: emoji must be an object.'
@@ -53,7 +62,7 @@ async function add(body) {
   // if (dateSplit.length != 3) throw 'Error: birthday is not a valid date string.'
   // let dateObj = new Date(parseInt(dateSplit[2], 10), parseInt(dateSplit[0], 10) - 1, parseInt(dateSplit[1], 10)) // https://stackoverflow.com/questions/10430321/how-to-parse-a-dd-mm-yyyy-or-dd-mm-yyyy-or-dd-mmm-yyyy-formatted-date-stri
   // if (!isDate(dateObj)) throw 'Error: birthday is not a valid date string'
-  
+
   let birthday = new Date();
   let interactions = { fetch: [], feed: [] }
 
@@ -146,7 +155,7 @@ async function feed(body) {
   pet._id = ObjectIdMongo(pet._id)
   pet.health = date;
   pet.interactions.feed.push(date)
-  
+
   let owner = null
   try {
     owner = await getOwner(id)
@@ -191,7 +200,7 @@ async function fetch(id) {
   pet._id = ObjectIdMongo(pet._id)
   pet.happiness = date;
   pet.interactions.fetch.push(date)
-  
+
   let owner = null
   try {
     owner = await getOwner(id)

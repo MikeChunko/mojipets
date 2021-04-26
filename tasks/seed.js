@@ -1,3 +1,12 @@
+/*
+  Michael Chunko
+  Dominick DiMaggio
+  Marcus Simpkins
+  Elijah Wendel
+  CS 546A
+  I pledge my honor that I have abided by the Stevens Honor System.
+*/
+
 const express = require('express')
 const router = express.Router()
 const dbConnection = require('../config/mongoConnection');
@@ -17,20 +26,20 @@ async function main() {
   let elon = await userData.add({username: "muskrat", plaintextPassword: "teslaisPOG", displayname:"fuckin nerd"})
   let bezos = await userData.add({username: "jeffBillionaire", plaintextPassword: "ilovemoney"})
   let joey = await userData.add({username: "rattatauser", plaintextPassword: "rattataPower", displayname:"Yung Joe"})
-  let whitney = await userData.add({username: "gym3johto", plaintextPassword: "normal", displayname:"miltank is poggers"})
+  let whitney = await userData.add({username: "gym3johto", plaintextPassword: "normaltype", displayname:"miltank is poggers"})
   let brock = await userData.add({username: "gym1kanto", plaintextPassword: "dryingpan", displayname:"onix abuser"})
-  let notch = await userData.add({username: "notch", plaintextPassword: "isuck", displayname:"racist twitter user"})
-  let yu = await userData.add({username: "protag4", plaintextPassword: "izanagi", displayname:"yu narukami"})
-  elijah = await userData.modifyCredits( { userId: elijah._id, credits: 10000 } ) 
-  jack = await userData.modifyCredits( { userId: jack._id, credits: 10000 } ) 
-  child = await userData.modifyCredits( { userId: child._id, credits: 10000 } ) 
-  elon = await userData.modifyCredits( { userId: elon._id, credits: 10000 } ) 
-  bezos = await userData.modifyCredits( { userId: bezos._id, credits: 10000 } ) 
-  joey = await userData.modifyCredits( { userId: joey._id, credits: 10000 } ) 
-  whitney = await userData.modifyCredits( { userId: whitney._id, credits: 10000 } ) 
-  brock = await userData.modifyCredits( { userId: brock._id, credits: 10000 } ) 
-  notch = await userData.modifyCredits( { userId: notch._id, credits: 10000 } ) 
-  yu = await userData.modifyCredits( { userId: yu._id, credits: 10000 } ) 
+  let notch = await userData.add({username: "notch", plaintextPassword: "isuckandsmell", displayname:"racist twitter user"})
+  let yu = await userData.add({username: "protag4", plaintextPassword: "izanagipicaro", displayname:"yu narukami"})
+  elijah = await userData.modifyCredits( { userId: elijah._id, credits: 10000 } )
+  jack = await userData.modifyCredits( { userId: jack._id, credits: 10000 } )
+  child = await userData.modifyCredits( { userId: child._id, credits: 10000 } )
+  elon = await userData.modifyCredits( { userId: elon._id, credits: 10000 } )
+  bezos = await userData.modifyCredits( { userId: bezos._id, credits: 10000 } )
+  joey = await userData.modifyCredits( { userId: joey._id, credits: 10000 } )
+  whitney = await userData.modifyCredits( { userId: whitney._id, credits: 10000 } )
+  brock = await userData.modifyCredits( { userId: brock._id, credits: 10000 } )
+  notch = await userData.modifyCredits( { userId: notch._id, credits: 10000 } )
+  yu = await userData.modifyCredits( { userId: yu._id, credits: 10000 } )
   let catEmoji = { codepoint:"😸", name:"cat", img:"resources/animals/cat.jpg" }
   let cowEmoji = { codepoint:"🐮", name:"cow", img:"resources/animals/cow.jpg" }
   let antEmoji = { codepoint:"🐜", name:"ant", img:"resources/animals/ant.jpg" }
