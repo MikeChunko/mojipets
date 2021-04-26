@@ -107,13 +107,13 @@ async function buy(body) {
 
   if (newCredits < 0) throw 'Error: user does not have enough credits to make this purchase.'
 
-  // const realFoodId = ObjectIdMongo(foodId)
+  const realFoodId = ObjectIdMongo(foodId)
 
   user.credits = newCredits
-  if (!(foodId in user.foods)) {
-    user.foods[foodId] = quantity
+  if (!(realFoodId in user.foods)) {
+    user.foods[realFoodId] = quantity
   } else {
-    user.foods[foodId] += quantity
+    user.foods[realFoodId] += quantity
   }
 
   delete user._id
