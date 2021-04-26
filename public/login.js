@@ -55,6 +55,7 @@ if (document.getElementById("loginForm")) {
       return;
     }
 
+    // TODO: Use bcrypt
     const hashedPassword = hashCode(password);
 
     // TODO: Send (username, hashedPassword) to the db to check if the combo exists
@@ -62,8 +63,11 @@ if (document.getElementById("loginForm")) {
     // TODO: Else, display an error to the user
 
     // ! Debug testing of jquery
-    $.get("/", function (data, status) {
+    /*$.get("/", function (data, status) {
       console.log(`${data}`);
-    });
+    });*/
+
+    // ! For now lets pretend the user logs in correctly.
+    $(this).unbind("submit").submit();
   })
 }
