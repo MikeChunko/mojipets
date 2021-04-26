@@ -70,6 +70,32 @@ async function get(id) {
     return clean(pet)
 }
 
+// async function buy(body) {
+//     let userId = body.userId
+//     let petId = body.petId
+//     if (!userId) throw 'Error: userId not given.'
+//     if (!petId) throw 'Error: petId not given.'
+//     if (typeof(userId) != "string") throw 'Error: type of userId not string.'
+//     if (typeof(petId) != "string") throw 'Error: type of petId not string.'
+//     if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
+//     if (petId.trim().length == 0) throw 'Error: petId is either an empty string or just whitespace.'
+
+//     let user = null
+//     try {
+//         user = await usersJs.get(userId)
+//     } catch (e) {
+//         throw e
+//     }
+
+//     let pet = null
+//     try {
+//         pet = await get(pet)
+//     } catch (e) {
+//         throw e
+//     }
+// }
+
+
 module.exports = {
     add,
     get

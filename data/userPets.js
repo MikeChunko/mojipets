@@ -26,13 +26,17 @@ async function add(body) {
     let owner = body.owner
     let name = body.name
     let emoji = body.emoji
+    let price = body.price
+
     if (!owner) throw 'Error: must provide owner id of the pet.'
     if (!name) throw 'Error: must provide the name of the pet.'
     if (!emoji) throw 'Error: must provide an emoji for the pet.'
+    if (!price) { price = 0 }
     
     if (typeof(owner) != 'string') throw 'Error: owner must be a string.'
     if (typeof(name) != 'string') throw 'Error: name must be a string.'
     if (typeof(emoji) != 'object') throw 'Error: emoji must be an object.'
+    if (typeof(price) != 'number') throw 'Error: price must be a positive number'
     if (!('codepoint' in emoji)) throw 'Error: emoji object must have a codepoint.'
     if (!('name' in emoji)) throw 'Error: emoji object must have a name.'
     if (!('img' in emoji)) throw 'Error: emoji object must have a img.'
@@ -41,6 +45,7 @@ async function add(body) {
     if (typeof(emoji.name) != 'string') throw 'Error: emoji name must be a string.'
     if (!isEmoji(emoji.codepoint)) throw 'Error: emoji codepoint not an emoji.'
     if (!isImg(emoji.img)) throw 'Error: emoji img not an img.'
+    if (price < 0) throw 'Error: price must be a positive number'
 
     // if (!birthday) throw 'Error: must provide a birthday for the pet.'
     // if (typeof(birthday) != 'string') throw 'Error: birthday is not a valid date string'
@@ -69,7 +74,8 @@ async function add(body) {
         throw e
     }
     user.pets.push(newPet)
-
+    if (user.credits - price < 0) throw 'Error: user does not have enough credits to purchase pet.'
+    user.credits -= price
     delete user._id;
 
     let userCollection = await users()
@@ -103,25 +109,6 @@ async function getPetsFromUser(id) {
     catch (e) { throw e }
     return user.pets.map(clean)
 }
-
-// async function getUserPet(id) {
-//     if (!id) throw 'Error: Must provide an id to search for.'
-//     if (typeof(id) != 'string') throw 'Error: id must be a string.'
-//     if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-
-//     const userCollection = await users()
-//     const userArr = await userCollection.find({}).toArray()
-
-//     for (i of userArr) {
-//         for (pet of i.pets) {
-//             if (pet._id == id) {
-//                 pet._id = id.toString()
-//                 return pet
-//             }
-//         }
-//     }
-//     throw 'Error: no pets have the id provided.'
-// }
 
 module.exports = {
     add,
