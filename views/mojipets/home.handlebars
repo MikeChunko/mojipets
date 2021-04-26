@@ -1,54 +1,62 @@
 <div class="left-sidebar">
-    <div class="favorite-pets">
-        <h2>Favorite Pets</h2>
+  <div class="favorite-pets">
+    <h2>Favorite Pets</h2>
 
-        <ul id="favorite-pets-ul">
-            {{#each favorites}}
-            <li>
-                <input type="image" alt="{{emoji.name}}" src={{emoji.img}} />
-            </li>
-            {{/each}}
-        </ul>
-
-        <a href="/pets">See all</a>
-    </div>
-
-    <div class="inventory">
-        <h2>Inventory</h2>
-
-        <ul id="inventory-ul">
-            {{#each inventory}}
-            <li>
-                <input type="image" alt="{{emoji.name}}" src={{emoji.img}} />
-            </li>
-            {{/each}}
-        </ul>
-
-        <a href="/inventory">See all</a>
-    </div>
-</div>
-
-<div class="content-wrapper">
-    <main>
-
-    </main>
-</div>
-
-<div class="right-sidebar">
-    <h2>Friends</h2>
-
-    <ul id="friends-ul">
-        {{#each friends}}
+    <div class="centered">
+      <ul id="favorite-pets-ul">
+        {{#each favorites}}
         <li>
-            <p>{{this.displayName}}</p>
-            <form class="friend-form">
-                <label>View Profile
-                    <input type="submit" value="view Profile" />
-                </label>
-            </form>
+          <input type="image" alt="{{emoji.name}}" src={{emoji.img}} />
         </li>
         {{/each}}
-    </ul>
+      </ul>
+    </div>
 
-    <a href="/friends">See all</a>
+    <a href="/pets">See all</a>
+  </div>
+
+  <div class="inventory">
+    <h2>Inventory</h2>
+
+    <div class="centered">
+      <ul id="inventory-ul">
+        {{#each inventory}}
+        <li>
+          <input type="image" alt="{{emoji.name}}" src={{emoji.img}} />
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <a href="/inventory">See all</a>
+  </div>
 </div>
+
+<div id="container"></div>
+
+<div class="right-sidebar">
+  <h2>Friends</h2>
+
+  <ul id="friends-ul">
+    {{#each friends}}
+    <li>
+      <div>
+        <p>{{this.displayName}}</p>
+        <form class="friend-form">
+          <label>View Profile
+            <input type="submit" value="view Profile" />
+          </label>
+        </form>
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+
+  <a href="/friends">See all</a>
+</div>
+
+<div class="bottom-bar">
+  <a id="logout" href="/logout">Log out</a>
+</div>
+
+<script defer="defer" src="/public/home.js"></script>

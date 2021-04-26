@@ -11,13 +11,11 @@ const express = require("express"),
       router = express.Router(),
       path = require("path");
 
-// Temporary route faking for debug purposes
-router.get("/", async (req, res) => {
-  // Logged-in users should never see the signup screen
-  if (req.session.user)
-    return res.redirect("/home");
+router.get("/", (req, res) => {
+  // Destroy session info
+  req.session.destroy();
 
-  res.sendFile(path.resolve("static/signup.html"));
+  res.sendFile(path.resolve("static/logout.html"));
 });
 
 module.exports = router;

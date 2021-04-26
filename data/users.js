@@ -5,14 +5,14 @@ const { users } = require('../config/mongoCollections');
 const bcrypt_pass = require('../tasks/bcrypt_pass')
 
 function validPassword (pwdStr) {
-    var pwdFormat = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$";
-    if (pwdStr.match(pwdFormat)) { return true }
-    return false
+  var pwdFormat = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$";
+  if (pwdStr.match(pwdFormat)) { return true }
+  return false
 } // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 
 function clean(obj) {
-    obj._id = obj._id.toString()
-    return obj
+  obj._id = obj._id.toString()
+  return obj
 }
 
 async function add(body) {
@@ -58,21 +58,21 @@ async function add(body) {
 }
 
 async function getAllUsers() {
-    const userCollection = await users()
-    const userArr = await userCollection.find({}).toArray()
-    return userArr.map(clean)
+  const userCollection = await users()
+  const userArr = await userCollection.find({}).toArray()
+  return userArr.map(clean)
 }
 
 async function get(id) {
-    if (!id) throw 'Error: id not given.'
-    if (typeof(id) != "string") throw 'Error: type of id not string.'
-    if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-    
-    const userCollection = await users()
+  if (!id) throw 'Error: id not given.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  
+  const userCollection = await users()
 
-    const user = await userCollection.findOne({ _id: ObjectID(id) })
-    if (user === null) throw `No user could be found with the id '${id}'`
-    return clean(user)
+  const user = await userCollection.findOne({ _id: ObjectID(id) })
+  if (user === null) throw `No user could be found with the id '${id}'`
+  return clean(user)
 }
 
 async function update(body) {
