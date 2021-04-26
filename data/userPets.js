@@ -125,10 +125,15 @@ async function getPetsFromUser(id) {
   return user.pets.map(clean)
 }
 
-async function feed(id) {
-  if (!id) throw 'Error: must provide an id for get.'
-  if (typeof(id) != "string") throw 'Error: type of id not string.'
-  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+async function feed(body) {
+  id = body.userId
+  // foodId = body.foodId
+  if (!id) throw 'Error: must provide a userId.'
+  if (typeof(id) != "string") throw 'Error: type of userId not string.'
+  if (id.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
+  // if (!foodId) throw 'Error: must provide an foodId for get.'
+  // if (typeof(foodId) != "string") throw 'Error: type of foodId not string.'
+  // if (foodId.trim().length == 0) throw 'Error: foodId is either an empty string or just whitespace.'
   let pet = null
   try {
     pet = await get(id)
@@ -158,18 +163,20 @@ async function feed(id) {
   newPets.push(pet)
 
   owner.pets = newPets
+  // if (!owner.foods[foodId] || owner.foods[foodId] - 1 <= 0) throw 'Error: not enough food to feed pet.' 
+  // owner.foods[foodId] -= 1
 
   let updateId = ObjectIdMongo(owner._id)
   delete owner._id
   const userCollection = await users()
-  console.log(owner)
+  
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
   return pet
 }
 
 async function fetch(id) {
-  if (!id) throw 'Error: must provide an id for get.'
+  if (!id) throw 'Error: must provide an id.'
   if (typeof(id) != "string") throw 'Error: type of id not string.'
   if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
   let pet = null
