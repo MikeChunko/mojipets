@@ -7,7 +7,7 @@
   I pledge my honor that I have abided by the Stevens Honor System.
 */
 
-// JS for login.html
+// JS for login.handlebars
 
 if (document.getElementById("loginForm")) {
   // Then we know these elements exist

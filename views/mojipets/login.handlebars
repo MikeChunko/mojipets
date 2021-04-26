@@ -1,26 +1,4 @@
-<!-- Michael Chunko -->
-<!-- Dominick DiMaggio -->
-<!-- Marcus Simpkins -->
-<!-- Elijah Wendel -->
-<!-- CS 546A -->
-<!-- I pledge my honor that I have abided by the Stevens Honor System. -->
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>MojiPets</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/public/site.css">
-  </head>
-
-  <body>
-    <h1>Welcome to <strong>MojiPets</strong>!</h1>
+<h1>Welcome to <strong>MojiPets</strong>!</h1>
     <div id="content-wrapper">
       <p>Already have an account? Sign in!</p>
       <form id="loginForm" method="POST" action="/login">
@@ -36,7 +14,7 @@
           <input id="loginSubmit" name="loginSubmit" type="submit" value="Sign in" />
         </label>
       </form>
-      <p id="errorMessage" hidden></p>
+      <p id="errorMessage">{{error}}</p>
 
       <p>OR</p>
       <form id="createForm" method="GET" action="/signup">
@@ -50,7 +28,4 @@
       🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧
       🦂 🐜 🐳 🐧</div>
 
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src=/public/login.js></script>
-  </body>
-</html>
