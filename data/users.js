@@ -60,6 +60,7 @@ async function add(body) {
     passwordhash: passwordhash,
     displayname: displayname.trim(),
     credits: 0, // change later maybe
+    friends: [],
     pets: [],
     favoritePets: [],
     foods: {}
@@ -119,6 +120,7 @@ async function update(body) {
     passwordhash: user.passwordhash,
     displayname: displayname.trim(),
     credits: user.credits,
+    friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
     foods: user.foods
@@ -159,6 +161,7 @@ async function updatePassword(body) {
     passwordhash: passwordhash,
     displayname: user.displayname.trim(),
     credits: user.credits,
+    friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
     foods: user.foods
@@ -197,6 +200,7 @@ async function modifyCredits(body) {
     passwordhash: user.passwordhash,
     displayname: user.displayname,
     credits: user.credits + credits,
+    friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
     foods: user.foods
@@ -212,11 +216,52 @@ async function modifyCredits(body) {
   return changedUser
 }
 
+async function makeFriends(body) {
+  id1 = body.userId1
+  id2 = body.userId2
+  if (!id1) throw 'Error: userId1 not given.'
+  if (typeof(id1) != "string") throw 'Error: type of userId1 not string.'
+  if (id1.trim().length == 0) throw 'Error: userId1 is either an empty string or just whitespace.'
+  if (!id2) throw 'Error: userId2 not given.'
+  if (typeof(id2) != "string") throw 'Error: type of userId2 not string.'
+  if (id2.trim().length == 0) throw 'Error: userId2 is either an empty string or just whitespace.'
+
+  let user1 = null;
+  let user2 = null;
+  try {
+    user1 = await get(id1)
+  } catch (e) {
+    throw e
+  }
+  try {
+    user2 = await get(id2)
+  } catch (e) {
+    throw e
+  }
+
+  let objId1 = ObjectIdMongo(id1)
+  let objId2 = ObjectIdMongo(id2)
+  console.log(user1)
+  console.log(user2)
+  if (user2.friends.includes(objId1) && user1.friends.includes(objId2)) throw 'Error: users are already friends.'
+  const userCollection = await users()
+  user1.friends.push(objId2)
+  user2.friends.push(objId1)
+  delete user1._id
+  delete user2._id
+  const updateInfo1 = await userCollection.updateOne({ _id: objId1 }, { $set: user1 })
+  if (updateInfo1.modifiedCount == 0) throw 'Error: could not update user1.'
+  const updateInfo2 = await userCollection.updateOne({ _id: objId2 }, { $set: user2 })
+  if (updateInfo2.modifiedCount == 0) throw 'Error: could not update user2.'
+  return [await get(id1), await get(id2)]
+}
+
 module.exports = {
   add,
   get,
   getAllUsers,
   update,
   updatePassword,
-  modifyCredits
+  modifyCredits,
+  makeFriends
 }
