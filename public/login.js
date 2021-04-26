@@ -52,19 +52,7 @@ if (document.getElementById("loginForm")) {
       return;
     }
 
-    // TODO: Use bcrypt
-    const hashedPassword = hashCode(password);
-
-    // TODO: Send (username, hashedPassword) to the db to check if the combo exists
-    // TODO: If so, great! Send a GET request for homepage with the username as the body
-    // TODO: Else, display an error to the user
-
-    // ! Debug testing of jquery
-    /*$.get("/", function (data, status) {
-      console.log(`${data}`);
-    });*/
-
-    // ! For now lets pretend the user logs in correctly.
+    // Submit form to the server to check the (username, password) combo
     $(this).unbind("submit").submit();
   })
 }
