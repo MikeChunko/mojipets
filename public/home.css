@@ -160,3 +160,10 @@ li > div > p {
   margin: 0;
 }
 
+#logout {
+  color: #FFFFFF;
+  text-align: right;
+  position: absolute;
+  bottom: 1vh;
+  right: 1.2vw;
+}

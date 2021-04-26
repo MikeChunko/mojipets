@@ -5,9 +5,9 @@
     <div class="centered">
       <ul id="favorite-pets-ul">
         {{#each favorites}}
-          <li>
-            <input type="image" alt="{{emoji.name}}" src={{emoji.img}} />
-          </li>
+        <li>
+          <input type="image" alt="{{emoji.name}}" src={{emoji.img}} />
+        </li>
         {{/each}}
       </ul>
     </div>
@@ -21,13 +21,12 @@
     <div class="centered">
       <ul id="inventory-ul">
         {{#each inventory}}
-          <li>
-            <input type="image" alt="{{emoji.name}}" src={{emoji.img}} />
-          </li>
+        <li>
+          <input type="image" alt="{{emoji.name}}" src={{emoji.img}} />
+        </li>
         {{/each}}
       </ul>
     </div>
-
 
     <a href="/inventory">See all</a>
   </div>
@@ -40,20 +39,24 @@
 
   <ul id="friends-ul">
     {{#each friends}}
-      <li>
-        <div>
-          <p>{{this.displayName}}</p>
-          <form class="friend-form">
-            <label>View Profile
-              <input type="submit" value="view Profile" />
-            </label>
-          </form>
-        </div>
-      </li>
+    <li>
+      <div>
+        <p>{{this.displayName}}</p>
+        <form class="friend-form">
+          <label>View Profile
+            <input type="submit" value="view Profile" />
+          </label>
+        </form>
+      </div>
+    </li>
     {{/each}}
   </ul>
 
   <a href="/friends">See all</a>
 </div>
 
-<script defer="defer" src="/public/home.js"></script> 
+<div class="bottom-bar">
+  <a id="logout" href="/logout">Log out</a>
+</div>
+
+<script defer="defer" src="/public/home.js"></script>

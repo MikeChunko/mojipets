@@ -11,9 +11,17 @@
 
 const express = require("express"),
       app = express(),
+      session = require("express-session"),
       static = express.static(__dirname + "/public"),
       configRoutes = require("./routes"),
       exphbs = require("express-handlebars");
+
+app.use(session({
+  name: "MojiPets",
+  secret: "boy it sure would be unfortunate if this string was leaked",
+  resave: false,
+  saveUninitialized: true
+}));
 
 app.use("/public", static);
 app.use(express.json());

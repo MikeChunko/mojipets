@@ -63,6 +63,13 @@ p {
   padding-bottom: 22px;
 }
 
+a {
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 22px;
+  padding: 0px;
+}
+
 .center {
   position: relative;
   top: 50%;
