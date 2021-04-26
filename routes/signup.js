@@ -25,7 +25,60 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  res.sendStatus(404);
+  // Input checking
+  const uname = req.body.usernameInput,
+        dname = req.body.displaynameInput,
+        password = req.body.passwordInput,
+        passwordRepeat = req.body.passwordRepeatInput;
+
+  if (!uname || uname.trim().length == 0)
+    return res.status(400).render("mojipets/signup", {
+      title: "MojiPets",
+      css: "/public/site.css",
+      error: "Please enter a username"
+    });
+
+  if (!dname || dname.trim().length == 0)
+    return res.status(400).render("mojipets/signup", {
+      title: "MojiPets",
+      css: "/public/site.css",
+      error: "Please enter a display name"
+    });
+
+  if (!password || password.trim().length == 0 || password.length < 8)
+    return res.status(400).render("mojipets/signup", {
+      title: "MojiPets",
+      css: "/public/site.css",
+      error: "Please enter a password at least 8 characters long"
+    });
+
+  if (!passwordRepeat || password != passwordRepeat)
+    return res.status(400).render("mojipets/signup", {
+      title: "MojiPets",
+      css: "/public/site.css",
+      error: "Passwords must match"
+    });
+
+    // Create the user
+    try {
+      const { passwordhash, ...user} = await userData.add({
+        username: uname,
+        displayname: dname,
+        plaintextPassword: password
+      });
+
+      // If we've gotten this far in the try then the user has been created successfully
+      // So log them in
+      req.session.user = user;
+
+      return res.redirect("/home");
+    } catch (e) {  // Some error has occured in the db
+      return res.status(500).render("mojipets/signup", {
+        title: "MojiPets",
+        css: "/public/site.css",
+        error: "Could not create user with the given info"
+      });
+    }
 })
 
 module.exports = router;

@@ -33,21 +33,19 @@ router.post("/login", async (req, res) => {
   const uname = req.body.usernameInput,
         password = req.body.passwordInput;
 
-  if (!uname || uname.trim().length == 0) {
+  if (!uname || uname.trim().length == 0)
     return res.status(400).render("mojipets/login", {
       title: "MojiPets",
       css: "/public/site.css",
       error: "Please enter a username"
     });
-  }
 
-  if (!password || password.trim().length == 0 || password.length < 8) {
+  if (!password || password.trim().length == 0 || password.length < 8)
     return res.status(400).render("mojipets/login", {
       title: "MojiPets",
       css: "/public/site.css",
       error: "Please enter a password at least 8 characters long"
     });
-  }
 
   const users = await userData.getAllUsers();
 
@@ -58,24 +56,22 @@ router.post("/login", async (req, res) => {
   });
 
   // User with give username does not exist
-  if (typeof (userObj) == "undefined") {
+  if (typeof (userObj) == "undefined")
     return res.status(401).render("mojipets/login", {
       title: "MojiPets",
       css: "/public/site.css",
       error: "Username and/or password is incorrect"
     });
-  }
 
   const { passwordhash, ...user } = userObj,
         match = await bcrypt.compare(password, passwordhash);
 
-  if (!match) {
+  if (!match)
     return res.status(401).render("mojipets/login", {
       title: "MojiPets",
       css: "/public/site.css",
       error: "Username and/or password is incorrect"
     });
-  }
 
   // Successfully log the user in
   req.session.user = user;

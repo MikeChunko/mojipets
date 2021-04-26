@@ -42,18 +42,6 @@ if (document.getElementById("signupForm")) {
       return;
     }
 
-    // TODO: Get user list from db
-    const users = []
-    const usernames = users.map(e => e.username);
-
-    if (usernames.includes(username)) {
-      usernameInput.classList.add("formError");
-      usernameInput.focus();
-      errorMsg.innerHTML = "This username is taken";
-      errorMsg.hidden = false;
-      return;
-    }
-
     if (displayname.trim().length == 0) {
       displaynameInput.classList.add("formError");
       displaynameInput.focus();
