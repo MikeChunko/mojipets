@@ -2,7 +2,12 @@ const { ObjectID } = require('bson');
 ObjectIdMongo = require('mongodb').ObjectID;
 const mongoCollections = require('../config/mongoCollections');
 const { users } = require('../config/mongoCollections');
-const bcrypt_pass = require('../tasks/bcrypt_pass')
+const bcrypt = require('bcrypt');
+const saltRounds = 16;
+
+async function hash_password(plaintextPassword) {
+  return await bcrypt.hash(plaintextPassword, saltRounds);
+}
 
 function validPassword (pwdStr) {
   var pwdFormat = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$";
@@ -38,7 +43,7 @@ async function add(body) {
   }
   
   const userCollection = await users()
-  const passwordhash = await bcrypt_pass.hash_password(plaintextPassword)
+  const passwordhash = await hash_password(plaintextPassword)
 
   const newUser = {
     username: username.trim().toLowerCase(),
@@ -137,7 +142,7 @@ async function updatePassword(body) {
     throw e
   }
 
-  const passwordhash = await bcrypt_pass.hash_password(plaintextPassword)
+  const passwordhash = await hash_password(plaintextPassword)
 
   const newUser = {
     username: user.username,

@@ -103,6 +103,21 @@ async function get(id) {
   return clean(userPet)
 }
 
+async function getOwner(id) {
+  let _id = null
+  // Error checking
+  if (!id) throw 'Error: must provide an id for get.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  try { _id = ObjectIdMongo(id) }
+  catch (e) { throw `Error: id '${id}' is not a valid ObjectID.` }
+  // Logic
+  const userCollection = await users()
+  const user = await userCollection.findOne({'pets._id': _id})
+  if (user === null) throw `No pet could be found with the id '${id}'.`
+  return clean(user)
+}
+
 async function getPetsFromUser(id) {
   let user = null
   try { user = await usersJs.get(id) }
@@ -110,8 +125,96 @@ async function getPetsFromUser(id) {
   return user.pets.map(clean)
 }
 
+async function feed(id) {
+  if (!id) throw 'Error: must provide an id for get.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+
+  let date = new Date();
+
+  pet._id = ObjectIdMongo(pet._id)
+  pet.health = date;
+  pet.interactions.feed.push(date)
+  
+  let owner = null
+  try {
+    owner = await getOwner(id)
+  } catch (e) {
+    throw e
+  }
+
+  newPets = []
+  for (currPet of owner.pets) {
+    if (currPet._id != id) {
+      newPets.push(currPet)
+    }
+  }
+  newPets.push(pet)
+
+  owner.pets = newPets
+
+  let updateId = ObjectIdMongo(owner._id)
+  delete owner._id
+  const userCollection = await users()
+  console.log(owner)
+  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
+  return pet
+}
+
+async function fetch(id) {
+  if (!id) throw 'Error: must provide an id for get.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+
+  let date = new Date();
+
+  pet._id = ObjectIdMongo(pet._id)
+  pet.happiness = date;
+  pet.interactions.fetch.push(date)
+  
+  let owner = null
+  try {
+    owner = await getOwner(id)
+  } catch (e) {
+    throw e
+  }
+
+  newPets = []
+  for (currPet of owner.pets) {
+    if (currPet._id != id) {
+      newPets.push(currPet)
+    }
+  }
+  newPets.push(pet)
+
+  owner.pets = newPets
+
+  let updateId = ObjectIdMongo(owner._id)
+  delete owner._id
+  const userCollection = await users()
+  console.log(owner)
+  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
+  return pet
+}
+
 module.exports = {
   add,
   get,
-  getPetsFromUser
+  getPetsFromUser,
+  feed,
+  fetch
 }
