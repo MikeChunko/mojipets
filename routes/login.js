@@ -12,6 +12,10 @@ const express = require("express"),
       path = require("path");;
 
 router.get("/", async (req, res) => {
+  // Logged-in users should never see the login screen
+  if (req.session.user)
+    return res.redirect("/home");
+
   res.sendFile(path.resolve("static/login.html"));
 });
 

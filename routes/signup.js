@@ -13,6 +13,10 @@ const express = require("express"),
 
 // Temporary route faking for debug purposes
 router.get("/", async (req, res) => {
+  // Logged-in users should never see the signup screen
+  if (req.session.user)
+    return res.redirect("/home");
+
   res.sendFile(path.resolve("static/signup.html"));
 });
 
