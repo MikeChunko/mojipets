@@ -7,10 +7,7 @@
   I pledge my honor that I have abided by the Stevens Honor System.
 */
 
-// JS for signup.html
-
-// String hasher courtesy of https://stackoverflow.com/a/15710692
-hashCode = s => s.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0)
+// JS for signup.handlebars
 
 if (document.getElementById("signupForm")) {
   // Then we know these elements exist
@@ -89,9 +86,8 @@ if (document.getElementById("signupForm")) {
       return;
     }
 
-    const hashedPassword = hashCode(password);
-
-    // TODO: Send (username, displayname, hashedPassword) to the db to create a new user
-    // TODO: Send the new user to their homepage
+    // Submit form to the server to check the username
+    // And create the user if it succeeds
+    $(this).unbind("submit").submit();
   })
 }

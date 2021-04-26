@@ -9,15 +9,23 @@
 
 const express = require("express"),
       router = express.Router(),
-      path = require("path");
+      data = require("../data"),
+      userData = data.users;
 
-// Temporary route faking for debug purposes
 router.get("/", async (req, res) => {
   // Logged-in users should never see the signup screen
   if (req.session.user)
     return res.redirect("/home");
 
-  res.sendFile(path.resolve("static/signup.html"));
+  return res.render("mojipets/signup", {
+    title: "MojiPets",
+    css: "/public/site.css",
+    error: ""
+  })
 });
+
+router.post("/", async (req, res) => {
+  res.sendStatus(404);
+})
 
 module.exports = router;

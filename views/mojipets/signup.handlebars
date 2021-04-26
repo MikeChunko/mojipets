@@ -1,0 +1,34 @@
+<h1>Welcome to <strong>MojiPets</strong>!</h1>
+<div id="content-wrapper">
+  <p>Create an account!</p>
+  <form id="signupForm" method="POST" action="/signup">
+    <label for="usernameInput">
+      <input id="usernameInput" name="usernameInput" type="text" placeholder="Username" />
+    </label>
+    <br />
+    <label for="displaynameInput">
+      <input id="displaynameInput" name="displaynameInput" type="text"
+              placeholder="Display name" />
+    </label>
+    <br />
+    <label for="passwordInput">
+      <input id="passwordInput" name="passwordInput" type="password" placeholder="Password" />
+    </label>
+    <br />
+    <label for="passwordRepeatInput">
+      <input id="passwordRepeatInput" name="passwordRepeatInput" type="password"
+              placeholder="Repeat your password" />
+    </label>
+    <br />
+    <label for="createSubmit">
+      <input id="createSubmit" name="createSubmit" type="submit" value="Sign up" />
+    </label>
+  </form>
+  <p id="errorMessage">{{error}}</p>
+</div>
+
+<p id="petScroll" class="mover-1">🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑
+  🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧 🦂 🐜 🦑 🐢 🐛 🐍 🐱 🐶 🐳 🐧
+  🦂 🐜 🐳 🐧</div>
+  
+<script src=/public/signup.js></script>

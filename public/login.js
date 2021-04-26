@@ -53,6 +53,7 @@ if (document.getElementById("loginForm")) {
     }
 
     // Submit form to the server to check the (username, password) combo
+    // And log in the user if it succeeds
     $(this).unbind("submit").submit();
   })
 }
