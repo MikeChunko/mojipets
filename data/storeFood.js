@@ -67,61 +67,61 @@ async function get(id) {
 }
 
 async function buy(body) {
-    let userId = body.userId
-    let foodId = body.foodId
-    let quantity = body.quantity
-    if (!userId) throw 'Error: userId not given.'
-    if (!foodId) throw 'Error: foodId not given.'
-    if (!quantity) throw 'Error: quantity not given.'
-    if (typeof(userId) != "string") throw 'Error: type of userId not string.'
-    if (typeof(foodId) != "string") throw 'Error: type of foodId not string.'
-    if (typeof(quantity) != "number") throw 'Error: type of quantity not number.'
-    if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
-    if (foodId.trim().length == 0) throw 'Error: foodId is either an empty string or just whitespace.'
-    if (quantity < 0) throw 'Error: quantity must be a positive number.' 
+  let userId = body.userId
+  let foodId = body.foodId
+  let quantity = body.quantity
+  if (!userId) throw 'Error: userId not given.'
+  if (!foodId) throw 'Error: foodId not given.'
+  if (!quantity) throw 'Error: quantity not given.'
+  if (typeof(userId) != "string") throw 'Error: type of userId not string.'
+  if (typeof(foodId) != "string") throw 'Error: type of foodId not string.'
+  if (typeof(quantity) != "number") throw 'Error: type of quantity not number.'
+  if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
+  if (foodId.trim().length == 0) throw 'Error: foodId is either an empty string or just whitespace.'
+  if (quantity < 0) throw 'Error: quantity must be a positive number.' 
 
-    let user = null
-    try {
-        user = await usersJs.get(userId)
-    } catch (e) {
-        throw e
-    }
+  let user = null
+  try {
+    user = await usersJs.get(userId)
+  } catch (e) {
+    throw e
+  }
 
-    let food = null
-    try {
-        food = await get(foodId)
-    } catch (e) {
-        throw e
-    }
+  let food = null
+  try {
+    food = await get(foodId)
+  } catch (e) {
+    throw e
+  }
 
-    newCredits = user.credits - (quantity * food.price)
+  newCredits = user.credits - (quantity * food.price)
 
-    if (newCredits < 0) throw 'Error: user does not have enough credits to make this purchase.'
+  if (newCredits < 0) throw 'Error: user does not have enough credits to make this purchase.'
 
-    // const realFoodId = ObjectIdMongo(foodId)
+  // const realFoodId = ObjectIdMongo(foodId)
 
-    user.credits = newCredits
-    if (!(foodId in user.foods)) {
-        user.foods[foodId] = quantity
-    } else {
-        user.foods[foodId] += quantity
-    }
+  user.credits = newCredits
+  if (!(foodId in user.foods)) {
+    user.foods[foodId] = quantity
+  } else {
+    user.foods[foodId] += quantity
+  }
 
-    delete user._id
-    
-    let userCollection = await users()
+  delete user._id
+  
+  let userCollection = await users()
 
-    let updateId = ObjectIdMongo(userId)
+  let updateId = ObjectIdMongo(userId)
 
-    const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: user })
-    if (updateInfo.modifiedCount == 0) throw 'Error: could not add new pet to user.'
-    let changedUser = await usersJs.get(userId)
-    return changedUser
+  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: user })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not add new pet to user.'
+  let changedUser = await usersJs.get(userId)
+  return changedUser
 }
 
 
 module.exports = {
-    add,
-    get,
-    buy
+  add,
+  get,
+  buy
 }

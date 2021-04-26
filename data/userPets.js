@@ -23,68 +23,68 @@ function clean(obj) {
 }
 
 async function add(body) {
-    let owner = body.owner
-    let name = body.name
-    let emoji = body.emoji
-    let price = body.price
+  let owner = body.owner
+  let name = body.name
+  let emoji = body.emoji
+  let price = body.price
 
-    if (!owner) throw 'Error: must provide owner id of the pet.'
-    if (!name) throw 'Error: must provide the name of the pet.'
-    if (!emoji) throw 'Error: must provide an emoji for the pet.'
-    if (!price) { price = 0 }
-    
-    if (typeof(owner) != 'string') throw 'Error: owner must be a string.'
-    if (typeof(name) != 'string') throw 'Error: name must be a string.'
-    if (typeof(emoji) != 'object') throw 'Error: emoji must be an object.'
-    if (typeof(price) != 'number') throw 'Error: price must be a positive number'
-    if (!('codepoint' in emoji)) throw 'Error: emoji object must have a codepoint.'
-    if (!('name' in emoji)) throw 'Error: emoji object must have a name.'
-    if (!('img' in emoji)) throw 'Error: emoji object must have a img.'
+  if (!owner) throw 'Error: must provide owner id of the pet.'
+  if (!name) throw 'Error: must provide the name of the pet.'
+  if (!emoji) throw 'Error: must provide an emoji for the pet.'
+  if (!price) { price = 0 }
+  
+  if (typeof(owner) != 'string') throw 'Error: owner must be a string.'
+  if (typeof(name) != 'string') throw 'Error: name must be a string.'
+  if (typeof(emoji) != 'object') throw 'Error: emoji must be an object.'
+  if (typeof(price) != 'number') throw 'Error: price must be a positive number'
+  if (!('codepoint' in emoji)) throw 'Error: emoji object must have a codepoint.'
+  if (!('name' in emoji)) throw 'Error: emoji object must have a name.'
+  if (!('img' in emoji)) throw 'Error: emoji object must have a img.'
 
-    if (name.trim().length == 0) throw 'Error: name is either an empty string or just whitespace.'
-    if (typeof(emoji.name) != 'string') throw 'Error: emoji name must be a string.'
-    if (!isEmoji(emoji.codepoint)) throw 'Error: emoji codepoint not an emoji.'
-    if (!isImg(emoji.img)) throw 'Error: emoji img not an img.'
-    if (price < 0) throw 'Error: price must be a positive number'
+  if (name.trim().length == 0) throw 'Error: name is either an empty string or just whitespace.'
+  if (typeof(emoji.name) != 'string') throw 'Error: emoji name must be a string.'
+  if (!isEmoji(emoji.codepoint)) throw 'Error: emoji codepoint not an emoji.'
+  if (!isImg(emoji.img)) throw 'Error: emoji img not an img.'
+  if (price < 0) throw 'Error: price must be a positive number'
 
-    // if (!birthday) throw 'Error: must provide a birthday for the pet.'
-    // if (typeof(birthday) != 'string') throw 'Error: birthday is not a valid date string'
-    // let dateSplit = birthday.split("/")
-    // if (dateSplit.length != 3) throw 'Error: birthday is not a valid date string.'
-    // let dateObj = new Date(parseInt(dateSplit[2], 10), parseInt(dateSplit[0], 10) - 1, parseInt(dateSplit[1], 10)) // https://stackoverflow.com/questions/10430321/how-to-parse-a-dd-mm-yyyy-or-dd-mm-yyyy-or-dd-mmm-yyyy-formatted-date-stri
-    // if (!isDate(dateObj)) throw 'Error: birthday is not a valid date string'
-    
-    let birthday = new Date();
-    let interactions = { fetch: [], feed: [] }
+  // if (!birthday) throw 'Error: must provide a birthday for the pet.'
+  // if (typeof(birthday) != 'string') throw 'Error: birthday is not a valid date string'
+  // let dateSplit = birthday.split("/")
+  // if (dateSplit.length != 3) throw 'Error: birthday is not a valid date string.'
+  // let dateObj = new Date(parseInt(dateSplit[2], 10), parseInt(dateSplit[0], 10) - 1, parseInt(dateSplit[1], 10)) // https://stackoverflow.com/questions/10430321/how-to-parse-a-dd-mm-yyyy-or-dd-mm-yyyy-or-dd-mmm-yyyy-formatted-date-stri
+  // if (!isDate(dateObj)) throw 'Error: birthday is not a valid date string'
+  
+  let birthday = new Date();
+  let interactions = { fetch: [], feed: [] }
 
-    let newPet = {
-        _id: ObjectID(),
-        name: name.trim(),
-        birthday: birthday,
-        emoji: emoji,
-        happiness: birthday,
-        health: birthday,
-        interactions: interactions
-    }
+  let newPet = {
+    _id: ObjectID(),
+    name: name.trim(),
+    birthday: birthday,
+    emoji: emoji,
+    happiness: birthday,
+    health: birthday,
+    interactions: interactions
+  }
 
-    let user = null;
-    try {
-        user = await usersJs.get(owner)
-    } catch (e) {
-        throw e
-    }
-    user.pets.push(newPet)
-    if (user.credits - price < 0) throw 'Error: user does not have enough credits to purchase pet.'
-    user.credits -= price
-    delete user._id;
+  let user = null;
+  try {
+    user = await usersJs.get(owner)
+  } catch (e) {
+    throw e
+  }
+  user.pets.push(newPet)
+  if (user.credits - price < 0) throw 'Error: user does not have enough credits to purchase pet.'
+  user.credits -= price
+  delete user._id;
 
-    let userCollection = await users()
+  let userCollection = await users()
 
-    let updateId = ObjectIdMongo(owner)
+  let updateId = ObjectIdMongo(owner)
 
-    const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: user })
-    if (updateInfo.modifiedCount == 0) throw 'Error: could not add new pet to user.'
-    return await get(newPet._id.toString())
+  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: user })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not add new pet to user.'
+  return await get(newPet._id.toString())
 }
 
 async function get(id) {
