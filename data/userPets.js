@@ -221,9 +221,68 @@ async function fetch(id) {
   let updateId = ObjectIdMongo(owner._id)
   delete owner._id
   const userCollection = await users()
-  console.log(owner)
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
-  if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not fetch pet.'
+  return pet
+}
+
+async function favorite(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let owner = null
+  try {
+    owner = await getOwner(id)
+  } catch (e) {
+    throw e
+  }
+  const petId = ObjectIdMongo(id)
+  if (owner.favoritePets.includes(petId)) throw 'Error: pet is already a favorite.'
+  owner.favoritePets.push(petId)
+  const userId = ObjectIdMongo(owner._id)
+  delete owner._id
+  const userCollection = await users()
+  const updateInfo = await userCollection.updateOne({ _id: userId }, { $set: owner })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not favorite pet.'
+  return pet
+}
+
+async function unfavorite(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let owner = null
+  try {
+    owner = await getOwner(id)
+  } catch (e) {
+    throw e
+  }
+  const petId = ObjectIdMongo(id)
+  // if (!owner.favoritePets.includes(petId)) throw 'Error: pet is not a favorite.'
+  let newFavPets = []
+  for (currPet of owner.favoritePets) {
+    if (!currPet.equals(petId)) {
+      newFavPets.push(currPet)
+    }
+  }
+  owner.favoritePets = newFavPets
+  const userId = ObjectIdMongo(owner._id)
+  delete owner._id
+  const userCollection = await users()
+  const updateInfo = await userCollection.updateOne({ _id: userId }, { $set: owner })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not unfavorite pet.'
   return pet
 }
 
@@ -232,5 +291,7 @@ module.exports = {
   get,
   getPetsFromUser,
   feed,
-  fetch
+  fetch,
+  favorite,
+  unfavorite
 }
