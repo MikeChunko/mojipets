@@ -22,7 +22,11 @@ router.get("/", async (req, res) => {
   if (req.session.user)
     return res.redirect("/home");
 
-  res.sendFile(path.resolve("static/login.html"));
+  res.render("mojipets/login", {
+    title: "MojiPets",
+    css: "/public/site.css",
+    error: ""
+  });
 });
 
 router.post("/login", async (req, res) => {
@@ -31,13 +35,19 @@ router.post("/login", async (req, res) => {
         password = req.body.passwordInput;
 
   if (!uname || uname.trim().length == 0) {
-    console.log("bad uname");
-    return res.sendStatus(401);
+    return res.status(400).render("mojipets/login", {
+      title: "MojiPets",
+      css: "/public/site.css",
+      error: "Please enter a username"
+    });
   }
 
   if (!password || password.trim().length == 0 || password.length < 8) {
-    console.log("bad pword");
-    return res.sendStatus(401);
+    return res.status(400).render("mojipets/login", {
+      title: "MojiPets",
+      css: "/public/site.css",
+      error: "Please enter a password at least 8 characters long"
+    });
   }
 
   const users = await userData.getAllUsers();
@@ -50,16 +60,22 @@ router.post("/login", async (req, res) => {
 
   // User with give username does not exist
   if (typeof (userObj) == "undefined") {
-    console.log("uname doesnt exist");
-    return res.sendStatus(401)
+    return res.status(401).render("mojipets/login", {
+      title: "MojiPets",
+      css: "/public/site.css",
+      error: "Username and/or password is incorrect"
+    });
   }
 
-  const { passwordhash, ...user } = userObj; console.log(password, passwordhash)
-        let match = await bcrypt.compare(password, passwordhash);
+  const { passwordhash, ...user } = userObj,
+        match = await bcrypt.compare(password, passwordhash);
 
   if (!match) {
-    console.log("incorrect pword");
-    return res.sendStatus(401);
+    return res.status(401).render("mojipets/login", {
+      title: "MojiPets",
+      css: "/public/site.css",
+      error: "Username and/or password is incorrect"
+    });
   }
 
   // Successfully log the user in
