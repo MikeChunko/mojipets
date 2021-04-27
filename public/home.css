@@ -1,5 +1,5 @@
 body {
-  background-color: #FF8787;
+  background-color: #868fd7;
   font-family: 'Roboto', sans-serif;
   font-size: 1.5vh;
 
@@ -93,7 +93,7 @@ div > h2 {
 
 div > a {
   text-align: center;
-  color: #FF8787;
+  color: #868fd7;
   font-weight: 900;
   display:block;
 

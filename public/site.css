@@ -20,7 +20,7 @@ input {
 }
 
 body {
-  background-color: #FF8787;
+  background-color: #868fd7;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -91,7 +91,7 @@ input {
 }
 
 input[type="submit"] {
-  background-color: #FF8787;
+  background-color: #868fd7;
   color: white;
   font-size: 110%;
   font-weight: bolder;
