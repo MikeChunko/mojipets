@@ -10,8 +10,8 @@
 const express = require("express"),
       router = express.Router(),
       bcrypt = require("bcrypt"),
-      settings = require("../config.json"),
-      saltRounds = settings.saltRounds,
+      config = require("../config.json"),
+      saltRounds = config.saltRounds,
       data = require("../data"),
       userData = data.users;
 

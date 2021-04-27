@@ -8,43 +8,38 @@
 */
 
 const express = require("express"),
-      router = express.Router();
+      router = express.Router(),
+      data = require("../data")
+      userPets = data.userPets,
+      storeFood = data.storeFood,
+      config = require("../config.json"),
+      maxFavoritesDisplay = config.maxFavoritePetsDisplay,
+      maxInventoryDisplay = config.maxInventoryDisplay;
 
 // Temporary route faking for debug purposes
 router.get("/", async (req, res) => {
-  let favorites, inventory, friends;
+  // Fetch user's favorite pets and limit to the configured setting
+  let favorites = req.session.user.favoritePets.slice(0, maxFavoritesDisplay);
 
-  // TODO: Call the appropriate db methods for each
+  for (let i = 0; i < favorites.length; i++)
+    favorites[i] = await userPets.get(favorites[i]);
 
-  // In reality favorites will contain full UserPet objects
-  favorites = [{ emoji: { name: "crab", img: "public/resources/pets/cat.svg" } },
-               { emoji: { name: "cat", img: "public/resources/pets/crab.svg" } },
-               { emoji: { name: "cow", img: "public/resources/pets/cow.svg" } },
-               { emoji: { name: "ant", img: "public/resources/pets/ant.svg" } },
-               { emoji: { name: "caterpillar", img: "public/resources/pets/caterpillar.svg" } },
-               { emoji: { name: "panda", img: "public/resources/pets/panda.svg" } }];
+  // Fetch user's inventory and limit to the configured setting
+  let inventory = req.session.user.foods,
+      inventoryKeys = Object.keys(inventory).slice(0, maxInventoryDisplay);
 
-  // In reality favorites will contain full StoreFood objects
-  inventory = [{ emoji: { name: "pizza", img: "public/resources/food/pizza.svg" } },
-               { emoji: {name: "bagel", img: "public/resources/food/bagel.svg" } },
-               { emoji: {name: "falafel", img: "public/resources/food/falafel.svg" } },
-               { emoji: {name: "mango", img: "public/resources/food/mango.svg" } },
-               { emoji: {name: "sushi", img: "public/resources/food/sushi.svg" } },
-               { emoji: {name: "melon", img: "public/resources/food/melon.svg" } }]
+  for (let i = 0; i < inventoryKeys.length; i++)
+    inventoryKeys[i] = await storeFood.get(inventoryKeys[i]);
 
   // In reality friends will contains user objects
   // I think only _id and displayname are needed though
-  friends = [{displayName: "babbis"}, {displayName: "babbis"}, {displayName: "babbis"}, {displayName: "babbis"}];
-
-  // Trim
-  favorites = favorites.slice(0, 6);
-  inventory = inventory.slice(0, 6);
+  let friends = [{displayName: "babbis"}, {displayName: "babbis"}, {displayName: "babbis"}, {displayName: "babbis"}];
   friends = friends.slice(0, 20);
 
   res.render("mojipets/home", {
     title: "MojiPets",
     favorites: favorites,
-    inventory: inventory,
+    inventory: inventoryKeys,
     friends: friends,
     onload: "start()"
   });
