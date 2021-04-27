@@ -256,6 +256,48 @@ async function makeFriends(body) {
   return [await get(id1), await get(id2)]
 }
 
+async function getDeadPets(id) {
+  if (!id) throw 'Error: id not given.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let user = null;
+  try {
+    user = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let currentDateTimestamp = new Date().getTime()
+  let deadPets = []
+  for (pet of user.pets) {
+    let weekPastFeedTime = pet.health.getTime() + (7 * 24 * 60 * 60 * 1000) // days * hrs * minutes * seconds * ms
+    if (currentDateTimestamp > weekPastFeedTime) {
+      deadPets.push(pet)
+    }
+  }
+  return deadPets
+}
+
+async function getLivingPets(id) {
+  if (!id) throw 'Error: id not given.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let user = null;
+  try {
+    user = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let currentDateTimestamp = new Date().getTime()
+  let livingPets = []
+  for (pet of user.pets) {
+    let weekPastFeedTime = pet.health.getTime() + (7 * 24 * 60 * 60 * 1000) // days * hrs * minutes * seconds * ms
+    if (currentDateTimestamp < weekPastFeedTime) {
+      livingPets.push(pet)
+    }
+  }
+  return livingPets
+}
+
 module.exports = {
   add,
   get,
@@ -263,5 +305,7 @@ module.exports = {
   update,
   updatePassword,
   modifyCredits,
-  makeFriends
+  makeFriends,
+  getDeadPets,
+  getLivingPets
 }
