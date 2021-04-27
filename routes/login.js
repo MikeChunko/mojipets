@@ -55,7 +55,7 @@ router.post("/login", async (req, res) => {
       return user;
   });
 
-  // User with give username does not exist
+  // User with given username does not exist
   if (typeof (userObj) == "undefined")
     return res.status(401).render("mojipets/login", {
       title: "MojiPets",

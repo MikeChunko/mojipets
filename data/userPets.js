@@ -172,13 +172,13 @@ async function feed(body) {
   newPets.push(pet)
 
   owner.pets = newPets
-  // if (!owner.foods[foodId] || owner.foods[foodId] - 1 <= 0) throw 'Error: not enough food to feed pet.' 
+  // if (!owner.foods[foodId] || owner.foods[foodId] - 1 <= 0) throw 'Error: not enough food to feed pet.'
   // owner.foods[foodId] -= 1
 
   let updateId = ObjectIdMongo(owner._id)
   delete owner._id
   const userCollection = await users()
-  
+
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
   return pet
