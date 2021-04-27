@@ -26,11 +26,11 @@ router.get("/", async (req, res) => {
 
   // In reality favorites will contain full StoreFood objects
   inventory = [{ emoji: { name: "pizza", img: "public/resources/food/pizza.svg" } },
-               { name: "bagel", emoji: { img: "public/resources/food/bagel.svg" } },
-               { name: "falafel", emoji: { img: "public/resources/food/falafel.svg" } },
-               { name: "mango", emoji: { img: "public/resources/food/mango.svg" } },
-               { name: "sushi", emoji: { img: "public/resources/food/sushi.svg" } },
-               { name: "melon", emoji: { img: "public/resources/food/melon.svg" } }]
+               { emoji: {name: "bagel", img: "public/resources/food/bagel.svg" } },
+               { emoji: {name: "falafel", img: "public/resources/food/falafel.svg" } },
+               { emoji: {name: "mango", img: "public/resources/food/mango.svg" } },
+               { emoji: {name: "sushi", img: "public/resources/food/sushi.svg" } },
+               { emoji: {name: "melon", img: "public/resources/food/melon.svg" } }]
 
   // In reality friends will contains user objects
   // I think only _id and displayname are needed though
