@@ -41,8 +41,8 @@
     {{#each friends}}
     <li>
       <div>
-        <p>{{this.displayName}}</p>
-        <form class="friend-form">
+        <p>{{this.displayname}}</p>
+        <form class="friend-form" method="POST" action="profile/{{this.username}}">
           <label>View Profile
             <input type="submit" value="view Profile" />
           </label>
