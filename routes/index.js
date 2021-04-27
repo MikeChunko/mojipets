@@ -12,7 +12,8 @@ const loginRoutes = require("./login"),
       signupRoutes = require("./signup"),
       logoutRoutes = require("./logout");
       profileRoutes = require("./profile");
-      shopRoutes = require("./shop");
+      shopRoutes = require("./shop"),
+      path = require("path");
 
 const constructorMethod = (app) => {
   app.use("/", loginRoutes);
@@ -23,7 +24,7 @@ const constructorMethod = (app) => {
   app.use("/shop", shopRoutes);
 
   app.use("*", (req, res) => {
-    res.sendStatus(404);
+    res.status(404).sendFile(path.resolve("static/error.html"));
   });
 }
 
