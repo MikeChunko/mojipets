@@ -25,12 +25,12 @@ router.get("/", async (req, res) => {
                { emoji: { name: "panda", img: "public/resources/pets/panda.svg" } }];
 
   // In reality favorites will contain full StoreFood objects
-  inventory = [{ emoji: { name: "pizza", img: "https://toppng.com/uploads/preview/favorite-pizza-emoji-1156312532506gn1ygxni.png" } },
-               { name: "pizza", emoji: { img: "https://toppng.com/uploads/preview/favorite-pizza-emoji-1156312532506gn1ygxni.png" } },
-               { name: "pizza", emoji: { img: "https://toppng.com/uploads/preview/favorite-pizza-emoji-1156312532506gn1ygxni.png" } },
-               { name: "pizza", emoji: { img: "https://toppng.com/uploads/preview/favorite-pizza-emoji-1156312532506gn1ygxni.png" } },
-               { name: "pizza", emoji: { img: "https://toppng.com/uploads/preview/favorite-pizza-emoji-1156312532506gn1ygxni.png" } },
-               { name: "pizza", emoji: { img: "https://toppng.com/uploads/preview/favorite-pizza-emoji-1156312532506gn1ygxni.png" } }]
+  inventory = [{ emoji: { name: "pizza", img: "public/resources/food/pizza.svg" } },
+               { name: "bagel", emoji: { img: "public/resources/food/bagel.svg" } },
+               { name: "falafel", emoji: { img: "public/resources/food/falafel.svg" } },
+               { name: "mango", emoji: { img: "public/resources/food/mango.svg" } },
+               { name: "sushi", emoji: { img: "public/resources/food/sushi.svg" } },
+               { name: "melon", emoji: { img: "public/resources/food/melon.svg" } }]
 
   // In reality friends will contains user objects
   // I think only _id and displayname are needed though
@@ -40,7 +40,7 @@ router.get("/", async (req, res) => {
   favorites = favorites.slice(0, 6);
   inventory = inventory.slice(0, 6);
   friends = friends.slice(0, 20);
-  
+
   res.render("mojipets/home", {
     title: "MojiPets",
     favorites: favorites,

@@ -47,7 +47,7 @@ function startAnimation() {
     }
     return !closest ? null : closest.target
   }
-  
+
   /** ANIMATION LOGIC PER-FRAME **/
   // TODO: 🐛 when the food item is placed, it's not always the closest pet that
   //          tries to eat it.
@@ -79,7 +79,7 @@ function startAnimation() {
       }
     }
     // pets that need to move closer to their targets should move closer
-    if (_pets.some(pet => pet.target && !withinRange(5, pet, pet.target))) { 
+    if (_pets.some(pet => pet.target && !withinRange(5, pet, pet.target))) {
       for (var pet of _pets) if (pet.target && !withinRange(5, pet, pet.target)) {
         // move pet towards target
         pet.pos.x += pet.delta.x; pet.pos.y += pet.delta.y;
@@ -108,10 +108,10 @@ function startClickToPlace() {
       x: event.offsetX-25,
       y: event.offsetY-25
     };
-    
+
     // create html node for item
     let placedItem = document.createElement('img');
-    placedItem.src = 'https://github.com/googlefonts/noto-emoji/raw/main/png/512/emoji_u1f356.png'
+    placedItem.src = "public/resources/food/meat_on_bone.svg"
     placedItem.classList.add('item');
     placedItem.id = `item${_items.length}`
     placedItem.style.left = `${pt.x}px`;
@@ -144,8 +144,8 @@ function renderPets() {
         name: "dog",
         img: "public/resources/pets/dog.svg"
       },
-      happiness: Date("3/18/2021"), 
-      health: Date("3/17/2021"), 
+      happiness: Date("3/18/2021"),
+      health: Date("3/17/2021"),
       interactions: {
         fetch: [ Date("3/13/2021"), Date("3/18/2021") ],
         feed: [ Date("3/16/2021"), Date("3/17/2021") ]
@@ -160,8 +160,8 @@ function renderPets() {
         name: "snail",
         img: "public/resources/pets/snail.svg"
       },
-      happiness: Date("3/18/2021"), 
-      health: Date("3/17/2021"), 
+      happiness: Date("3/18/2021"),
+      health: Date("3/17/2021"),
       interactions: {
         fetch: [ Date("3/13/2021"), Date("3/18/2021") ],
         feed: [ Date("3/16/2021"), Date("3/17/2021") ]
@@ -185,7 +185,7 @@ function renderPets() {
     petNode.style.left = `${pt.x}px`;
     petNode.style.top = `${pt.y}px`;
     _container.appendChild(petNode);
-    
+
     // add pet to list
     _pets.push({
       id: petNode.id,
