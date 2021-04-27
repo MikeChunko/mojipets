@@ -93,7 +93,7 @@ div > h2 {
 
 div > a {
   text-align: center;
-  color: #868fd7;
+  color: #1d2e44;
   font-weight: 900;
   display:block;
 
@@ -161,8 +161,9 @@ li > div > p {
 }
 
 #logout {
-  color: #FFFFFF;
+  color: #1d2e44;
   text-align: right;
+  font-size: 20px;
   position: absolute;
   bottom: 1vh;
   right: 1.2vw;
