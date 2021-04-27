@@ -1,3 +1,5 @@
 {
-  "saltRounds": 16
+  "saltRounds": 16,
+  "maxFavoritePetsDisplay": 6,
+  "maxInventoryDisplay": 6
 }
