@@ -11,12 +11,14 @@ const loginRoutes = require("./login"),
       homeRoutes = require("./home"),
       signupRoutes = require("./signup"),
       logoutRoutes = require("./logout");
+      profileRoutes = require("./profile");
 
 const constructorMethod = (app) => {
   app.use("/", loginRoutes);
   app.use("/signup", signupRoutes);
   app.use("/home", homeRoutes);
   app.use("/logout", logoutRoutes);
+  app.use("/profile", profileRoutes);
 
   app.use("*", (req, res) => {
     res.sendStatus(404);
