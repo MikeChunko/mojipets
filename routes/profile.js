@@ -22,8 +22,6 @@ router.get("/", (req, res) => {
     fav_pets: [ 0, 0, 0, 0, 0, 0 ], // Limit to 6, would need to edit handlebars to get emoji pics
     css: "/public/site.css"
   });
-
-  //res.sendFile(path.resolve("static/profile.html"));
 });
 
 module.exports = router;

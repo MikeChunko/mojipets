@@ -12,6 +12,7 @@ const loginRoutes = require("./login"),
       signupRoutes = require("./signup"),
       logoutRoutes = require("./logout");
       profileRoutes = require("./profile");
+      shopRoutes = require("./shop");
 
 const constructorMethod = (app) => {
   app.use("/", loginRoutes);
@@ -19,6 +20,7 @@ const constructorMethod = (app) => {
   app.use("/home", homeRoutes);
   app.use("/logout", logoutRoutes);
   app.use("/profile", profileRoutes);
+  app.use("/shop", shopRoutes);
 
   app.use("*", (req, res) => {
     res.sendStatus(404);
