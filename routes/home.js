@@ -17,12 +17,12 @@ router.get("/", async (req, res) => {
   // TODO: Call the appropriate db methods for each
 
   // In reality favorites will contain full UserPet objects
-  favorites = [{ emoji: { name: "crab", img: "https://images.emojiterra.com/google/android-10/512px/1f980.png" } },
-               { name: "crab", emoji: { img: "https://images.emojiterra.com/google/android-10/512px/1f980.png" } },
-               { name: "crab", emoji: { img: "https://images.emojiterra.com/google/android-10/512px/1f980.png" } },
-               { name: "crab", emoji: { img: "https://images.emojiterra.com/google/android-10/512px/1f980.png" } },
-               { name: "crab", emoji: { img: "https://images.emojiterra.com/google/android-10/512px/1f980.png" } },
-               { name: "crab", emoji: { img: "https://images.emojiterra.com/google/android-10/512px/1f980.png" } }];
+  favorites = [{ emoji: { name: "crab", img: "public/resources/pets/cat.svg" } },
+               { emoji: { name: "cat", img: "public/resources/pets/crab.svg" } },
+               { emoji: { name: "cow", img: "public/resources/pets/cow.svg" } },
+               { emoji: { name: "ant", img: "public/resources/pets/ant.svg" } },
+               { emoji: { name: "caterpillar", img: "public/resources/pets/caterpillar.svg" } },
+               { emoji: { name: "panda", img: "public/resources/pets/panda.svg" } }];
 
   // In reality favorites will contain full StoreFood objects
   inventory = [{ emoji: { name: "pizza", img: "https://toppng.com/uploads/preview/favorite-pizza-emoji-1156312532506gn1ygxni.png" } },

@@ -142,7 +142,7 @@ function renderPets() {
       emoji: {
         codepoint: "🐶",
         name: "dog",
-        img: "https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/512/emoji_u1f436.png"
+        img: "public/resources/pets/dog.svg"
       },
       happiness: Date("3/18/2021"), 
       health: Date("3/17/2021"), 
@@ -158,7 +158,7 @@ function renderPets() {
       emoji: {
         codepoint: "🐌",
         name: "snail",
-        img: "https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/512/emoji_u1f40c.png"
+        img: "public/resources/pets/snail.svg"
       },
       happiness: Date("3/18/2021"), 
       health: Date("3/17/2021"), 
