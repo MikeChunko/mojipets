@@ -154,7 +154,7 @@ h1 {
   align-content: center;
 }
 
-#shop-items {
+.shop-items {
   display:grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -170,7 +170,7 @@ h1 {
   height: 75vh;
 }
 
-#shop-items > .emoji-container > img {
+.shop-items > .emoji-container > img {
   margin-top: 10px;
   display: block;
   margin-left: auto;
@@ -181,14 +181,14 @@ h1 {
   height: 100px;
 }
 
-#shop-items > .emoji-container > p {
+.shop-items > .emoji-container > p {
   margin-top: 6px;
   padding-bottom: 10px;
   font-size: 20px;
   font-weight: bolder;
 }
 
-#shop-items > .emoji-container {
+.shop-items > .emoji-container {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -338,4 +338,8 @@ input[type="submit"] {
 
 [clicked="y"] {
   background-color: #BFBFBF;
+}
+
+.hidden-div {
+  display: none !important;
 }
