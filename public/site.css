@@ -339,3 +339,8 @@ input[type="submit"] {
 [clicked="y"] {
   background-color: #BFBFBF;
 }
+
+#error {
+  color: #000000 !important;
+  text-align: center !important;
+}

@@ -8,20 +8,53 @@
 */
 
 const express = require("express"),
-      router = express.Router();
+      router = express.Router(),
+      data = require("../data"),
+      userData = data.users,
+      config = require("../config.json");
 
-router.get("/", (req, res) => {
+router.get("/:uname", async (req, res) => {
+  let uname = req.params.uname;
 
-  const dummy_username = "TestUser";
-  // TODO: Fill with real data
-  res.render("mojipets/profile", {
-    title: dummy_username + "'s Profile",
-    display_name: dummy_username,
-    profile_pic: "https://avatars.githubusercontent.com/u/677777?v=4",
-    join_date: "4/26/2021",
-    fav_pets: [ 0, 0, 0, 0, 0, 0 ], // Limit to 6, would need to edit handlebars to get emoji pics
-    css: "/public/site.css"
-  });
+  if (!uname || typeof(uname) != "string")
+    res.sendStatus(404);
+
+  uname = uname.toLowerCase();
+
+  try {
+    const users = await userData.getAllUsers();
+
+    // Search for our desired user
+    const userObj = users.find((user, i) => {
+      if (user.username.toLowerCase() == uname)
+        return user;
+    });
+
+    // User with the given username does not exist
+    if (typeof(userObj) == "undefined") {
+      return res.render("mojipets/profile", {
+        title: uname + "'s Profile",
+        username: uname,
+        error: true,
+        css: "/public/site.css"
+      });
+    }
+
+    const pets = (await userPets.getPetsFromUser(userObj._id)).slice(0, config.maxFavoritePetsDisplay);
+    console.log(pets);
+    // TODO: Fill with real data
+    res.render("mojipets/profile", {
+      title: userObj.username + "'s Profile",
+      display_name: userObj.displayname,
+      profile_pic: "https://avatars.githubusercontent.com/u/677777?v=4",  // ! Hardcoding
+      join_date: "4/26/2021",  // ! Harcoding
+      fav_pets: pets,
+      css: "/public/site.css"
+    });
+  } catch (e) {  // Some db error has occurred
+    console.log(e);
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
 });
 
 module.exports = router;
