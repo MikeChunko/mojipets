@@ -33,7 +33,7 @@
 
   function bindEventsToFood(food) {
     $(food).click(function(e) {
-     var requestConfig = {
+      var requestConfig = {
         method: "POST",
         url: "/api/store/food/" + $($(food).children()[0]).attr("id") + "/1"
       };
@@ -48,6 +48,25 @@
 
   shopFood.children().each(function(i, food) {
     bindEventsToFood(food);
+  });
+
+  function bindEventsToPet(pet) {
+    $(pet).click(function(e) {
+      var requestConfig = {
+        method: "POST",
+        url: "/api/store/pet/" + $($(pet).children()[0]).attr("id") + "/" + "smelly animal"
+      };
+
+      $.ajax(requestConfig).then(function (res) {
+        credits.text(`${res.newCredits} 💸`);
+      }).fail(function(e) {
+        // ! TODO: Display failures somehow
+      });
+    });
+  }
+
+  shopPets.children().each(function(i, pet) {
+    bindEventsToPet(pet);
   });
 
 })(window.jQuery);
