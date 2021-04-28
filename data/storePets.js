@@ -12,6 +12,7 @@ ObjectIdMongo = require('mongodb').ObjectID;
 const mongoCollections = require('../config/mongoCollections');
 const { storePets } = require('../config/mongoCollections');
 const usersJs = require('./users')
+const userPetsJs = require('./userPets')
 
 function isEmoji(emoji) {
   return /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g.test(emoji)
@@ -79,33 +80,36 @@ async function get(id) {
   return clean(pet)
 }
 
-// async function buy(body) {
-//     let userId = body.userId
-//     let petId = body.petId
-//     if (!userId) throw 'Error: userId not given.'
-//     if (!petId) throw 'Error: petId not given.'
-//     if (typeof(userId) != "string") throw 'Error: type of userId not string.'
-//     if (typeof(petId) != "string") throw 'Error: type of petId not string.'
-//     if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
-//     if (petId.trim().length == 0) throw 'Error: petId is either an empty string or just whitespace.'
+async function buy(body) {
+    let userId = body.userId
+    let petId = body.petId
+    let petName = body.petName
+    if (!userId) throw 'Error: userId not given.'
+    if (!petId) throw 'Error: petId not given.'
+    if (typeof(userId) != "string") throw 'Error: type of userId not string.'
+    if (typeof(petId) != "string") throw 'Error: type of petId not string.'
+    if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
+    if (petId.trim().length == 0) throw 'Error: petId is either an empty string or just whitespace.'
 
-//     let user = null
-//     try {
-//         user = await usersJs.get(userId)
-//     } catch (e) {
-//         throw e
-//     }
+    let pet = null
+    try {
+        pet = await get(petId)
+    } catch (e) {
+        throw e
+    }
 
-//     let pet = null
-//     try {
-//         pet = await get(pet)
-//     } catch (e) {
-//         throw e
-//     }
-// }
+    let userPet = null
+    try {
+      userPet = await userPetsJs.add({owner: userId, name: petName, emoji: pet.emoji, price: pet.price})
+    } catch (e) {
+      throw e
+    }
+    return userPet
+}
 
 
 module.exports = {
   add,
-  get
+  get,
+  buy
 }
