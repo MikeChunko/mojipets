@@ -25,6 +25,14 @@ function validPassword (pwdStr) {
   return false
 } // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 
+function isEmoji(emoji) {
+  return /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g.test(emoji)
+} // https://stackoverflow.com/questions/18862256/how-to-detect-emoji-using-javascript
+
+function isImg(img) {
+  return /.(jpeg|jpg|png|gif|bmp|svg)/.test(img)
+}
+
 function clean(obj) {
   obj._id = obj._id.toString()
   return obj
@@ -34,16 +42,27 @@ async function add(body) {
   username = body.username
   plaintextPassword = body.plaintextPassword
   displayname = body.displayname
+  emoji = body.pfp
 
   if (!username) throw 'Error: must provide the username of the user.'
   if (!plaintextPassword) throw 'Error: must provide a password for the user.'
   if (!displayname) { displayname = username }
+  if (!emoji) {
+    emoji = {codepoint: "😊", name: "smile", img: "/public/resources/profile_pictures/smile.svg"}
+  }
   if (typeof(username) != 'string') throw 'Error: name must be a string.'
   if (typeof(plaintextPassword) != 'string') throw 'Error: password must be a string.'
   if (typeof(displayname) != 'string') throw 'Error: password must be a string.'
   if (username.trim().length == 0) throw 'Error: name is either an empty string or just whitespace.'
   if (plaintextPassword.trim().length == 0) throw 'Error: password is either an empty string or just whitespace.'
   if (displayname.trim().length == 0) { displayname = username }
+  if (typeof(emoji) != 'object') throw 'Error: pfp emoji must be an object.'
+  if (!('codepoint' in emoji)) throw 'Error: pfp emoji object must have a codepoint.'
+  if (!('name' in emoji)) throw 'Error: pfp emoji object must have a name.'
+  if (!('img' in emoji)) throw 'Error: pfp emoji object must have a img.'
+  if (typeof(emoji.name) != 'string') throw 'Error: pfp emoji name must be a string.'
+  if (!isEmoji(emoji.codepoint)) throw 'Error: pfp emoji codepoint not an emoji.'
+  if (!isImg(emoji.img)) throw 'Error: pfp emoji img not an img.'
 
   allUsers = await getAllUsers()
   for (i of allUsers) {
@@ -55,11 +74,15 @@ async function add(body) {
   const userCollection = await users()
   const passwordhash = await hash_password(plaintextPassword)
 
+  let joinDate = new Date();
+
   const newUser = {
     username: username.trim().toLowerCase(),
     passwordhash: passwordhash,
     displayname: displayname.trim(),
     credits: 0, // change later maybe
+    pfp: emoji,
+    joinDate: joinDate,
     friends: [],
     pets: [],
     favoritePets: [],
@@ -95,7 +118,10 @@ async function update(body) {
   uid = body.userId
   username = body.username
   displayname = body.displayname
-
+  emoji = body.pfp
+  if (!emoji) {
+    emoji = {codepoint: "😊", name: "smile", img: "/public/resources/profile_pictures/smile.svg"}
+  }
   if (!uid) throw 'Error: uid not given.'
   if (!username) throw 'Error: must provide the username of the user.'
   if (!displayname) { displayname = username }
@@ -105,6 +131,13 @@ async function update(body) {
   if (uid.trim().length == 0) throw 'Error: uid is either an empty string or just whitespace.'
   if (username.trim().length == 0) throw 'Error: name is either an empty string or just whitespace.'
   if (displayname.trim().length == 0) { displayname = username }
+  if (typeof(emoji) != 'object') throw 'Error: pfp emoji must be an object.'
+  if (!('codepoint' in emoji)) throw 'Error: pfp emoji object must have a codepoint.'
+  if (!('name' in emoji)) throw 'Error: pfp emoji object must have a name.'
+  if (!('img' in emoji)) throw 'Error: pfp emoji object must have a img.'
+  if (typeof(emoji.name) != 'string') throw 'Error: pfp emoji name must be a string.'
+  if (!isEmoji(emoji.codepoint)) throw 'Error: pfp emoji codepoint not an emoji.'
+  if (!isImg(emoji.img)) throw 'Error: pfp emoji img not an img.'
 
   let userCollection = await users()
 
@@ -120,6 +153,8 @@ async function update(body) {
     passwordhash: user.passwordhash,
     displayname: displayname.trim(),
     credits: user.credits,
+    pfp: emoji,
+    joinDate: user.joinDate,
     friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
@@ -161,6 +196,8 @@ async function updatePassword(body) {
     passwordhash: passwordhash,
     displayname: user.displayname.trim(),
     credits: user.credits,
+    pfp: user.pfp,
+    joinDate: user.joinDate,
     friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
