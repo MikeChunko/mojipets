@@ -13,6 +13,7 @@ const loginRoutes = require("./login"),
       logoutRoutes = require("./logout");
       profileRoutes = require("./profile");
       shopRoutes = require("./shop"),
+      apiRoutes = require("./api"),
       path = require("path");
 
 const constructorMethod = (app) => {
@@ -22,6 +23,7 @@ const constructorMethod = (app) => {
   app.use("/logout", logoutRoutes);
   app.use("/profile", profileRoutes);
   app.use("/shop", shopRoutes);
+  app.use("/api", apiRoutes);
 
   app.use("*", (req, res) => {
     res.status(404).sendFile(path.resolve("static/error.html"));

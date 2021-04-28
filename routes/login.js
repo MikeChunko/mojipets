@@ -47,36 +47,44 @@ router.post("/login", async (req, res) => {
       error: "Please enter a password at least 8 characters long"
     });
 
-  const users = await userData.getAllUsers();
+  try {
+    const users = await userData.getAllUsers();
 
-  // Fetch our desired user
-  const userObj = users.find((user, i) => {
-    if (user.username == uname)
-      return user;
-  });
-
-  // User with given username does not exist
-  if (typeof (userObj) == "undefined")
-    return res.status(401).render("mojipets/login", {
-      title: "MojiPets",
-      css: "/public/site.css",
-      error: "Username and/or password is incorrect"
+    // Fetch our desired user
+    const userObj = users.find((user, i) => {
+      if (user.username == uname)
+        return user;
     });
 
-  const { passwordhash, ...user } = userObj,
-        match = await bcrypt.compare(password, passwordhash);
+    // User with given username does not exist
+    if (typeof (userObj) == "undefined")
+      return res.status(401).render("mojipets/login", {
+        title: "MojiPets",
+        css: "/public/site.css",
+        error: "Username and/or password is incorrect"
+      });
 
-  if (!match)
-    return res.status(401).render("mojipets/login", {
+    const { passwordhash, ...user } = userObj,
+          match = await bcrypt.compare(password, passwordhash);
+
+    if (!match)
+      return res.status(401).render("mojipets/login", {
+        title: "MojiPets",
+        css: "/public/site.css",
+        error: "Username and/or password is incorrect"
+      });
+
+    // Successfully log the user in
+    req.session.user = user;
+
+    return res.redirect("/home");
+  } catch (e) {  // Some error has occured in the db
+    return res.status(500).render("mojipets/login", {
       title: "MojiPets",
       css: "/public/site.css",
-      error: "Username and/or password is incorrect"
+      error: "A database error occurred. Please try again in a few minutes"
     });
-
-  // Successfully log the user in
-  req.session.user = user;
-
-  return res.redirect("/home");
+  }
 })
 
 module.exports = router;
