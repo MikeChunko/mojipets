@@ -61,6 +61,17 @@ router.post("/", async (req, res) => {
 
     // Create the user
     try {
+      const users = await userData.getAllUsers();
+      
+      // Check for conflicting username
+      for (let i = 0; i < users.length; i++)
+        if (users[i].username.toLowerCase() == uname.toLowerCase())
+          return res.status(400).render("mojipets/signup", {
+            title: "MojiPets",
+            css: "/public/site.css",
+            error: "That username is taken"
+          });
+
       const { passwordhash, ...user} = await userData.add({
         username: uname,
         displayname: dname,
