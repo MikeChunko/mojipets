@@ -9,7 +9,7 @@
   <div id="shop-pets" class="shop-items hidden-div">
     {{#each shopPets}}
     <div class="emoji-container">
-      <img type="image" alt="{{emoji.name}}" src="{{emoji.img}}" />
+      <img type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />
       <p>{{price}} 💸</p>
     </div>
     {{/each}}
@@ -18,7 +18,7 @@
   <div id="shop-food" class="shop-items">
     {{#each shopFood}}
     <div class="emoji-container">
-      <img type="image" alt="{{emoji.name}}" src="{{emoji.img}}" />
+      <img type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />
       <p>{{price}} 💸</p>
     </div>
     {{/each}}
@@ -27,7 +27,7 @@
 </div>
 
 <div class="money">
-  <p>{{money}} 💸</p>
+  <p id="credits">{{money}} 💸</p>
 </div>
 
 <div class="center">

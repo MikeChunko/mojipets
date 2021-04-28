@@ -13,6 +13,7 @@
       shopTitle = $('#shop-title'),
       shopPets = $('#shop-pets'),
       shopFood = $('#shop-food');
+      credits = $('#credits');
 
   foodTab.click(function(e) {
     foodTab.attr("clicked", "y");
@@ -28,6 +29,25 @@
     shopTitle.text("New Pets");
     shopPets.removeClass("hidden-div");
     shopFood.addClass("hidden-div");
+  });
+
+  function bindEventsToFood(food) {
+    $(food).click(function(e) {
+     var requestConfig = {
+        method: "POST",
+        url: "/api/store/food/" + $($(food).children()[0]).attr("id") + "/1"
+      };
+
+      $.ajax(requestConfig).then(function (res) {
+        credits.text(`${res.newCredits} 💸`);
+      }).fail(function(e) {
+        // ! TODO: Display failures somehow
+      });
+    });
+  }
+
+  shopFood.children().each(function(i, food) {
+    bindEventsToFood(food);
   });
 
 })(window.jQuery);
