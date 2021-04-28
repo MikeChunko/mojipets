@@ -80,6 +80,12 @@ async function get(id) {
   return clean(pet)
 }
 
+async function getAll() {
+  const storePetCollection = await storePets()
+  const storePetArr = await storePetCollection.find({}).toArray()
+  return storePetArr.map(clean)
+}
+
 async function buy(body) {
     let userId = body.userId
     let petId = body.petId
@@ -111,5 +117,6 @@ async function buy(body) {
 module.exports = {
   add,
   get,
-  buy
+  buy,
+  getAll
 }

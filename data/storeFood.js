@@ -75,6 +75,12 @@ async function get(id) {
   return clean(food)
 }
 
+async function getAll() {
+  const storeFoodCollection = await storeFood()
+  const storeFoodArr = await storeFoodCollection.find({}).toArray()
+  return storeFoodArr.map(clean)
+}
+
 async function buy(body) {
   let userId = body.userId
   let foodId = body.foodId
@@ -132,5 +138,6 @@ async function buy(body) {
 module.exports = {
   add,
   get,
-  buy
+  buy,
+  getAll
 }
