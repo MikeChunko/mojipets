@@ -120,7 +120,7 @@ async function update(body) {
   displayname = body.displayname
   emoji = body.pfp
   if (!emoji) {
-    emoji = {codepoint: "😊", name: "smile", img: "/public/resources/profile_pictures/smile.svg"}
+    emoji = {codepoint: "😊", name: "smile", img: "/public/resources/pfp/smile.svg"}
   }
   if (!uid) throw 'Error: uid not given.'
   if (!username) throw 'Error: must provide the username of the user.'
