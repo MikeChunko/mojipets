@@ -48,7 +48,7 @@ async function add(body) {
   if (!plaintextPassword) throw 'Error: must provide a password for the user.'
   if (!displayname) { displayname = username }
   if (!emoji) {
-    emoji = {codepoint: "😊", name: "smile", img: "/public/resources/profile_pictures/smile.svg"}
+    emoji = {codepoint: "😊", name: "smile", img: "/public/resources/pfp/smile.svg"}
   }
   if (typeof(username) != 'string') throw 'Error: name must be a string.'
   if (typeof(plaintextPassword) != 'string') throw 'Error: password must be a string.'

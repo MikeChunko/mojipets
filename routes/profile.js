@@ -41,13 +41,12 @@ router.get("/:uname", async (req, res) => {
     }
 
     const pets = (await userPets.getPetsFromUser(userObj._id)).slice(0, config.maxFavoritePetsDisplay);
-    console.log(pets);
-    // TODO: Fill with real data
+
     res.render("mojipets/profile", {
       title: userObj.username + "'s Profile",
       display_name: userObj.displayname,
-      profile_pic: "https://avatars.githubusercontent.com/u/677777?v=4",  // ! Hardcoding
-      join_date: "4/26/2021",  // ! Harcoding
+      profile_pic: userObj.pfp.img,
+      join_date: `${userObj.joinDate.getUTCMonth() + 1}/${userObj.joinDate.getUTCDate()}/${userObj.joinDate.getYear() - 100}`,
       fav_pets: pets,
       css: "/public/site.css"
     });
