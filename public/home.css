@@ -12,9 +12,16 @@ body {
 }
 
 .centered {
+  width: inherit;
   text-align: center;
   justify-content: center;
   align-items: center;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .favorite-pets {
@@ -29,6 +36,7 @@ body {
   grid-area: 4 / 1 / 7 / 2;
   height: 45vh;
   padding-top: 1vh;
+  text-align: center;
 }
 
 .toys {
@@ -95,12 +103,20 @@ div > a {
   text-align: center;
   color: #1d2e44;
   font-weight: 900;
-  display:block;
 
-  position:absolute;
-  width:100%;
+  width: max-content;
   bottom:0;
   text-align:center;
+}
+
+div.left {
+  margin-left: 20px;
+  text-align: left;
+}
+
+div.right {
+  margin-right: 20px;
+  text-align: right;
 }
 
 ul {
