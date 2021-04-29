@@ -104,4 +104,9 @@ router.get('/:id/pets', async (req, res) => {
   }
 })
 
+// TODO: 🐛 check for bugs
+router.post('/:id/pets', async (req, res) => {
+  res.sendStatus(500).json({ error: 'TODO: implement' })
+})
+
 module.exports = router
