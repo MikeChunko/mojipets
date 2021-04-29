@@ -95,7 +95,9 @@ router.post('/:id/interactions/feed', async (req, res) => {
       error: `This user is not authorized to feed pet '${id}'`
     })
 
-  try { pet = await data.userPets.fetch(id) }
+  let body = { id: id, foodId: req.body['food.id'] }
+
+  try { pet = await data.userPets.feed(body) }
   catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
 
   // send updated pet to browser
