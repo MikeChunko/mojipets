@@ -76,10 +76,14 @@ router.delete('/:id', async (req, res) => {
 router.post('/:id/interactions/feed', async (req, res) => {
   // Error checking
   let id = req.params.id,
+      foodId = req.body['food.id'],
       user = null,
       pet = null;
 
   if (!id || typeof(id) != "string")
+    return res.sendStatus(404);
+
+  if (!foodId || typeof(foodId) != "string")
     return res.sendStatus(404);
 
   if (!req.session.user)
@@ -95,9 +99,7 @@ router.post('/:id/interactions/feed', async (req, res) => {
       error: `This user is not authorized to feed pet '${id}'`
     })
 
-  let body = { id: id, foodId: req.body['food.id'] }
-
-  try { pet = await data.userPets.feed(body) }
+  try { pet = await data.userPets.feed({ id, foodId }) }
   catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
 
   // send updated pet to browser
