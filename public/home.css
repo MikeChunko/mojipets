@@ -109,14 +109,16 @@ div > a {
   text-align:center;
 }
 
-div.left {
-  margin-left: 20px;
-  text-align: left;
+.left {
+  float:left;
+  margin-left: 40px;
+  margin-bottom: 5px;
 }
 
-div.right {
-  margin-right: 20px;
-  text-align: right;
+.right {
+  float:right;
+  margin-right: 40px;
+  margin-bottom: 5px;
 }
 
 ul {
