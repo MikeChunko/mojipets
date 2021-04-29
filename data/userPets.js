@@ -135,7 +135,7 @@ async function getPetsFromUser(id) {
 }
 
 async function feed(body) {
-  id = body.userId
+  id = body.id
   // foodId = body.foodId
   if (!id) throw 'Error: must provide a userId.'
   if (typeof(id) != "string") throw 'Error: type of userId not string.'
