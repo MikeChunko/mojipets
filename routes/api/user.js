@@ -69,6 +69,26 @@ router.get('/:id', async (req, res) => {
   else res.json(protect.user.hideSensitive(user))
 })
 
+router.post('/', async (req, res) => {
+  res.sendStatus(500).json({ error: 'TODO: implement' })
+})
+
+router.put('/:id', async (req, res) => {
+  res.sendStatus(500).json({ error: 'TODO: implement' })
+})
+
+router.patch('/:id', async (req, res) => {
+  res.sendStatus(500).json({ error: 'TODO: implement' })
+})
+
+router.put('/:id/password', async (req, res) => {
+  res.sendStatus(500).json({ error: 'TODO: implement' })
+})
+
+router.delete('/:id', async (req, res) => {
+  res.sendStatus(500).json({ error: 'TODO: implement' })
+})
+
 // TODO: 🐛 check for bugs
 router.get('/:id/pets', async (req, res) => {
   // Error checking
