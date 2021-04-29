@@ -69,4 +69,39 @@ router.get('/:id', async (req, res) => {
   else res.json(protect.user.hideSensitive(user))
 })
 
+// TODO: 🐛 check for bugs
+router.get('/:id/pets', async (req, res) => {
+  // Error checking
+  let id = req.params.id,
+      alive = req.body.alive;
+
+  if (!id || typeof(id) != "string")
+    return res.sendStatus(404);
+
+  // api doesn't care abt alive/dead
+  if (alive == null || alive == undefined) { 
+    let user = null
+    try { user = await data.users.get(id) }
+    catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
+
+    if (req.session.user && req.session.user._id === id)
+      res.json(user.pets.map(protect.pet.showSensitive))
+    else res.json(user.pets.map(protect.pet.hideSensitive))
+
+  // api should try to get only alive pets if alive === true
+  } else { 
+    let pets = []
+    try {
+      pets = alive
+        ? await data.users.getLivingPets(id)
+        : await data.users.getDeadPets(id)
+    }
+    catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
+
+    if (req.session.user && req.session.user._id === id)
+      res.json(pets.map(protect.pet.showSensitive))
+    else res.json(pets.map(protect.pet.hideSensitive))
+  }
+})
+
 module.exports = router
