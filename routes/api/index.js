@@ -9,11 +9,16 @@
 
 const express = require("express"),
       router = express.Router(),
-      data = require("../data"),
+      data = require("../../data"),
+      userRoutes = require('./user.js'),
+      userPetRoutes = require('./pet.js'),
       userData = data.users,
       userPets = data.userPets,
       storePets = data.storePets,
       storeFood = data.storeFood;
+
+router.use('/user', userRoutes);
+router.use('/user/pet', userPetRoutes);
 
 router.post("/store/food/:id/:quantity", async (req, res) => {
   // Error checking
