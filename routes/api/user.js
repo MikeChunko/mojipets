@@ -85,6 +85,10 @@ router.put('/:id/password', async (req, res) => {
   res.sendStatus(500).json({ error: 'TODO: implement' })
 })
 
+router.put('/:id/food', async (req, res) => {
+  res.sendStatus(500).json({ error: 'TODO: implement' })
+})
+
 router.delete('/:id', async (req, res) => {
   res.sendStatus(500).json({ error: 'TODO: implement' })
 })
