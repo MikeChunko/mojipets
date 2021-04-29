@@ -12,24 +12,43 @@ const express = require("express"),
       data = require("../../data");
 
 /** 
- * helper functions to remove sensitive fields from the user object on return 
+ * helper functions to remove sensitive fields from objects on return 
  **/
-const protectUser = {
-  // user is logged in, show private info
-  showSensitive: (user) => {
-    delete user.passwordHash
-    return user
+const protect = {
+  user: {
+    // user is logged in, show private info
+    showSensitive: (user) => {
+      delete user.passwordHash
+      return user
+    },
+
+    // user is not logged in, only show public info
+    hideSensitive: (user) => {
+      delete user.passwordHash
+      delete user.friends
+      delete user.pets
+      delete foods
+
+      // remaining fields: username, displayname, credits, favoritePets
+      return user
+    }
   },
+  pet: {
+    // pet owner is logged in, show private info
+    showSensitive: (pet) => {
+      delete pet.interactions
+      return pet
+    },
 
-  // user is not logged in, only show public info
-  hideSensitive: (user) => {
-    delete user.passwordHash
-    delete user.friends
-    delete user.pets
-    delete foods
+    // pet owner is not logged in, only show public info
+    hideSensitive: (pet) => {
+      delete pet.interacitions
+      delete pet.happiness
+      delete pet.health
 
-    // remaining fields: username, displayname, credits, favoritePets
-    return user
+      // remaining fields: name, birthday, emoji
+      return pet
+    }
   }
 }
 
@@ -46,8 +65,8 @@ router.get('/:id', async (req, res) => {
   catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
 
   if (req.session.user && req.session.user._id === id)
-    res.json(protectUser.showSensitive(user))
-  else res.json(protectUser.hideSensitive(user))
+    res.json(protect.user.showSensitive(user))
+  else res.json(protect.user.hideSensitive(user))
 })
 
 module.exports = router
