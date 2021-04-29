@@ -200,6 +200,24 @@ function renderPets() {
   }
 }
 
+(function($) {
+  const petShop = $('#pet-shop');
+
+  // Create form and submit it
+  $(petShop).click(function(e) {
+    e.preventDefault();
+    $('<form>', {
+      action: '/shop',
+      method: 'POST'
+    }).append($('<input>', {
+      type: 'hidden',
+      name: 'shopType',
+      value: "true"
+    })).appendTo('body').submit();
+  });
+  
+})(window.jQuery);
+
 /** Entrypoint! Should be run onload in homepage **/
 function start() {
   renderPets()

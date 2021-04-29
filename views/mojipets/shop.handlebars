@@ -1,12 +1,27 @@
 <div class="tab-container">
+  {{#if petShop}}
+  <button id="food-tab" clicked="n">Food</button>
+  <button id="pets-tab" clicked="y">Pets</button>
+  {{else}}
   <button id="food-tab" clicked="y">Food</button>
   <button id="pets-tab" clicked="n">Pets</button>
+  {{/if}}
 </div>
 
 <div class="shop-window">
-  <h2 id="shop-title" class="center">Food Items</h2>
 
+  {{#if petShop}}
+  <h2 id="shop-title" class="center">New Pets</h2>
+  {{else}}
+  <h2 id="shop-title" class="center">Food Items</h2>
+  {{/if}}
+
+  {{#if petShop}}
+  <div id="shop-pets" class="shop-items">
+  {{else}}
   <div id="shop-pets" class="shop-items hidden-div">
+  {{/if}}
+  
     {{#each shopPets}}
     <div class="emoji-container">
       <img type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />
@@ -15,7 +30,11 @@
     {{/each}}
   </div>
 
+  {{#if petShop}}
+  <div id="shop-food" class="shop-items hidden-div">
+  {{else}}
   <div id="shop-food" class="shop-items">
+  {{/if}}
     {{#each shopFood}}
     <div class="emoji-container">
       <img type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />

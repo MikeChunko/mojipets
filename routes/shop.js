@@ -13,13 +13,18 @@ const express = require("express"),
       storePets = data.storePets,
       storeFood = data.storeFood;
 
-router.get("/", async (req, res) => {
+async function handleRequest(req, res) {
   // ! Debug so I don't need to log in each time
   let credits;
   try {
     credits = req.session.user.credits;
   } catch (e) {
     credits = 1000;
+  }
+
+  let petShop = false;
+  if(req.body.shopType) {
+    petShop = true;
   }
 
   try {
@@ -31,12 +36,21 @@ router.get("/", async (req, res) => {
       shopPets: shopPets,
       shopFood: shopFood,
       money: credits,
+      petShop: petShop,
       css: "/public/site.css",
       postjs: "/public/shop.js"
     });
 } catch (e) {  // Some error has occured in the db
   res.status(500).sendFile(path.resolve("static/error_db.html"));
 }
+}
+
+router.post("/", async (req, res) => {
+  handleRequest(req, res);
+});
+
+router.get("/", async (req, res) => {
+  handleRequest(req, res);
 });
 
 module.exports = router;
