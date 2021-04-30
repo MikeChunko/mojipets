@@ -40,10 +40,19 @@ router.get("/:uname", async (req, res) => {
       });
     }
 
-    const pets = (await userPets.getPetsFromUser(userObj._id)).slice(0, config.maxFavoritePetsDisplay);
+    pets = userObj.favoritePets.slice(0, config.maxFavoritePetsDisplay);
+
+    // Map favorite pet IDs to the full pet
+    for (let i = 0; i < pets.length; i++) {
+      pets[i] = userObj.pets.find((pet, i) => {
+        if (pet._id.equals(pets[i]))
+          return pet;
+      });
+    }
 
     res.render("mojipets/profile", {
       title: userObj.username + "'s Profile",
+      uname: userObj.username,
       display_name: userObj.displayname,
       profile_pic: userObj.pfp.img,
       join_date: `${userObj.joinDate.getUTCMonth() + 1}/${userObj.joinDate.getUTCDate()}/${userObj.joinDate.getYear() - 100}`,
