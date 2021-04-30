@@ -27,7 +27,12 @@ app.use("/public", static);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.engine("handlebars", exphbs({
+  helpers: {
+    gt: function(a,b) { return (a > b) }
+  },
+  defaultLayout: "main"
+}));
 app.set("view engine", "handlebars");
 
 // Authentication middleware

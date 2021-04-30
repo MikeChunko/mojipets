@@ -60,10 +60,10 @@ h1 {
 
 #profile {
   position: absolute;
-  width: 50em;
-  height: 30em;
-  left: calc(50% - (50em + 20px)/2 - 0.5px);
-  top: 160px;
+  width: 65em;
+  height:fit-content;
+  left: calc(50% - (65em + 20px)/2 - 0.5px);
+  top: 100px;
   margin-top: 50px;
   padding-left: 20px;
   padding-right: 20px;
@@ -129,6 +129,15 @@ h1 {
   grid-area: 1 / 1 / 3 / 4;
 
   align-content: center;
+}
+
+#fav-pets.scrollable {
+  grid-template-columns: repeat(5, 1fr);
+  grid-column-gap: 50px;
+  height: 40em;
+  overflow-y: scroll;
+  padding-top: 30px;
+  padding-bottom: 20px;
 }
 
 #fav-pets > img {
