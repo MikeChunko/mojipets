@@ -305,6 +305,26 @@ async function getStatus(id) {
   return "Dead"
 }
 
+async function getHappiness(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let currentDateTimestamp = new Date().getTime()
+  let lastFeedTime = pet.happiness.getTime()
+  if (lastFeedTime + (3 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Happy" }
+  if (lastFeedTime + (6 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Content" }
+  if (lastFeedTime + (8 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Unhappy" }
+  if (lastFeedTime + (9 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Miserable" }
+  return "Depressed"
+}
+
+
 module.exports = {
   add,
   get,
@@ -313,5 +333,6 @@ module.exports = {
   fetch,
   favorite,
   unfavorite,
-  getStatus
+  getStatus,
+  getHappiness
 }
