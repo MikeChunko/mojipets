@@ -1,0 +1,284 @@
+{
+	"info": {
+		"_postman_id": "93aa8d0c-0102-4cad-94a8-07e45e3ade93",
+		"name": "Mojipets",
+		"description": "### Route labels\n\n- 🆔 Correctly Authenticated\n- 🛑 Incorrectly authenticated\n- ❌ Erroneous",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/user/",
+			"item": [
+				{
+					"name": "🛑 /:id/pets",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id/pets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id",
+								"pets"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b19dacb49ac364985d2e0",
+									"description": "jack's id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔 /:id/pets",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id/pets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id",
+								"pets"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b19dacb49ac364985d2e0",
+									"description": "jack's id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔 /:id/pets alive",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alive\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/:id/pets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id",
+								"pets"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b19dacb49ac364985d2e0",
+									"description": "jack's id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔 /:id/pets dead",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alive\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/:id/pets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id",
+								"pets"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b19dacb49ac364985d2e0",
+									"description": "jack's id"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Example",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/home",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticated Example",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"login(pm, 'jack', 'sick_password')"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/home",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"home"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Source: https://stackoverflow.com/a/62280924/14720921",
+					"login = function (pm, user, pass) {",
+					"  let baseurl = pm.variables.get(\"base_url\");",
+					"  const request = {",
+					"    url: `${baseurl}/login`,",
+					"    method: 'POST',",
+					"    header: {",
+					"      'Content-Type':'application/json',",
+					"    },",
+					"    body: {",
+					"      mode: 'application/json',",
+					"      raw: JSON.stringify({",
+					"        usernameInput: user,",
+					"        passwordInput: pass",
+					"      })",
+					"    }",
+					"  };",
+					"",
+					"  pm.sendRequest(request, (err, res) => {",
+					"    console.log('Logged in!')",
+					"  });",
+					"};",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000"
+		}
+	]
+}
