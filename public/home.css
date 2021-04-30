@@ -37,6 +37,13 @@ body {
   height: 45vh;
   padding-top: 1vh;
   text-align: center;
+  overflow: hidden;
+}
+
+#inventory-ul {
+  overflow-y: scroll;
+  height: 34vh;
+  
 }
 
 .toys {
@@ -74,12 +81,44 @@ body {
   position: absolute;
 }
 
-input[type="image"] {
+.pet-container {
   background-color: #F5F5F5;
   width: 5vw;
   height: 5vw;
   border-radius: 0.5vw;
   box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+}
+
+.emoji-container > img {
+  margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: #F5F5F5;
+  width: 100px;
+  height: 100px;
+}
+
+.emoji-container > p {
+  margin-top: -10px;
+  margin-left: 10px;
+  padding-bottom: 10px;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.emoji-container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: #F5F5F5;
+  width: 5vw;
+  height: 6vw;
+  border-radius: 0.5vw;
+  box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+  text-align: center;
 }
 
 div > div {
@@ -118,6 +157,11 @@ div > a {
 .right {
   float:right;
   margin-right: 40px;
+  margin-bottom: 5px;
+}
+
+.center {
+  position: relative;
   margin-bottom: 5px;
 }
 

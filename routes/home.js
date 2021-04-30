@@ -24,12 +24,12 @@ router.get("/", async (req, res) => {
     for (let i = 0; i < favorites.length; i++)
       favorites[i] = await userPets.get(favorites[i]);
 
-    // Fetch user's inventory and limit to the configured setting
+    // Fetch user's inventory
     let inventory = req.session.user.foods,
-        inventoryKeys = Object.keys(inventory).slice(0, config.maxInventoryDisplay);
+        inventoryKeys = Object.keys(inventory);
 
     for (let i = 0; i < inventoryKeys.length; i++)
-      inventoryKeys[i] = await storeFood.get(inventoryKeys[i]);
+      inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
 
     // Fetch user's friends and limit to the configured settings
     let friends = req.session.user.friends.slice(0, config.maxFriendsDisplay);
