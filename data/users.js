@@ -306,7 +306,7 @@ async function getDeadPets(id) {
   let currentDateTimestamp = new Date().getTime()
   let deadPets = []
   for (pet of user.pets) {
-    let weekPastFeedTime = pet.health.getTime() + (7 * 24 * 60 * 60 * 1000) // days * hrs * minutes * seconds * ms
+    let weekPastFeedTime = pet.health.getTime() + (9 * 24 * 60 * 60 * 1000) // days * hrs * minutes * seconds * ms
     if (currentDateTimestamp > weekPastFeedTime) {
       deadPets.push(pet)
     }
@@ -327,7 +327,7 @@ async function getLivingPets(id) {
   let currentDateTimestamp = new Date().getTime()
   let livingPets = []
   for (pet of user.pets) {
-    let weekPastFeedTime = pet.health.getTime() + (7 * 24 * 60 * 60 * 1000) // days * hrs * minutes * seconds * ms
+    let weekPastFeedTime = pet.health.getTime() + (9 * 24 * 60 * 60 * 1000) // days * hrs * minutes * seconds * ms
     if (currentDateTimestamp < weekPastFeedTime) {
       livingPets.push(pet)
     }
