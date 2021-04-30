@@ -10,13 +10,13 @@
   </div>
   <p>Member since {{join_date}}</p>
 
-  {{#if (gt fav_pets.length 6)}}
+  {{#if (gt fav_pets.length max_pets)}}
   <h2>All Pets</h2>
   {{else}}
   <h2>Favorite Pets</h2>
   {{/if}}
 
-  {{#if (gt fav_pets.length 6)}}
+  {{#if (gt fav_pets.length max_pets)}}
   <div id="fav-pets" class="scrollable">
   {{else}}
   <div id="fav-pets">

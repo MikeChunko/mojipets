@@ -48,6 +48,7 @@ router.get("/:uname", async (req, res) => {
       profile_pic: userObj.pfp.img,
       join_date: `${userObj.joinDate.getUTCMonth() + 1}/${userObj.joinDate.getUTCDate()}/${userObj.joinDate.getYear() - 100}`,
       fav_pets: pets,
+      max_pets: config.maxFavoritePetsDisplay,
       css: "/public/site.css"
     });
   } catch (e) {  // Some db error has occurred

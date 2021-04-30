@@ -136,8 +136,8 @@ h1 {
   grid-column-gap: 50px;
   height: 40em;
   overflow-y: scroll;
-  padding-top: 30px;
-  padding-bottom: 20px;
+  padding-top: 100px;
+  padding-bottom: 30px;
 }
 
 #fav-pets > img {
