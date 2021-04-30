@@ -316,11 +316,11 @@ async function getHappiness(id) {
     throw e
   }
   let currentDateTimestamp = new Date().getTime()
-  let lastFeedTime = pet.happiness.getTime()
-  if (lastFeedTime + (3 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Happy" }
-  if (lastFeedTime + (6 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Content" }
-  if (lastFeedTime + (8 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Unhappy" }
-  if (lastFeedTime + (9 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Miserable" }
+  let lastPlayTime = pet.happiness.getTime()
+  if (lastPlayTime + (3 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Happy" }
+  if (lastPlayTime + (6 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Content" }
+  if (lastPlayTime + (8 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Unhappy" }
+  if (lastPlayTime + (9 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Miserable" }
   return "Depressed"
 }
 
