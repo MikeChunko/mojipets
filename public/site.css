@@ -7,6 +7,20 @@ CS 546A
 I pledge my honor that I have abided by the Stevens Honor System.
 */
 
+*::-webkit-scrollbar-track {
+  background-color: #FFFFFF;
+}
+
+*::-webkit-scrollbar {
+  background-color: #FFFFFF;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  border: 3px solid #FFFFFF;
+  background-color: #868fd7;
+}
+
 .formError {
   box-shadow: 0 0 5px red;
   border: 1px solid red;
@@ -160,10 +174,8 @@ h1 {
   grid-row-gap: 30px;
   height: 20em;
   grid-area: 1 / 1 / 1 / 1;
-  align-content: center;
   overflow-y: scroll;
-  padding-top: 100px;
-  padding-bottom: 30px;
+  padding-bottom: 130px;
 }
 
 #all-pets > div > img {
