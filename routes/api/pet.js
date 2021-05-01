@@ -18,18 +18,19 @@ const protect = {
   user: {
     // user is logged in, show private info
     showSensitive: (user) => {
-      delete user.passwordHash
+      delete user.passwordhash
       return user
     },
 
     // user is not logged in, only show public info
     hideSensitive: (user) => {
-      delete user.passwordHash
+      delete user.passwordhash
       delete user.friends
       delete user.pets
-      delete foods
+      delete user.credits
+      delete user.foods
 
-      // remaining fields: username, displayname, credits, favoritePets
+      // remaining fields: username, pfp, displayname, favoritePets, joinDate
       return user
     }
   },
