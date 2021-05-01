@@ -43,7 +43,7 @@ const protect = {
 
     // pet owner is not logged in, only show public info
     hideSensitive: (pet) => {
-      delete pet.interacitions
+      delete pet.interactions
       delete pet.happiness
       delete pet.health
 
@@ -65,7 +65,6 @@ router.get('/:id', async (req, res) => {
   try { user = await data.users.get(id) }
   catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
 
-  // console.log(req.session.user && req.session.user._id === id ? 'true'  : 'false')
 
   if (req.session.user && req.session.user._id === id)
     res.json(protect.user.showSensitive(user))
@@ -96,7 +95,6 @@ router.delete('/:id', async (req, res) => {
   res.sendStatus(500).json({ error: 'TODO: implement' })
 })
 
-// TODO: 🐛 check for bugs
 router.get('/:id/pets', async (req, res) => {
   // Error checking
   let id = req.params.id,
@@ -111,12 +109,15 @@ router.get('/:id/pets', async (req, res) => {
     try { user = await data.users.get(id) }
     catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
 
+    console.log(user.pets.map(protect.pet.showSensitive))
+
     if (req.session.user && req.session.user._id === id)
       res.json(user.pets.map(protect.pet.showSensitive))
     else res.json(user.pets.map(protect.pet.hideSensitive))
 
   // api should try to get only alive pets if alive === true
   } else { 
+    // TODO: 🐛 check for bugs
     let pets = []
     try {
       pets = alive
@@ -131,7 +132,6 @@ router.get('/:id/pets', async (req, res) => {
   }
 })
 
-// TODO: 🐛 check for bugs
 router.post('/:id/pets', async (req, res) => {
   res.sendStatus(500).json({ error: 'TODO: implement' })
 })
