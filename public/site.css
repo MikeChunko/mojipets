@@ -78,7 +78,7 @@ h1 {
 }
 
 #profile > p {
-  color: #E5E5E5;
+  color: #767676;
   text-align:left;
   margin-left: 110px;
 }
@@ -150,6 +150,38 @@ h1 {
   height: 120px;
   border-radius: 0.5vw;
   box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+}
+
+#all-pets {
+  display:grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  grid-column-gap: 0;
+  grid-row-gap: 30px;
+  height: 20em;
+  grid-area: 1 / 1 / 1 / 1;
+  align-content: center;
+  overflow-y: scroll;
+  padding-top: 100px;
+  padding-bottom: 30px;
+}
+
+#all-pets > div > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: #F5F5F5;
+  width: 120px;
+  height: 120px;
+  border-radius: 0.5vw;
+  box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+}
+
+#all-pets > div > div > p {
+  text-align: left;
+  padding: 2px;
+  margin: 2px;
 }
 
 .shop-window {
@@ -357,4 +389,16 @@ input[type="submit"] {
 #error {
   color: #000000 !important;
   text-align: center !important;
+}
+
+.left {
+  float:left;
+  margin-left: 40px;
+  margin-bottom: 5px;
+}
+
+.right {
+  float:right;
+  margin-right: 40px;
+  margin-bottom: 5px;
 }
