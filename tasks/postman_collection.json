@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "93aa8d0c-0102-4cad-94a8-07e45e3ade93",
+		"_postman_id": "800bf003-b489-4f75-a2d1-22e602f732f8",
 		"name": "Mojipets",
 		"description": "### Route labels\n\n- 🆔 Correctly Authenticated\n- 🛑 Incorrectly authenticated\n- ❌ Erroneous",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -10,13 +10,87 @@
 			"name": "/api/user/",
 			"item": [
 				{
+					"name": "🛑 /:id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"logout(pm)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b19dacb49ac364985d2e0",
+									"description": "jack's id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔 /:id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'jack', 'sick_password')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b19dacb49ac364985d2e0",
+									"description": "jack's id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "🛑 /:id/pets",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									""
+									"logout(pm)"
 								],
 								"type": "text/javascript"
 							}
@@ -39,8 +113,46 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b19dacb49ac364985d2e0",
-									"description": "jack's id"
+									"value": "608b19f2cb49ac364985d2e5",
+									"description": "gym3johto's id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🛑 /:id/pets wronguser",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'jack', 'sick_password')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id/pets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id",
+								"pets"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b19f2cb49ac364985d2e5",
+									"description": "gym3johto's id"
 								}
 							]
 						}
@@ -54,7 +166,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									""
+									"login(pm, 'gym3johto', 'normaltype')"
 								],
 								"type": "text/javascript"
 							}
@@ -77,8 +189,8 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b19dacb49ac364985d2e0",
-									"description": "jack's id"
+									"value": "608b19f2cb49ac364985d2e5",
+									"description": "gym3johto's id"
 								}
 							]
 						}
@@ -92,7 +204,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									""
+									"login(pm, 'gym3johto', 'normaltype')"
 								],
 								"type": "text/javascript"
 							}
@@ -127,8 +239,8 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b19dacb49ac364985d2e0",
-									"description": "jack's id"
+									"value": "608b19f2cb49ac364985d2e5",
+									"description": "gym3johto's id"
 								}
 							]
 						}
@@ -142,7 +254,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									""
+									"login(pm, 'gym3johto', 'normaltype')"
 								],
 								"type": "text/javascript"
 							}
@@ -177,8 +289,8 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b19dacb49ac364985d2e0",
-									"description": "jack's id"
+									"value": "608b19f2cb49ac364985d2e5",
+									"description": "gym3johto's id"
 								}
 							]
 						}
@@ -188,7 +300,250 @@
 			]
 		},
 		{
-			"name": "Example",
+			"name": "/api/user/pet",
+			"item": [
+				{
+					"name": "🛑 /:id/interactions/feed",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"logout(pm)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"food.id\": \"608b1a00cb49ac364985d2f9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id/interactions/feed",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id",
+								"interactions",
+								"feed"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b1a00cb49ac364985d300",
+									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔❌ /:id/interactions/feed",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'jack', 'sick_password')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id/interactions/feed",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id",
+								"interactions",
+								"feed"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b1a00cb49ac364985d300",
+									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔 /:id/interactions/feed",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'jack', 'sick_password')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"food.id\": \"608b1a00cb49ac364985d2f9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id/interactions/feed",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id",
+								"interactions",
+								"feed"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b1a00cb49ac364985d300",
+									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🛑 /:id/interactions/fetch",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"logout(pm)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id/interactions/fetch",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id",
+								"interactions",
+								"fetch"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b1a00cb49ac364985d300",
+									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔 /:id/interactions/fetch",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'jack', 'sick_password')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id/interactions/fetch",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id",
+								"interactions",
+								"fetch"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b1a00cb49ac364985d300",
+									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Unauthenticated Example",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"logout(pm)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -259,6 +614,19 @@
 					"",
 					"  pm.sendRequest(request, (err, res) => {",
 					"    console.log('Logged in!')",
+					"  });",
+					"};",
+					"",
+					"// Source: https://stackoverflow.com/a/62280924/14720921",
+					"logout = function (pm) {",
+					"  let baseurl = pm.variables.get(\"base_url\");",
+					"  const request = {",
+					"    url: `${baseurl}/logout`,",
+					"    method: 'GET'",
+					"  };",
+					"",
+					"  pm.sendRequest(request, (err, res) => {",
+					"    console.log('Logged out!')",
 					"  });",
 					"};",
 					""
