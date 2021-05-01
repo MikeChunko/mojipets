@@ -9,6 +9,21 @@ body {
   grid-column-gap: 1.5vw;
   grid-row-gap: 1.5vh;
   overflow: hidden;
+  scrollbar-color: #868fd7 #FFFFFF;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #FFFFFF;
+}
+
+*::-webkit-scrollbar {
+  background-color: #FFFFFF;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  border: 3px solid #FFFFFF;
+  background-color: #868fd7;
 }
 
 .centered {
@@ -43,7 +58,6 @@ body {
 #inventory-ul {
   overflow-y: scroll;
   height: 34vh;
-  
 }
 
 .toys {
