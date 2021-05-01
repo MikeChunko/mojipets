@@ -18,7 +18,7 @@ const protect = {
   user: {
     // user is logged in, show private info
     showSensitive: (user) => {
-      delete user.passwordHash
+      delete user.passwordhash
       return user
     },
 
@@ -65,7 +65,7 @@ router.get('/:id', async (req, res) => {
   try { user = await data.users.get(id) }
   catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
 
-  console.log(req.session.user && req.session.user._id === id ? 'true'  : 'false')
+  // console.log(req.session.user && req.session.user._id === id ? 'true'  : 'false')
 
   if (req.session.user && req.session.user._id === id)
     res.json(protect.user.showSensitive(user))
