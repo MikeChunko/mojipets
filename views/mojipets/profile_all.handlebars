@@ -14,16 +14,24 @@
     </div>
     <p>Member since {{join_date}}</p>
 
-    <h2>Favorite Pets</h2>
+    <h2>All Pets</h2>
 
-    <div id="fav-pets">
-      {{#each fav_pets}}
-        <img alt="{{emoji.name}}" src="{{emoji.img}}" />
+    <div id="all-pets">
+      {{#each pets}}
+        <div>
+          <img alt="{{emoji.name}}" src="{{emoji.img}}" class="left" />
+          <div class="left">
+            <p>{{name}}</p>
+            <p>{{happiness}}</p>
+            <p>{{status}}</p>
+            <p>{{age}}</p>
+          </div>
+        </div>
       {{/each}}
     </div>
 
   <div class="left">
-    <a href="/profile/{{uname}}/all">See all pets</a>
+    <a href="/profile/{{uname}}">See favorite pets</a>
   </div>
 
   <div class="right">

@@ -286,6 +286,45 @@ async function unfavorite(id) {
   return pet
 }
 
+async function getStatus(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let currentDateTimestamp = new Date().getTime()
+  let lastFeedTime = pet.health.getTime()
+  if (lastFeedTime + (3 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Healthy" }
+  if (lastFeedTime + (6 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Unwell" }
+  if (lastFeedTime + (8 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Sickly" }
+  if (lastFeedTime + (9 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Near-Death" }
+  return "Dead"
+}
+
+async function getHappiness(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let currentDateTimestamp = new Date().getTime()
+  let lastPlayTime = pet.happiness.getTime()
+  if (lastPlayTime + (3 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Happy" }
+  if (lastPlayTime + (6 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Content" }
+  if (lastPlayTime + (8 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Unhappy" }
+  if (lastPlayTime + (9 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Miserable" }
+  return "Depressed"
+}
+
+
 module.exports = {
   add,
   get,
@@ -293,5 +332,7 @@ module.exports = {
   feed,
   fetch,
   favorite,
-  unfavorite
+  unfavorite,
+  getStatus,
+  getHappiness
 }

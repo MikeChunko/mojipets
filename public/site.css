@@ -7,6 +7,20 @@ CS 546A
 I pledge my honor that I have abided by the Stevens Honor System.
 */
 
+*::-webkit-scrollbar-track {
+  background-color: #FFFFFF;
+}
+
+*::-webkit-scrollbar {
+  background-color: #FFFFFF;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  border: 3px solid #FFFFFF;
+  background-color: #868fd7;
+}
+
 .formError {
   box-shadow: 0 0 5px red;
   border: 1px solid red;
@@ -60,10 +74,10 @@ h1 {
 
 #profile {
   position: absolute;
-  width: 50em;
-  height: 30em;
-  left: calc(50% - (50em + 20px)/2 - 0.5px);
-  top: 160px;
+  width: 65em;
+  height:fit-content;
+  left: calc(50% - (65em + 20px)/2 - 0.5px);
+  top: 100px;
   margin-top: 50px;
   padding-left: 20px;
   padding-right: 20px;
@@ -78,7 +92,7 @@ h1 {
 }
 
 #profile > p {
-  color: #E5E5E5;
+  color: #767676;
   text-align:left;
   margin-left: 110px;
 }
@@ -131,6 +145,15 @@ h1 {
   align-content: center;
 }
 
+#fav-pets.scrollable {
+  grid-template-columns: repeat(5, 1fr);
+  grid-column-gap: 50px;
+  height: 40em;
+  overflow-y: scroll;
+  padding-top: 100px;
+  padding-bottom: 30px;
+}
+
 #fav-pets > img {
   display: block;
   margin-left: auto;
@@ -141,6 +164,36 @@ h1 {
   height: 120px;
   border-radius: 0.5vw;
   box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+}
+
+#all-pets {
+  display:grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  grid-column-gap: 0;
+  grid-row-gap: 30px;
+  height: 20em;
+  grid-area: 1 / 1 / 1 / 1;
+  overflow-y: scroll;
+  padding-bottom: 130px;
+}
+
+#all-pets > div > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: #F5F5F5;
+  width: 120px;
+  height: 120px;
+  border-radius: 0.5vw;
+  box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+}
+
+#all-pets > div > div > p {
+  text-align: left;
+  padding: 2px;
+  margin: 2px;
 }
 
 .shop-window {
@@ -348,4 +401,16 @@ input[type="submit"] {
 #error {
   color: #000000 !important;
   text-align: center !important;
+}
+
+.left {
+  float:left;
+  margin-left: 40px;
+  margin-bottom: 5px;
+}
+
+.right {
+  float:right;
+  margin-right: 40px;
+  margin-bottom: 5px;
 }

@@ -6,7 +6,7 @@
       <ul id="favorite-pets-ul">
         {{#each favorites}}
         <li>
-          <input type="image" alt="{{emoji.name}}" src="{{emoji.img}}" />
+          <input class="pet-container" type="image" alt="{{emoji.name}}" src="{{emoji.img}}" />
         </li>
         {{/each}}
       </ul>
@@ -26,15 +26,17 @@
       <ul id="inventory-ul">
         {{#each inventory}}
         <li>
-          <input type="image" alt="{{emoji.name}}" src="{{emoji.img}}" />
+          <div class="emoji-container">
+            <input type="image" alt="{{emoji.name}}" src="{{emoji.img}}" />
+            <p>{{quantity}}</p>
+          </div>
         </li>
         {{/each}}
       </ul>
     </div>
     
     <div class="bottom">
-      <a href="/inventory" class="left">See all items</a>
-      <a href="/shop" class="right" id="item-shop">Shop</a>
+      <a href="/shop" class="center" id="item-shop">Shop</a>
     </div>
     
   </div>
