@@ -24,12 +24,13 @@ const protect = {
 
     // user is not logged in, only show public info
     hideSensitive: (user) => {
-      delete user.passwordHash
+      delete user.passwordhash
       delete user.friends
       delete user.pets
-      delete foods
+      delete user.credits
+      delete user.foods
 
-      // remaining fields: username, displayname, credits, favoritePets
+      // remaining fields: username, pfp, displayname, favoritePets, joinDate
       return user
     }
   },
@@ -63,6 +64,8 @@ router.get('/:id', async (req, res) => {
 
   try { user = await data.users.get(id) }
   catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
+
+  console.log(req.session.user && req.session.user._id === id ? 'true'  : 'false')
 
   if (req.session.user && req.session.user._id === id)
     res.json(protect.user.showSensitive(user))
