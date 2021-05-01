@@ -78,6 +78,10 @@ async function main() {
   let onigiriEmoji = { codepoint:"🍙", name:"onigiri", img:"/public/resources/food/onigiri.svg" }
   let donutEmoji = { codepoint:"🍩", name:"donut", img:"/public/resources/food/donut.svg" }
   let sushiEmoji = { codepoint:"🍣", name:"sushi", img:"/public/resources/food/sushi.svg" }
+  let steakEmoji = { codepoint:"🥩", name:"steak", img:"/public/resources/food/steak.svg" }
+  let strawberryEmoji = { codepoint:"🍓", name:"strawberry", img:"/public/resources/food/strawberry.svg" }
+  let kiwiEmoji = { codepoint:"🥝", name:"kiwi", img:"/public/resources/food/kiwi.svg" }
+  let broccoliEmoji = { codepoint:"🥦", name:"broccoli", img:"/public/resources/food/broccoli.svg" }
   let cat = await storePetData.add({emoji:catEmoji, price:100, rarity:1})
   let cow = await storePetData.add({emoji:cowEmoji, price:100, rarity:1})
   let ant = await storePetData.add({emoji:antEmoji, price:100, rarity:1})
@@ -110,6 +114,10 @@ async function main() {
   let onigiri = await storeFoodData.add({emoji:onigiriEmoji, price:20})
   let donut = await storeFoodData.add({emoji:donutEmoji, price:5})
   let sushi = await storeFoodData.add({emoji:sushiEmoji, price:50})
+  let broccoli = await storeFoodData.add({emoji:broccoliEmoji, price:20})
+  let kiwi = await storeFoodData.add({emoji:kiwiEmoji, price:25})
+  let steak = await storeFoodData.add({emoji:steakEmoji, price:50})
+  let strawberry = await storeFoodData.add({emoji:strawberryEmoji, price:15})
   let sergio = await userPetData.add({owner:elijah._id, name:"sergio", emoji: catEmoji})
   let kowie = await userPetData.add({owner:elijah._id, name:"kowie", emoji: cowEmoji})
   let batty = await userPetData.add({owner:jack._id, name:"batty", emoji: batEmoji, price: 2500})
