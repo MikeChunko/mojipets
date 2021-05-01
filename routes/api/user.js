@@ -63,7 +63,7 @@ router.get('/:id', async (req, res) => {
     return res.sendStatus(404);
 
   try { user = await data.users.get(id) }
-  catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
 
 
   if (req.session.user && req.session.user._id === id)
@@ -72,27 +72,27 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 router.put('/:id', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 router.patch('/:id', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 router.put('/:id/password', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 router.put('/:id/food', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 router.delete('/:id', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 router.get('/:id/pets', async (req, res) => {
@@ -107,9 +107,7 @@ router.get('/:id/pets', async (req, res) => {
   if (alive == null || alive == undefined) { 
     let user = null
     try { user = await data.users.get(id) }
-    catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
-
-    console.log(user.pets.map(protect.pet.showSensitive))
+    catch (e) { return res.status(500).json({ error: e.toString() }) }
 
     if (req.session.user && req.session.user._id === id)
       res.json(user.pets.map(protect.pet.showSensitive))
@@ -124,7 +122,7 @@ router.get('/:id/pets', async (req, res) => {
         ? await data.users.getLivingPets(id)
         : await data.users.getDeadPets(id)
     }
-    catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
+    catch (e) { return res.status(500).json({ error: e.toString() }) }
 
     if (req.session.user && req.session.user._id === id)
       res.json(pets.map(protect.pet.showSensitive))
@@ -133,7 +131,7 @@ router.get('/:id/pets', async (req, res) => {
 })
 
 router.post('/:id/pets', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 module.exports = router

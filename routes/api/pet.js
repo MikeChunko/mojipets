@@ -57,23 +57,23 @@ const protect = {
 /** Router Functions **/
 
 router.get('/:id', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 
 router.put('/:id', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 router.patch('/:id', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
 router.delete('/:id', async (req, res) => {
-  res.sendStatus(500).json({ error: 'TODO: implement' })
+  res.status(500).json({ error: 'TODO: implement' })
 })
 
-// TODO: 🐛 check for bugs
+
 router.post('/:id/interactions/feed', async (req, res) => {
   // Error checking
   let id = req.params.id,
@@ -82,33 +82,35 @@ router.post('/:id/interactions/feed', async (req, res) => {
       pet = null;
 
   if (!id || typeof(id) != "string")
-    return res.sendStatus(404);
+    return res.sendStatus(400);
 
   if (!foodId || typeof(foodId) != "string")
-    return res.sendStatus(404);
+    return res.status(400).json({
+      error: 'food field is required. must be a valid food id'
+    })
 
   if (!req.session.user)
-    return res.sendStatus(403).json({
+    return res.status(403).json({
       error: `Not authorized to feed pet '${id}'`
     })
 
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.sendStatus(500).json({ error: e.tostring() })}
+  catch (e) { return res.status(500).json({ error: e.tostring() })}
 
   if (user._id !== req.session.user._id)
-    return res.sendStatus(403).json({
+    return res.status(403).json({
       error: `This user is not authorized to feed pet '${id}'`
     })
 
   try { pet = await data.userPets.feed({ id, foodId }) }
-  catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
 
   // send updated pet to browser
   res.json(protect.pet.showSensitive(pet))
 
   // update user in session
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.sendStatus(500).json({ error: e.tostring() })}
+  catch (e) { return res.status(500).json({ error: e.tostring() })}
   req.session.user = protect.user.showSensitive(user)
 })
 
@@ -123,27 +125,27 @@ router.post('/:id/interactions/fetch', async (req, res) => {
     return res.sendStatus(404);
 
   if (!req.session.user)
-    return res.sendStatus(403).json({
+    return res.status(403).json({
       error: `Not authorized to feed pet '${id}'`
     })
 
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.sendStatus(500).json({ error: e.tostring() })}
+  catch (e) { return res.status(500).json({ error: e.tostring() })}
 
   if (user._id !== req.session.user._id)
-    return res.sendStatus(403).json({
+    return res.status(403).json({
       error: `This user is not authorized to feed pet '${id}'`
     })
 
   try { pet = await data.userPets.fetch(id) }
-  catch (e) { return res.sendStatus(500).json({ error: e.toString() }) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
 
   // send updated pet to browser
   res.json(protect.pet.showSensitive(pet))
 
   // update user in session
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.sendStatus(500).json({ error: e.tostring() })}
+  catch (e) { return res.status(500).json({ error: e.tostring() })}
   req.session.user = protect.user.showSensitive(user)
 })
 
