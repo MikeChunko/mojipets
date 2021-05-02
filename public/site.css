@@ -58,7 +58,7 @@ h1 {
 #content-wrapper {
   position: absolute;
   width: 50em;
-  height: 30em;
+  height: 32em;
   left: calc(50% - (50em + 20px)/2 - 0.5px);
   top: 160px;
   margin-top: 50px;
