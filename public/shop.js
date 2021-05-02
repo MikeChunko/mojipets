@@ -33,6 +33,8 @@
 
   function bindEventsToFood(food) {
     $(food).click(function(e) {
+      e.preventDefault();
+
       var requestConfig = {
         method: "POST",
         url: "/api/store/food/" + $($(food).children()[0]).attr("id") + "/1"
@@ -41,7 +43,7 @@
       $.ajax(requestConfig).then(function (res) {
         credits.text(`${res.newCredits} 💸`);
       }).fail(function(e) {
-        // ! TODO: Display failures somehow
+        // TODO: Display failures somehow
       });
     });
   }
@@ -52,6 +54,8 @@
 
   function bindEventsToPet(pet) {
     $(pet).click(function(e) {
+      e.preventDefault();
+
       var requestConfig = {
         method: "POST",
         url: "/api/store/pet/" + $($(pet).children()[0]).attr("id") + "/" + "smelly animal"
@@ -60,7 +64,7 @@
       $.ajax(requestConfig).then(function (res) {
         credits.text(`${res.newCredits} 💸`);
       }).fail(function(e) {
-        // ! TODO: Display failures somehow
+        // TODO: Display failures somehow
       });
     });
   }

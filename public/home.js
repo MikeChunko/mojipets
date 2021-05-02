@@ -202,7 +202,8 @@ function renderPets() {
 
 (function ($) {
   const petShop = $('#pet-shop'),
-        allPetsLink = $("#all-pets");
+        allPetsLink = $("#all-pets"),
+        favoritePets = $("#favorite-pets-ul");
 
   // Create form and submit it
   petShop.click(function (e) {
@@ -227,8 +228,58 @@ function renderPets() {
     };
 
     $.ajax(requestConfig).then(function (res) {
+      $("#replaceable-container").show();
+      $("#center-container").hide();
+
+      const parsed = $.parseHTML(res)[0];
+
       // Replace contents
-      _container.replaceWith($.parseHTML(res)[0]);
+      $("#replaceable-container").replaceWith(parsed);
+
+      // Bind click handlers to the pets
+      $("#replaceable-container").find("div > input").each(function(i, pet) {
+        bindEventsToPet(pet);
+      });
+
+      // Return link now exists
+      returnHandler();
+    }).fail(function (e) {
+      // TODO: Show an error somehow
+    });
+  });
+
+  favoritePets.children().each(function(i, pet) {
+    bindEventsToPet($(pet).children()[0]);
+  });
+
+})(window.jQuery);
+
+// Sets up the link to reset the center div
+function returnHandler() {
+  $("#return").click(function (e) {
+    e.preventDefault();
+    $("#replaceable-container").hide();
+    $("#center-container").show();
+  });
+}
+
+// Set up the handler for clicking on a pet
+function bindEventsToPet(pet) {
+  $(pet).click(function (e) {
+
+    e.preventDefault();
+
+    var requestConfig = {
+      method: "GET",
+      url: "/home/pets/" + $(pet).attr("id")
+    };
+
+    $.ajax(requestConfig).then(function (res) {
+      $("#replaceable-container").show();
+      $("#center-container").hide();
+
+      // Replace contents
+      $("#replaceable-container").replaceWith($.parseHTML(res)[0]);
 
       // Return link now exists
       returnHandler();
@@ -236,16 +287,6 @@ function renderPets() {
       // TODO: Show an error somehow
     });
   })
-
-})(window.jQuery);
-
-// Sets up the link to reset the center div
-function returnHandler() {
-  $("#return").click*function (e) {
-    e.preventDefault();
-    _container.replaceWith("<div id=\"center-container\" class=\"pets-roam\"></div>");
-    start();
-  };
 }
 
 /** Entrypoint! Should be run onload in homepage **/

@@ -93,7 +93,7 @@ body {
   padding-bottom: 130px;
 }
 
-.all-pets > div > img {
+.all-pets > div > input {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -112,6 +112,15 @@ body {
 }
 
 #center-container {
+  grid-area: 1 / 2 / 2 / 5;
+  background-color: #FFFFFF;
+  border-radius: 0.5vw;
+  padding-top: 1vh;
+  padding-bottom: 93vh;
+  position: relative;
+}
+
+#replaceable-container {
   grid-area: 1 / 2 / 2 / 5;
   background-color: #FFFFFF;
   border-radius: 0.5vw;

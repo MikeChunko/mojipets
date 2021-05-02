@@ -69,4 +69,10 @@ router.get("/pets", async (req, res) => {
   }
 });
 
+router.get("/pets/:id", async (req, res) => {
+  res.render("mojipets/home_partials/pet", {
+    layout: false,
+  });
+});
+
 module.exports = router;
