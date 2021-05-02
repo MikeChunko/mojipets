@@ -21,10 +21,9 @@
   {{else}}
   <div id="shop-pets" class="shop-items hidden-div">
   {{/if}}
-  
     {{#each shopPets}}
     <div class="emoji-container">
-      <img type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />
+      <input type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />
       <p>{{price}} 💸</p>
     </div>
     {{/each}}
@@ -37,7 +36,7 @@
   {{/if}}
     {{#each shopFood}}
     <div class="emoji-container">
-      <img type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />
+      <input type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />
       <p>{{price}} 💸</p>
     </div>
     {{/each}}
