@@ -47,7 +47,7 @@ const protect = {
 
     // pet owner is not logged in, only show public info
     hideSensitive: (pet) => {
-      delete pet.interacitions
+      delete pet.interactions
       delete pet.happiness
       delete pet.health
 
