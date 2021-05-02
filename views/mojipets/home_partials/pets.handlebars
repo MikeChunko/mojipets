@@ -1,15 +1,20 @@
-<div id="replaceable-container" class="all-pets">
+<div id="replaceable-container">
   <h2 class="center">Pets</h2>
-  {{#each pets}}
-    <div>
-      <input type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" class="left" />
-      <div class="left">
-        <p>{{name}}</p>
-        <p>{{happiness}}</p>
-        <p>{{status}}</p>
-        <p>{{age}}</p>
+  <div class="all-pets">
+    {{#each pets}}
+      <div>
+        <input type="image" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" class="left" />
+        <div class="left">
+          <p>{{name}}</p>
+          <p>{{happiness}}</p>
+          <p>{{status}}</p>
+          <p>{{age}}</p>
+        </div>
       </div>
-    </div>
-  {{/each}}
-  <a href="/home" class="bottom" id="return">Go back to default</a>
+    {{/each}}
+  </div>
+
+  <div class="bottom">
+    <a href="/home" class="center" id="return">Go back to default</a>
+  </div>
 </div>

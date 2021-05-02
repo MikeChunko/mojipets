@@ -84,13 +84,13 @@ body {
 }
 
 .all-pets {
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(1, 1fr);
   grid-column-gap: 0;
   grid-row-gap: 30px;
-  grid-area: 1 / 1 / 1 / 1;
   overflow-y: scroll;
+  height: 70vh;
   padding-bottom: 130px;
 }
 
@@ -128,7 +128,16 @@ body {
   padding-top: 1vh;
   padding-bottom: 93vh;
   position: relative;
+  text-align: center;
 }
+
+/*.inventory {
+  grid-area: 4 / 1 / 7 / 2;
+  height: 45vh;
+  padding-top: 1vh;
+  text-align: center;
+  overflow: hidden;
+}*/
 
 .pet {
   width: 5vw;
