@@ -227,13 +227,26 @@ function renderPets() {
     };
 
     $.ajax(requestConfig).then(function (res) {
+      // Replace contents
       _container.replaceWith($.parseHTML(res)[0]);
+
+      // Return link now exists
+      returnHandler();
     }).fail(function (e) {
       // TODO: Show an error somehow
     });
   })
 
 })(window.jQuery);
+
+// Sets up the link to reset the center div
+function returnHandler() {
+  $("#return").click*function (e) {
+    e.preventDefault();
+    _container.replaceWith("<div id=\"center-container\" class=\"pets-roam\"></div>");
+    start();
+  };
+}
 
 /** Entrypoint! Should be run onload in homepage **/
 function start() {
