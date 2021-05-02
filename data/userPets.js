@@ -334,5 +334,6 @@ module.exports = {
   favorite,
   unfavorite,
   getStatus,
-  getHappiness
+  getHappiness,
+  getOwner
 }
