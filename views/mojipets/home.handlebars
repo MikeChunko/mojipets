@@ -42,7 +42,32 @@
   </div>
 </div>
 
-<div id="container"></div>
+{{#* inline "pets-roam"}}
+  <div id="center-container" class="pets-roam"></div>
+{{/inline}}
+
+{{#* inline "all-pets"}}
+  <div id="center-container" class="all-pets">
+    <h2 class="center">Pets</h2>
+    {{#each pets}}
+      <div>
+        <img alt="{{emoji.name}}" src="{{emoji.img}}" class="left" />
+        <div class="left">
+          <p>{{name}}</p>
+          <p>{{happiness}}</p>
+          <p>{{status}}</p>
+          <p>{{age}}</p>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+{{/inline}}
+
+{{#if allPets}}
+  {{> all-pets}}
+{{else}}
+  {{> pets-roam}}
+{{/if}}
 
 <div class="right-sidebar">
   <h2>Friends</h2>

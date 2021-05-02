@@ -14,6 +14,7 @@ const express = require("express"),
       userPets = data.userPets,
       storeFood = data.storeFood,
       config = require("../config.json"),
+      moment = require("moment");
 
 // Temporary route faking for debug purposes
 router.get("/", async (req, res) => {
@@ -37,11 +38,61 @@ router.get("/", async (req, res) => {
     for (let i = 0; i < friends.length; i++)
       friends[i] = await userData.get(friends[i]);
 
+    let pets = req.session.user.pets;
+
+    // Map happiness, health, and age
+    for (let i = 0; i < pets.length; i++) {
+      pets[i].happiness = await userPets.getHappiness(pets[i]._id);
+      pets[i].status = await userPets.getStatus(pets[i]._id);
+
+      const diff = moment.utc(moment().diff(pets[i].birthday)),
+        years = diff.year() - 1970,
+        months = diff.month(),
+        days = diff.dayOfYear() - 1;
+      let age = "";
+
+      if (years != 0) {
+        age += years;
+
+        if (years == 1)
+          age += " year ";
+        else
+          age += " years "
+      }
+
+      if (months != 0) {
+        age += months;
+
+        if (months == 1)
+          age += " month ";
+        else
+          age += " months "
+      }
+
+      if (days != 0) {
+        age += days;
+
+        if (days == 1)
+          age += " day ";
+        else
+          age += " days "
+      }
+
+      if (age.trim().length == 0)
+        age = "Newborn";
+      else
+        age += "old";
+
+      pets[i].age = age;
+    }
+
     res.render("mojipets/home", {
       title: "MojiPets",
       favorites: favorites,
       inventory: inventoryKeys,
       friends: friends,
+      allPets: true,
+      pets: pets,
       onload: "start()"
     });
   } catch (e) {  // Some error has occured in the db
