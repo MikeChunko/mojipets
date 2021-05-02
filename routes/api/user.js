@@ -71,10 +71,9 @@ router.get('/:id', async (req, res) => {
   catch (e) {
     if (e.toString().startsWith('No user could be found'))
       return res.status(404).json({ error: e.toString() })
-
+    // TODO: consider using error 400 for bad-input errors from this fcn?
     return res.status(500).json({ error: e.toString() })
   }
-
 
   if (req.session.user && req.session.user._id === id)
     res.json(protect.user.showSensitive(user))
@@ -123,6 +122,7 @@ router.get('/:id/pets', async (req, res) => {
   catch (e) {
     if (e.toString().startsWith('No user could be found'))
       return res.status(404).json({ error: e.toString() })
+    // TODO: consider using error 400 for bad-input errors from this fcn?
     return res.status(500).json({ error: e.toString() })
   }
 

@@ -84,6 +84,80 @@
 					"response": []
 				},
 				{
+					"name": "❌ /:id badid",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'jack', 'sick_password')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "badid",
+									"description": "invalid/malformed objectid"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "❌ /:id id with no user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'jack', 'sick_password')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608f1a5ba7a4f762772b4dbd",
+									"description": "valid objectid, just not paired with a user"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "🛑 /:id/pets",
 					"event": [
 						{
