@@ -1,0 +1,14 @@
+<div id="center-container" class="all-pets">
+  <h2 class="center">Pets</h2>
+  {{#each pets}}
+    <div>
+    <img alt="{{emoji.name}}" src="{{emoji.img}}" class="left" />
+    <div class="left">
+      <p>{{name}}</p>
+      <p>{{happiness}}</p>
+      <p>{{status}}</p>
+      <p>{{age}}</p>
+    </div>
+    </div>
+  {{/each}}
+</div>

@@ -13,7 +13,7 @@
     </div>
     
     <div class="bottom">
-      <a href="/pets" class="left">See all pets</a>
+      <a href="/home/pets" id="all-pets" class="left">See all pets</a>
       <a href="/shop" class="right" id="pet-shop">Shop</a>
     </div>
 
@@ -42,32 +42,7 @@
   </div>
 </div>
 
-{{#* inline "pets-roam"}}
-  <div id="center-container" class="pets-roam"></div>
-{{/inline}}
-
-{{#* inline "all-pets"}}
-  <div id="center-container" class="all-pets">
-    <h2 class="center">Pets</h2>
-    {{#each pets}}
-      <div>
-        <img alt="{{emoji.name}}" src="{{emoji.img}}" class="left" />
-        <div class="left">
-          <p>{{name}}</p>
-          <p>{{happiness}}</p>
-          <p>{{status}}</p>
-          <p>{{age}}</p>
-        </div>
-      </div>
-    {{/each}}
-  </div>
-{{/inline}}
-
-{{#if allPets}}
-  {{> all-pets}}
-{{else}}
-  {{> pets-roam}}
-{{/if}}
+<div id="center-container" class="pets-roam"></div>
 
 <div class="right-sidebar">
   <h2>Friends</h2>

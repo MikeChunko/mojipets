@@ -16,7 +16,6 @@ const express = require("express"),
       config = require("../config.json"),
       moment = require("moment");
 
-// Temporary route faking for debug purposes
 router.get("/", async (req, res) => {
   try {
     // Fetch user's favorite pets and limit to the configured setting
@@ -38,6 +37,20 @@ router.get("/", async (req, res) => {
     for (let i = 0; i < friends.length; i++)
       friends[i] = await userData.get(friends[i]);
 
+    res.render("mojipets/home", {
+      title: "MojiPets",
+      favorites: favorites,
+      inventory: inventoryKeys,
+      friends: friends,
+      onload: "start()"
+    });
+  } catch (e) {  // Some error has occured in the db
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
+});
+
+router.get("/pets", async (req, res) => {
+  try {
     let pets = req.session.user.pets;
 
     // Map happiness, health, and age
@@ -86,14 +99,9 @@ router.get("/", async (req, res) => {
       pets[i].age = age;
     }
 
-    res.render("mojipets/home", {
-      title: "MojiPets",
-      favorites: favorites,
-      inventory: inventoryKeys,
-      friends: friends,
-      allPets: true,
+    res.render("mojipets/home_partials/pets", {
+      layout: false,
       pets: pets,
-      onload: "start()"
     });
   } catch (e) {  // Some error has occured in the db
     res.status(500).sendFile(path.resolve("static/error_db.html"));

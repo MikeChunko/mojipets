@@ -201,10 +201,11 @@ function renderPets() {
 }
 
 (function ($) {
-  const petShop = $('#pet-shop');
+  const petShop = $('#pet-shop'),
+        allPetsLink = $("#all-pets");
 
   // Create form and submit it
-  $(petShop).click(function (e) {
+  petShop.click(function (e) {
     e.preventDefault();
     $('<form>', {
       action: '/shop',
@@ -215,6 +216,22 @@ function renderPets() {
       value: "true"
     })).appendTo('body').submit();
   });
+
+  // Replace the center div
+  allPetsLink.click(function (e) {
+    e.preventDefault();
+
+    var requestConfig = {
+      method: "GET",
+      url: "/home/pets"
+    };
+
+    $.ajax(requestConfig).then(function (res) {
+      _container.replaceWith($.parseHTML(res)[0]);
+    }).fail(function (e) {
+      // TODO: Show an error somehow
+    });
+  })
 
 })(window.jQuery);
 
