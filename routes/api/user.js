@@ -115,7 +115,6 @@ router.get('/:id/pets', async (req, res) => {
 
   // api should try to get only alive pets if alive === true
   } else { 
-    // TODO: 🐛 check for bugs
     let pets = []
     try {
       pets = alive

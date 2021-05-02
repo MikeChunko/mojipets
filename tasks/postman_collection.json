@@ -352,7 +352,7 @@
 					"response": []
 				},
 				{
-					"name": "🆔❌ /:id/interactions/feed",
+					"name": "🆔❌ /:id/interactions/feed food item not specified",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -401,6 +401,55 @@
 					"response": []
 				},
 				{
+					"name": "🆔❌ /:id/interactions/feed dead pet",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'gym3johto', 'normaltype')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"food.id\": \"608b1a00cb49ac364985d2f9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id/interactions/feed",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id",
+								"interactions",
+								"feed"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b1a00cb49ac364985d306",
+									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "🆔 /:id/interactions/feed",
 					"event": [
 						{
@@ -418,7 +467,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"food.id\": \"608b1a00cb49ac364985d2f9\"\n}",
+							"raw": "{\n    \"food.id\": \"608b1a00cb49ac364985d2f5\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -522,6 +571,46 @@
 								{
 									"key": "id",
 									"value": "608b1a00cb49ac364985d300",
+									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔❌ /:id/interactions/fetch dead pet",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'gym3johto', 'normaltype')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id/interactions/fetch",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id",
+								"interactions",
+								"fetch"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b1a00cb49ac364985d306",
 									"description": "feed jack's only pet"
 								}
 							]

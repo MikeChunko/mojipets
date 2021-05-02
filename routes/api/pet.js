@@ -109,12 +109,12 @@ router.post('/:id/interactions/feed', async (req, res) => {
   try { pet = await data.userPets.get(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
-  // console.log(daysDifference(pet.health, new Date()))
   if (daysDifference(pet.health, new Date()) > 9)
     return res.status(400).json({
-      error: 'Cannot feed pet. This pet is dead.'
+      error: `Cannot feed pet '${id}'. This pet is dead.`
     })
 
+  // TODO: consider using error 400 for bad-input errors from this fcn?
   try { pet = await data.userPets.feed({ id, foodId }) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
@@ -127,7 +127,6 @@ router.post('/:id/interactions/feed', async (req, res) => {
   req.session.user = protect.user.showSensitive(user)
 })
 
-// TODO: 🐛 check for bugs
 router.post('/:id/interactions/fetch', async (req, res) => {
   // Error checking
   let id = req.params.id,
@@ -139,7 +138,7 @@ router.post('/:id/interactions/fetch', async (req, res) => {
 
   if (!req.session.user)
     return res.status(403).json({
-      error: `Not authorized to feed pet '${id}'`
+      error: `Not authorized to play fetch with pet '${id}'`
     })
 
   try { user = await data.userPets.getOwner(id) }
@@ -147,7 +146,7 @@ router.post('/:id/interactions/fetch', async (req, res) => {
 
   if (user._id !== req.session.user._id)
     return res.status(403).json({
-      error: `This user is not authorized to feed pet '${id}'`
+      error: `This user is not authorized to play fetch with pet '${id}'`
     })
 
   try { pet = await data.userPets.get({ id }) }
@@ -155,9 +154,10 @@ router.post('/:id/interactions/fetch', async (req, res) => {
 
   if (daysDifference(pet.health, new Date()) > 9)
     return res.status(400).json({
-      error: 'Cannot feed pet. This pet is dead.'
+      error: `Cannot play fetch with pet '${id}'. This pet is dead.`
     })
 
+  // TODO: consider using error 400 for bad-input errors from this fcn?
   try { pet = await data.userPets.fetch(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
