@@ -99,7 +99,11 @@ router.post('/:id/interactions/feed', async (req, res) => {
     })
 
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.status(500).json({ error: e.toString() })}
+  catch (e) {
+    if (e.toString().startsWith('No pet could be found'))
+      return res.status(404).json({ error: e.toString() })
+    return res.status(500).json({ error: e.toString() })
+  }
 
   if (user._id !== req.session.user._id)
     return res.status(403).json({
@@ -142,7 +146,12 @@ router.post('/:id/interactions/fetch', async (req, res) => {
     })
 
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.status(500).json({ error: e.toString() })}
+  catch (e) {
+    if (e.toString().startsWith('No pet could be found'))
+      return res.status(404).json({ error: e.toString() })
+    // TODO: consider using error 400 for bad-input errors from this fcn?
+    return res.status(500).json({ error: e.toString() })
+  }
 
   if (user._id !== req.session.user._id)
     return res.status(403).json({
