@@ -13,8 +13,7 @@ const express = require("express"),
       userData = data.users,
       userPets = data.userPets,
       storeFood = data.storeFood,
-      config = require("../config.json"),
-      moment = require("moment");
+      config = require("../config.json");
 
 router.get("/", async (req, res) => {
   try {
@@ -57,46 +56,7 @@ router.get("/pets", async (req, res) => {
     for (let i = 0; i < pets.length; i++) {
       pets[i].happiness = await userPets.getHappiness(pets[i]._id);
       pets[i].status = await userPets.getStatus(pets[i]._id);
-
-      const diff = moment.utc(moment().diff(pets[i].birthday)),
-        years = diff.year() - 1970,
-        months = diff.month(),
-        days = diff.dayOfYear() - 1;
-      let age = "";
-
-      if (years != 0) {
-        age += years;
-
-        if (years == 1)
-          age += " year ";
-        else
-          age += " years "
-      }
-
-      if (months != 0) {
-        age += months;
-
-        if (months == 1)
-          age += " month ";
-        else
-          age += " months "
-      }
-
-      if (days != 0) {
-        age += days;
-
-        if (days == 1)
-          age += " day ";
-        else
-          age += " days "
-      }
-
-      if (age.trim().length == 0)
-        age = "Newborn";
-      else
-        age += "old";
-
-      pets[i].age = age;
+      pets[i].age = await userPets.getAge(pets[i]._id);
     }
 
     res.render("mojipets/home_partials/pets", {
@@ -104,6 +64,7 @@ router.get("/pets", async (req, res) => {
       pets: pets,
     });
   } catch (e) {  // Some error has occured in the db
+    console.log(e);
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
 });

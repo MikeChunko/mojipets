@@ -13,8 +13,7 @@ const express = require("express"),
   router = express.Router(),
   data = require("../data"),
   userData = data.users,
-  config = require("../config.json"),
-  moment = require("moment");
+  config = require("../config.json");
 
 router.get("/:uname", async (req, res) => {
   let uname = req.params.uname;
@@ -102,46 +101,7 @@ router.get("/:uname/all", async (req, res) => {
     for (let i = 0; i < pets.length; i++) {
       pets[i].happiness = await userPets.getHappiness(pets[i]._id);
       pets[i].status = await userPets.getStatus(pets[i]._id);
-
-      const diff = moment.utc(moment().diff(pets[i].birthday)),
-        years = diff.year() - 1970,
-        months = diff.month(),
-        days = diff.dayOfYear() - 1;
-      let age = "";
-
-      if (years != 0) {
-        age += years;
-
-        if (years == 1)
-          age += " year ";
-        else
-          age += " years "
-      }
-
-      if (months != 0) {
-        age += months;
-
-        if (months == 1)
-          age += " month ";
-        else
-          age += " months "
-      }
-
-      if (days != 0) {
-        age += days;
-
-        if (days == 1)
-          age += " day ";
-        else
-          age += " days "
-      }
-
-      if (age.trim().length == 0)
-        age = "Newborn";
-      else
-        age += "old";
-
-      pets[i].age = age;
+      pets[i].age = await userPets.getAge(pets[i]._id);
     }
 
     res.render("mojipets/profile_all", {
