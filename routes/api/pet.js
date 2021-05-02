@@ -99,7 +99,7 @@ router.post('/:id/interactions/feed', async (req, res) => {
     })
 
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.status(500).json({ error: e.tostring() })}
+  catch (e) { return res.status(500).json({ error: e.toString() })}
 
   if (user._id !== req.session.user._id)
     return res.status(403).json({
@@ -109,6 +109,7 @@ router.post('/:id/interactions/feed', async (req, res) => {
   try { pet = await data.userPets.get({ id }) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
+  console.log(daysDifference(pet.health, new Date()))
   if (daysDifference(pet.health, new Date()) > 9)
     return res.status(400).json({
       error: 'Cannot feed pet. This pet is dead.'
@@ -122,7 +123,7 @@ router.post('/:id/interactions/feed', async (req, res) => {
 
   // update user in session
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.status(500).json({ error: e.tostring() })}
+  catch (e) { return res.status(500).json({ error: e.toString() })}
   req.session.user = protect.user.showSensitive(user)
 })
 
@@ -142,7 +143,7 @@ router.post('/:id/interactions/fetch', async (req, res) => {
     })
 
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.status(500).json({ error: e.tostring() })}
+  catch (e) { return res.status(500).json({ error: e.toString() })}
 
   if (user._id !== req.session.user._id)
     return res.status(403).json({
@@ -165,7 +166,7 @@ router.post('/:id/interactions/fetch', async (req, res) => {
 
   // update user in session
   try { user = await data.userPets.getOwner(id) }
-  catch (e) { return res.status(500).json({ error: e.tostring() })}
+  catch (e) { return res.status(500).json({ error: e.toString() })}
   req.session.user = protect.user.showSensitive(user)
 })
 
