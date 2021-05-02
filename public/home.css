@@ -279,6 +279,14 @@ li {
   visibility: visible;
 }
 
+input[type="image"]:hover, .emoji-container:hover {
+  background-color: #C4C4C4;
+}
+
+.emoji-container > input:hover {
+  background-color: #00000000;
+}
+
 li > div > form {
   visibility: hidden;
   float: right;
