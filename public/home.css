@@ -71,6 +71,7 @@ body {
   border-radius: 0.5vw;
   padding-bottom: 94vh;
   position: relative;
+  overflow: hidden;
 }
 
 #container {
@@ -245,6 +246,11 @@ li {
   width: auto;
   height: auto;
   position: relative;
+}
+
+#friends-ul {
+  overflow-y: scroll;
+  height: 90vh;
 }
 
 #friends-ul > li {

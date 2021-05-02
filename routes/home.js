@@ -31,7 +31,7 @@ router.get("/", async (req, res) => {
       inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
 
     // Fetch user's friends and limit to the configured settings
-    let friends = req.session.user.friends.slice(0, config.maxFriendsDisplay);
+    let friends = req.session.user.friends;
 
     for (let i = 0; i < friends.length; i++)
       friends[i] = await userData.get(friends[i]);
