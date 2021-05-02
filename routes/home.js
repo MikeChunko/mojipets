@@ -13,7 +13,8 @@ const express = require("express"),
       userData = data.users,
       userPets = data.userPets,
       storeFood = data.storeFood,
-      config = require("../config.json");
+      config = require("../config.json"),
+      cloneDeep = require("lodash.clonedeep");
 
 router.get("/", async (req, res) => {
   try {
@@ -24,14 +25,14 @@ router.get("/", async (req, res) => {
       favorites[i] = await userPets.get(favorites[i]);
 
     // Fetch user's inventory
-    let inventory = req.session.user.foods,
+    let inventory = cloneDeep(req.session.user.foods),
         inventoryKeys = Object.keys(inventory);
 
     for (let i = 0; i < inventoryKeys.length; i++)
       inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
 
     // Fetch user's friends and limit to the configured settings
-    let friends = req.session.user.friends;
+    let friends = cloneDeep(req.session.user.friends);
 
     for (let i = 0; i < friends.length; i++)
       friends[i] = await userData.get(friends[i]);
@@ -64,7 +65,6 @@ router.get("/pets", async (req, res) => {
       pets: pets,
     });
   } catch (e) {  // Some error has occured in the db
-    console.log(e);
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
 });
