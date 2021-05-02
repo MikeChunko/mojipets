@@ -10,292 +10,376 @@
 			"name": "/api/user/",
 			"item": [
 				{
-					"name": "🛑 /:id",
-					"event": [
+					"name": "/:id",
+					"item": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"logout(pm)"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/user/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"user",
-								":id"
-							],
-							"variable": [
+							"name": "🛑 /:id",
+							"event": [
 								{
-									"key": "id",
-									"value": "608b19dacb49ac364985d2e0",
-									"description": "jack's id"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"logout(pm)"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "🆔 /:id",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"login(pm, 'jack', 'sick_password')"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/user/:id",
-							"host": [
-								"{{base_url}}"
 							],
-							"path": [
-								"api",
-								"user",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "608b19dacb49ac364985d2e0",
-									"description": "jack's id"
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "608b19dacb49ac364985d2e0",
+											"description": "jack's id"
+										}
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "🛑 /:id/pets",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"logout(pm)"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/user/:id/pets",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"user",
-								":id",
-								"pets"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "608b19f2cb49ac364985d2e5",
-									"description": "gym3johto's id"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "🛑 /:id/pets wronguser",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"login(pm, 'jack', 'sick_password')"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/user/:id/pets",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"user",
-								":id",
-								"pets"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "608b19f2cb49ac364985d2e5",
-									"description": "gym3johto's id"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "🆔 /:id/pets",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"login(pm, 'gym3johto', 'normaltype')"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/user/:id/pets",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"user",
-								":id",
-								"pets"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "608b19f2cb49ac364985d2e5",
-									"description": "gym3johto's id"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "🆔 /:id/pets alive",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"login(pm, 'gym3johto', 'normaltype')"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"alive\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "{{base_url}}/api/user/:id/pets",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"user",
-								":id",
-								"pets"
-							],
-							"variable": [
+						{
+							"name": "🆔 /:id",
+							"event": [
 								{
-									"key": "id",
-									"value": "608b19f2cb49ac364985d2e5",
-									"description": "gym3johto's id"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"login(pm, 'jack', 'sick_password')"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "608b19dacb49ac364985d2e0",
+											"description": "jack's id"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "❌ /:id badid",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"login(pm, 'jack', 'sick_password')"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "badid",
+											"description": "invalid/malformed objectid"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "❌ /:id id with no user",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"login(pm, 'jack', 'sick_password')"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "608f1a5ba7a4f762772b4dbd",
+											"description": "valid objectid, just not paired with a user"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "🆔 /:id/pets dead",
-					"event": [
+					"name": "/:id/pets",
+					"item": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"login(pm, 'gym3johto', 'normaltype')"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"alive\": false\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/api/user/:id/pets",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"user",
-								":id",
-								"pets"
-							],
-							"variable": [
+							"name": "🛑 /:id/pets",
+							"event": [
 								{
-									"key": "id",
-									"value": "608b19f2cb49ac364985d2e5",
-									"description": "gym3johto's id"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"logout(pm)"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user/:id/pets",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id",
+										"pets"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "608b19f2cb49ac364985d2e5",
+											"description": "gym3johto's id"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🛑 /:id/pets wronguser",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"login(pm, 'jack', 'sick_password')"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user/:id/pets",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id",
+										"pets"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "608b19f2cb49ac364985d2e5",
+											"description": "gym3johto's id"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🆔 /:id/pets",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"login(pm, 'gym3johto', 'normaltype')"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user/:id/pets",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id",
+										"pets"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "608b19f2cb49ac364985d2e5",
+											"description": "gym3johto's id"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🆔 /:id/pets alive",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"login(pm, 'gym3johto', 'normaltype')"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alive\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/user/:id/pets",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id",
+										"pets"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "608b19f2cb49ac364985d2e5",
+											"description": "gym3johto's id"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🆔 /:id/pets dead",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"login(pm, 'gym3johto', 'normaltype')"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alive\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/user/:id/pets",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id",
+										"pets"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "608b19f2cb49ac364985d2e5",
+											"description": "gym3johto's id"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
@@ -352,7 +436,7 @@
 					"response": []
 				},
 				{
-					"name": "🆔❌ /:id/interactions/feed",
+					"name": "🆔❌ /:id/interactions/feed food item not specified",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -401,6 +485,55 @@
 					"response": []
 				},
 				{
+					"name": "🆔❌ /:id/interactions/feed dead pet",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'gym3johto', 'normaltype')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"food.id\": \"608b1a00cb49ac364985d2f9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id/interactions/feed",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id",
+								"interactions",
+								"feed"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b1a00cb49ac364985d306",
+									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "🆔 /:id/interactions/feed",
 					"event": [
 						{
@@ -418,7 +551,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"food.id\": \"608b1a00cb49ac364985d2f9\"\n}",
+							"raw": "{\n    \"food.id\": \"608b1a00cb49ac364985d2f5\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -522,6 +655,46 @@
 								{
 									"key": "id",
 									"value": "608b1a00cb49ac364985d300",
+									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔❌ /:id/interactions/fetch dead pet",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'gym3johto', 'normaltype')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id/interactions/fetch",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id",
+								"interactions",
+								"fetch"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "608b1a00cb49ac364985d306",
 									"description": "feed jack's only pet"
 								}
 							]

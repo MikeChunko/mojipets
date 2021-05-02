@@ -388,5 +388,6 @@ module.exports = {
   unfavorite,
   getStatus,
   getHappiness,
-  getAge
+  getAge,
+  getOwner
 }

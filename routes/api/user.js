@@ -55,16 +55,25 @@ const protect = {
 
 // TODO: 🐛 check for bugs
 router.get('/:id', async (req, res) => {
-  // Error checking
   let id = req.params.id,
       user = null;
 
-  if (!id || typeof(id) != "string")
-    return res.sendStatus(404);
+  // Error checking
+  if (!id) return res.status(400).json({ error: 'id not given' })
+  if (typeof(id) != "string")
+    return res.status(400).json({ error: 'type of id not string' })
+  if (id.trim().length == 0)
+    return res.status(400).json({
+      error: 'id is either an empty string or just whitespace.'
+    })
 
   try { user = await data.users.get(id) }
-  catch (e) { return res.status(500).json({ error: e.toString() }) }
-
+  catch (e) {
+    if (e.toString().startsWith('No user could be found'))
+      return res.status(404).json({ error: e.toString() })
+    // TODO: consider using error 400 for bad-input errors from this fcn?
+    return res.status(500).json({ error: e.toString() })
+  }
 
   if (req.session.user && req.session.user._id === id)
     res.json(protect.user.showSensitive(user))
@@ -74,6 +83,8 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
+
+// TODO: consider excluding put and patch for /:id
 
 router.put('/:id', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
@@ -98,24 +109,33 @@ router.delete('/:id', async (req, res) => {
 router.get('/:id/pets', async (req, res) => {
   // Error checking
   let id = req.params.id,
-      alive = req.body.alive;
+      alive = req.body.alive,
+      user = null
 
-  if (!id || typeof(id) != "string")
-    return res.sendStatus(404);
+  // Error checking
+  if (!id) return res.status(400).json({ error: 'id not given' })
+  if (typeof(id) != "string")
+    return res.status(400).json({ error: 'type of id not string' })
+  if (id.trim().length == 0)
+    return res.status(400).json({
+      error: 'id is either an empty string or just whitespace.'
+    })
+  try { user = await data.users.get(id) }
+  catch (e) {
+    if (e.toString().startsWith('No user could be found'))
+      return res.status(404).json({ error: e.toString() })
+    // TODO: consider using error 400 for bad-input errors from this fcn?
+    return res.status(500).json({ error: e.toString() })
+  }
 
   // api doesn't care abt alive/dead
   if (alive == null || alive == undefined) { 
-    let user = null
-    try { user = await data.users.get(id) }
-    catch (e) { return res.status(500).json({ error: e.toString() }) }
-
     if (req.session.user && req.session.user._id === id)
       res.json(user.pets.map(protect.pet.showSensitive))
     else res.json(user.pets.map(protect.pet.hideSensitive))
 
   // api should try to get only alive pets if alive === true
   } else { 
-    // TODO: 🐛 check for bugs
     let pets = []
     try {
       pets = alive
