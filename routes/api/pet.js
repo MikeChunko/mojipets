@@ -11,6 +11,10 @@ const express = require("express"),
       router = express.Router(),
       data = require("../../data");
 
+// For calculating the number of days from date d1 to date d2.
+const daysDifference = (d1, d2) =>
+      Math.abs((d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24))
+
 /** 
  * helper functions to remove sensitive fields from objects on return 
  **/
@@ -102,6 +106,14 @@ router.post('/:id/interactions/feed', async (req, res) => {
       error: `This user is not authorized to feed pet '${id}'`
     })
 
+  try { pet = await data.userPets.get({ id }) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  if (daysDifference(pet.health, new Date()) > 9)
+    return res.status(400).json({
+      error: 'Cannot feed pet. This pet is dead.'
+    })
+
   try { pet = await data.userPets.feed({ id, foodId }) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
@@ -135,6 +147,14 @@ router.post('/:id/interactions/fetch', async (req, res) => {
   if (user._id !== req.session.user._id)
     return res.status(403).json({
       error: `This user is not authorized to feed pet '${id}'`
+    })
+
+  try { pet = await data.userPets.get({ id }) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  if (daysDifference(pet.health, new Date()) > 9)
+    return res.status(400).json({
+      error: 'Cannot feed pet. This pet is dead.'
     })
 
   try { pet = await data.userPets.fetch(id) }
