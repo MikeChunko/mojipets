@@ -51,7 +51,7 @@ router.get("/", async (req, res) => {
 
 router.get("/pets", async (req, res) => {
   try {
-    let pets = req.session.user.pets;
+    let pets = cloneDeep(req.session.user.pets);
 
     // Map happiness, health, and age
     for (let i = 0; i < pets.length; i++) {
