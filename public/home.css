@@ -31,6 +31,7 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
+  padding: auto;
 }
 
 .bottom {
@@ -70,9 +71,57 @@ body {
   border-radius: 0.5vw;
   padding-bottom: 94vh;
   position: relative;
+  overflow: hidden;
 }
 
 #container {
+  grid-area: 1 / 2 / 2 / 5;
+  background-color: #FFFFFF;
+  border-radius: 0.5vw;
+  padding-top: 1vh;
+  padding-bottom: 93vh;
+  position: relative;
+}
+
+.all-pets {
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  grid-column-gap: 0;
+  grid-row-gap: 30px;
+  grid-area: 1 / 1 / 1 / 1;
+  overflow-y: scroll;
+  padding-bottom: 130px;
+}
+
+.all-pets > div > input {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: #F5F5F5;
+  width: 120px;
+  height: 120px;
+  border-radius: 0.5vw;
+  box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+}
+
+.all-pets > div > div > p {
+  text-align: left;
+  padding: 2px;
+  margin: 2px;
+}
+
+#center-container {
+  grid-area: 1 / 2 / 2 / 5;
+  background-color: #FFFFFF;
+  border-radius: 0.5vw;
+  padding-top: 1vh;
+  padding-bottom: 93vh;
+  position: relative;
+}
+
+#replaceable-container {
   grid-area: 1 / 2 / 2 / 5;
   background-color: #FFFFFF;
   border-radius: 0.5vw;
@@ -197,6 +246,11 @@ li {
   width: auto;
   height: auto;
   position: relative;
+}
+
+#friends-ul {
+  overflow-y: scroll;
+  height: 90vh;
 }
 
 #friends-ul > li {

@@ -13,9 +13,8 @@ const express = require("express"),
       userData = data.users,
       userPets = data.userPets,
       storeFood = data.storeFood,
-      config = require("../config.json"),
+      config = require("../config.json");
 
-// Temporary route faking for debug purposes
 router.get("/", async (req, res) => {
   try {
     // Fetch user's favorite pets and limit to the configured setting
@@ -32,7 +31,7 @@ router.get("/", async (req, res) => {
       inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
 
     // Fetch user's friends and limit to the configured settings
-    let friends = req.session.user.friends.slice(0, config.maxFriendsDisplay);
+    let friends = req.session.user.friends;
 
     for (let i = 0; i < friends.length; i++)
       friends[i] = await userData.get(friends[i]);
@@ -47,6 +46,33 @@ router.get("/", async (req, res) => {
   } catch (e) {  // Some error has occured in the db
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
+});
+
+router.get("/pets", async (req, res) => {
+  try {
+    let pets = req.session.user.pets;
+
+    // Map happiness, health, and age
+    for (let i = 0; i < pets.length; i++) {
+      pets[i].happiness = await userPets.getHappiness(pets[i]._id);
+      pets[i].status = await userPets.getStatus(pets[i]._id);
+      pets[i].age = await userPets.getAge(pets[i]._id);
+    }
+
+    res.render("mojipets/home_partials/pets", {
+      layout: false,
+      pets: pets,
+    });
+  } catch (e) {  // Some error has occured in the db
+    console.log(e);
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
+});
+
+router.get("/pets/:id", async (req, res) => {
+  res.render("mojipets/home_partials/pet", {
+    layout: false,
+  });
 });
 
 module.exports = router;

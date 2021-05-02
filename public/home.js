@@ -1,5 +1,5 @@
 /** global vars  **/
-const _container = document.getElementById('container');
+const _container = document.getElementById('center-container');
 
 let _pets = []; // pets to be rendered
 let _items = []; // items (food or toys) that the pets will chase
@@ -16,14 +16,14 @@ function startAnimation() {
   // calculate when a point is within range of another point
   const within = (n, a, b) => a + n >= b && a - n <= b // a is within n of b
   const withinRange = (n, pt, target) =>
-        within(n, pt.pos.x, target.pos.x) && within(n, pt.pos.y, target.pos.y);
+    within(n, pt.pos.x, target.pos.x) && within(n, pt.pos.y, target.pos.y);
   // set a pet's target, so it will chase after the target in future frames.
   const setTarget = (pet, target) => {
     // find new delta
     pet.delta.x = target.pos.x - pet.pos.x
     pet.delta.y = target.pos.y - pet.pos.y
     // unit vectorizaiton of delta
-    let mag = Math.sqrt(pet.delta.x**2 + pet.delta.y**2)
+    let mag = Math.sqrt(pet.delta.x ** 2 + pet.delta.y ** 2)
     pet.delta.x /= mag
     pet.delta.y /= mag
     // Set targetting data in the pet and in the target
@@ -39,7 +39,7 @@ function startAnimation() {
         y: target.pos.y - pet.pos.y
       }
       // calculate distance and update if closer than current closest
-      let dist = Math.sqrt(vecToTarget.x**2 + vecToTarget.y**2)
+      let dist = Math.sqrt(vecToTarget.x ** 2 + vecToTarget.y ** 2)
       if (!closest || dist < closest.dist) closest = {
         dist: dist,
         target: target
@@ -105,8 +105,8 @@ function startClickToPlace() {
   // TODO: subtract correct val so obj is placed in center of mouse
   _container.addEventListener('click', event => {
     let pt = {
-      x: event.offsetX-25,
-      y: event.offsetY-25
+      x: event.offsetX - 25,
+      y: event.offsetY - 25
     };
 
     // create html node for item
@@ -147,8 +147,8 @@ function renderPets() {
       happiness: Date("3/18/2021"),
       health: Date("3/17/2021"),
       interactions: {
-        fetch: [ Date("3/13/2021"), Date("3/18/2021") ],
-        feed: [ Date("3/16/2021"), Date("3/17/2021") ]
+        fetch: [Date("3/13/2021"), Date("3/18/2021")],
+        feed: [Date("3/16/2021"), Date("3/17/2021")]
       }
     },
     {
@@ -163,8 +163,8 @@ function renderPets() {
       happiness: Date("3/18/2021"),
       health: Date("3/17/2021"),
       interactions: {
-        fetch: [ Date("3/13/2021"), Date("3/18/2021") ],
-        feed: [ Date("3/16/2021"), Date("3/17/2021") ]
+        fetch: [Date("3/13/2021"), Date("3/18/2021")],
+        feed: [Date("3/16/2021"), Date("3/17/2021")]
       }
     }
   ]
@@ -200,11 +200,13 @@ function renderPets() {
   }
 }
 
-(function($) {
-  const petShop = $('#pet-shop');
+(function ($) {
+  const petShop = $('#pet-shop'),
+        allPetsLink = $("#all-pets"),
+        favoritePets = $("#favorite-pets-ul");
 
   // Create form and submit it
-  $(petShop).click(function(e) {
+  petShop.click(function (e) {
     e.preventDefault();
     $('<form>', {
       action: '/shop',
@@ -215,12 +217,87 @@ function renderPets() {
       value: "true"
     })).appendTo('body').submit();
   });
-  
+
+  // Replace the center div
+  allPetsLink.click(function (e) {
+    e.preventDefault();
+
+    var requestConfig = {
+      method: "GET",
+      url: "/home/pets"
+    };
+
+    $.ajax(requestConfig).then(function (res) {
+      $("#replaceable-container").show();
+      $("#center-container").hide();
+
+      const parsed = $.parseHTML(res)[0];
+
+      // Replace contents
+      $("#replaceable-container").replaceWith(parsed);
+
+      // Bind click handlers to the pets
+      $("#replaceable-container").find("div > input").each(function(i, pet) {
+        bindEventsToPet(pet);
+      });
+
+      // Return link now exists
+      returnHandler();
+    }).fail(function (e) {
+      // TODO: Show an error somehow
+    });
+  });
+
+  favoritePets.children().each(function(i, pet) {
+    bindEventsToPet($(pet).children()[0]);
+  });
+
 })(window.jQuery);
+
+// Sets up the link to reset the center div
+function returnHandler() {
+  $("#return").click(function (e) {
+    e.preventDefault();
+    $("#replaceable-container").hide();
+    $("#center-container").show();
+  });
+}
+
+// Set up the handler for clicking on a pet
+function bindEventsToPet(pet) {
+  $(pet).click(function (e) {
+
+    e.preventDefault();
+
+    var requestConfig = {
+      method: "GET",
+      url: "/home/pets/" + $(pet).attr("id")
+    };
+
+    $.ajax(requestConfig).then(function (res) {
+      $("#replaceable-container").show();
+      $("#center-container").hide();
+
+      // Replace contents
+      $("#replaceable-container").replaceWith($.parseHTML(res)[0]);
+
+      // Return link now exists
+      returnHandler();
+    }).fail(function (e) {
+      // TODO: Show an error somehow
+    });
+  })
+}
 
 /** Entrypoint! Should be run onload in homepage **/
 function start() {
-  renderPets()
-  startClickToPlace()
-  startAnimation()
+  // Awful way of checking if a class is contained in _container's classlist
+  if (Array.from(_container.classList.values()).find((val, i) => {
+    if ("pets-roam" == val)
+      return true;
+  })) {
+    renderPets()
+    startClickToPlace()
+    startAnimation()
+  }
 }

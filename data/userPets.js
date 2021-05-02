@@ -12,6 +12,7 @@ ObjectIdMongo = require('mongodb').ObjectID;
 const mongoCollections = require('../config/mongoCollections');
 const { users } = require('../config/mongoCollections');
 const usersJs = require('./users')
+const moment = require("moment")
 
 function isEmoji(emoji) {
   return /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g.test(emoji)
@@ -324,6 +325,58 @@ async function getHappiness(id) {
   return "Depressed"
 }
 
+async function getAge(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+
+  const diff = moment.utc(moment().diff(pet.birthday)),
+        years = diff.year() - 1970,
+        months = diff.month(),
+        days = diff.dayOfYear() - 1;
+  let age = "";
+
+  if (years != 0) {
+    age += years;
+
+    if (years == 1)
+      age += " year ";
+    else
+      age += " years "
+  }
+
+  if (months != 0) {
+    age += months;
+
+    if (months == 1)
+      age += " month ";
+    else
+      age += " months "
+  }
+
+  if (days != 0) {
+    age += days;
+
+    if (days == 1)
+      age += " day ";
+    else
+      age += " days "
+  }
+
+  if (age.trim().length == 0)
+    age = "Newborn";
+  else
+    age += "old";
+
+  return age;
+}
+
 
 module.exports = {
   add,
@@ -335,5 +388,6 @@ module.exports = {
   unfavorite,
   getStatus,
   getHappiness,
+  getAge,
   getOwner
 }

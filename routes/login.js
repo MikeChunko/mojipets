@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
 
     // Fetch our desired user
     const userObj = users.find((user, i) => {
-      if (user.username == uname)
+      if (user.username.toLowerCase() == uname.toLowerCase())
         return user;
     });
 

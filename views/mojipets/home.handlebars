@@ -6,14 +6,14 @@
       <ul id="favorite-pets-ul">
         {{#each favorites}}
         <li>
-          <input class="pet-container" type="image" alt="{{emoji.name}}" src="{{emoji.img}}" />
+          <input class="pet-container" type="image" id={{_id}} alt="{{emoji.name}}" src="{{emoji.img}}" />
         </li>
         {{/each}}
       </ul>
     </div>
     
     <div class="bottom">
-      <a href="/pets" class="left">See all pets</a>
+      <a href="/home/pets" id="all-pets" class="left">See all pets</a>
       <a href="/shop" class="right" id="pet-shop">Shop</a>
     </div>
 
@@ -42,7 +42,9 @@
   </div>
 </div>
 
-<div id="container"></div>
+<div id="center-container" class="pets-roam"></div>
+
+<div id="replaceable-container" hidden></div>
 
 <div class="right-sidebar">
   <h2>Friends</h2>
