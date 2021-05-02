@@ -64,6 +64,7 @@ router.get('/:id', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
 
+// TODO: consider excluding put and patch
 
 router.put('/:id', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })

@@ -84,6 +84,8 @@ router.post('/', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
 
+// TODO: consider excluding put and patch for /:id
+
 router.put('/:id', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
