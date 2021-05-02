@@ -382,7 +382,7 @@ input[type="submit"] {
   font-weight: bolder;
 }
 
-.tab-container button[clicked="n"]:hover {
+.tab-container button[data-clicked="n"]:hover {
   background-color: #ddd;
 }
 
@@ -394,7 +394,7 @@ input[type="submit"] {
   width: 50%;
 }
 
-[clicked="y"] {
+[data-clicked="y"] {
   background-color: #BFBFBF;
 }
 

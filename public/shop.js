@@ -16,16 +16,16 @@
       credits = $('#credits');
 
   foodTab.click(function(e) {
-    foodTab.attr("clicked", "y");
-    petsTab.attr("clicked", "n");
+    foodTab.attr("data-clicked", "y");
+    petsTab.attr("data-clicked", "n");
     shopTitle.text("Food Items");
     shopFood.removeClass("hidden-div");
     shopPets.addClass("hidden-div");
   });
 
   petsTab.click(function(e) {
-    petsTab.attr("clicked", "y");
-    foodTab.attr("clicked", "n");
+    petsTab.attr("data-clicked", "y");
+    foodTab.attr("data-clicked", "n");
     shopTitle.text("New Pets");
     shopPets.removeClass("hidden-div");
     shopFood.addClass("hidden-div");

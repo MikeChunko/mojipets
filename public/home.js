@@ -271,7 +271,7 @@ function bindEventsToPet(pet) {
 
     var requestConfig = {
       method: "GET",
-      url: "/home/pets/" + $(pet).attr("id")
+      url: "/home/pets/" + $(pet).attr("data-id")
     };
 
     $.ajax(requestConfig).then(function (res) {
