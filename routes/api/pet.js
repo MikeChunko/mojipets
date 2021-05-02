@@ -106,9 +106,7 @@ router.post('/:id/interactions/feed', async (req, res) => {
       error: `This user is not authorized to feed pet '${id}'`
     })
 
-  // TODO: 🐛 figure out why i'm getting "Error: type of id not string" here
-  // console.log(typeof id) returns string every time :c
-  try { pet = await data.userPets.get({ id }) }
+  try { pet = await data.userPets.get(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
   // console.log(daysDifference(pet.health, new Date()))
