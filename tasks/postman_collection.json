@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "800bf003-b489-4f75-a2d1-22e602f732f8",
+		"_postman_id": "f12577d8-61d1-4199-8352-ca3856fe11a3",
 		"name": "Mojipets",
 		"description": "### Route labels\n\n- 🆔 Correctly Authenticated\n- 🛑 Incorrectly authenticated\n- ❌ Erroneous",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -292,23 +292,11 @@
 									}
 								}
 							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"alive\": true\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{base_url}}/api/user/:id/pets",
+									"raw": "{{base_url}}/api/user/:id/pets?alive=true",
 									"host": [
 										"{{base_url}}"
 									],
@@ -317,6 +305,12 @@
 										"user",
 										":id",
 										"pets"
+									],
+									"query": [
+										{
+											"key": "alive",
+											"value": "true"
+										}
 									],
 									"variable": [
 										{
@@ -342,23 +336,11 @@
 									}
 								}
 							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"alive\": false\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{base_url}}/api/user/:id/pets",
+									"raw": "{{base_url}}/api/user/:id/pets?alive=false",
 									"host": [
 										"{{base_url}}"
 									],
@@ -367,6 +349,12 @@
 										"user",
 										":id",
 										"pets"
+									],
+									"query": [
+										{
+											"key": "alive",
+											"value": "false"
+										}
 									],
 									"variable": [
 										{

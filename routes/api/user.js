@@ -109,7 +109,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/:id/pets', async (req, res) => {
   // Error checking
   let id = req.params.id,
-      alive = req.body.alive,
+      alive = req.query.alive == 'true',
       user = null
 
   // Error checking
@@ -151,6 +151,14 @@ router.get('/:id/pets', async (req, res) => {
 })
 
 router.post('/:id/pets', async (req, res) => {
+  res.status(500).json({ error: 'TODO: implement' })
+})
+
+router.post('/:id/favoritePets', async (req, res) => {
+  res.status(500).json({ error: 'TODO: implement' })
+})
+
+router.delete('/:id/favoritePets', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
 
