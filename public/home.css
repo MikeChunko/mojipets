@@ -56,6 +56,11 @@ body {
   overflow: hidden;
 }
 
+#favorite-pets-ul {
+  overflow-y: scroll;
+  height: 34vh;
+}
+
 #inventory-ul {
   overflow-y: scroll;
   height: 34vh;

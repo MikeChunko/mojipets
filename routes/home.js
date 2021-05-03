@@ -13,13 +13,12 @@ const express = require("express"),
       userData = data.users,
       userPets = data.userPets,
       storeFood = data.storeFood,
-      config = require("../config.json"),
       cloneDeep = require("lodash.clonedeep");
 
 router.get("/", async (req, res) => {
   try {
     // Fetch user's favorite pets and limit to the configured setting
-    let favorites = req.session.user.favoritePets.slice(0, config.maxFavoritesDisplay);
+    let favorites = cloneDeep(req.session.user.favoritePets)
 
     for (let i = 0; i < favorites.length; i++)
       favorites[i] = await userPets.get(favorites[i]);
