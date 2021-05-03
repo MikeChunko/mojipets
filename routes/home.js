@@ -49,10 +49,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/id", async (req, res) => {
-  res.json({ id: req.session.user._id });
-});
-
 router.get("/pets", async (req, res) => {
   try {
     let pets = cloneDeep(req.session.user.pets);
