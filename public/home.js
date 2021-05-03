@@ -200,9 +200,26 @@ function renderPets() {
   }
 }
 
+let user_id;
+
 (function ($) {
   const petShop = $('#pet-shop'),
         favoritePets = $("#favorite-pets-ul");
+
+  // Fetch current user's id
+  var requestConfig = {
+    method: "GET",
+    url: "/home/id"
+  };
+  
+  $.ajax(requestConfig).then(function (res) {
+    console.log("INSIDE", res)
+    user_id = res.id;
+    console.log("OUTSIDE")
+    console.log("HELP", user_id);
+  }).fail(function (e) {
+    // TODO: Show an error somehow
+  });
 
   // Create form and submit it
   petShop.click(function (e) {
@@ -331,13 +348,7 @@ function bindEventsToPet(pet) {
 
 /** Entrypoint! Should be run onload in homepage **/
 function start() {
-  // Awful way of checking if a class is contained in _container's classlist
-  if (Array.from(_container.classList.values()).find((val, i) => {
-    if ("pets-roam" == val)
-      return true;
-  })) {
     renderPets()
     startClickToPlace()
     startAnimation()
-  }
 }
