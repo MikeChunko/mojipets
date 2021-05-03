@@ -14,14 +14,6 @@ const express = require("express"),
       storeFood = data.storeFood;
 
 async function handleRequest(req, res) {
-  // ! Debug so I don't need to log in each time
-  let credits;
-  try {
-    credits = req.session.user.credits;
-  } catch (e) {
-    credits = 1000;
-  }
-
   let petShop = false;
   if(req.body.shopType) {
     petShop = true;
@@ -35,7 +27,7 @@ async function handleRequest(req, res) {
       title: "MojiPets",
       shopPets: shopPets,
       shopFood: shopFood,
-      money: credits,
+      money: req.session.user.credits,
       petShop: petShop,
       css: "/public/site.css",
       postjs: "/public/shop.js"
