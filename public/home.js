@@ -1,5 +1,5 @@
 /** global vars  **/
-const _container = document.getElementById('center-container');
+const _container = $('#center-container');
 
 let _user = null // the currently logged in user.
 
@@ -106,24 +106,24 @@ function startAnimation() {
 function startClickToPlace() {
   // TODO: place food or toy contextually
   // TODO: subtract correct val so obj is placed in center of mouse
-  _container.addEventListener('click', event => {
+  _container.click((event) => {
     let pt = {
       x: event.offsetX - 25,
       y: event.offsetY - 25
     };
 
     // create html node for item
-    let placedItem = document.createElement('img');
-    placedItem.src = "public/resources/food/meat_on_bone.svg"
-    placedItem.classList.add('item');
-    placedItem.id = `item${_items.length}`
-    placedItem.style.left = `${pt.x}px`;
-    placedItem.style.top = `${pt.y}px`;
-    _container.appendChild(placedItem);
+    let placedItem = $(`<img src="/public/resources/food/meat_on_bone.svg" 
+                             id="item${_items.length}" class="item"/>`)
+    placedItem.css({
+      left: `${pt.x}px`,
+      top: `${pt.y}px`
+    })
+    _container.append(placedItem);
 
     // update info and add item to list
     _items.push({
-      id: placedItem.id,
+      id: placedItem.attr('id'),
       type: 'food', // TODO: place food or toy contextually
       data: null, // TODO: info from db about this food
       pos: pt,
@@ -136,43 +136,10 @@ function startClickToPlace() {
 
 /** gets the user's pets from the db and renders them **/
 async function renderPets() {
-  // TODO: get real data from the db (atm data is mocked)
-  // let data = await $.get(`/api/user/${_user._id}/pets?alive=true`)
-  data = [
-    {
-      _id: "6052b0cf75f96d53fb455de8",
-      name: "Fido Hill",
-      birthday: Date("10/13/2020"),
-      emoji: {
-        codepoint: "🐶",
-        name: "dog",
-        img: "public/resources/pets/dog.svg"
-      },
-      happiness: Date("3/18/2021"),
-      health: Date("3/17/2021"),
-      interactions: {
-        fetch: [Date("3/13/2021"), Date("3/18/2021")],
-        feed: [Date("3/16/2021"), Date("3/17/2021")]
-      }
-    },
-    {
-      _id: "6085f46b8efba9956bcc6fe5",
-      name: "Slow Hill",
-      birthday: Date("10/16/2020"),
-      emoji: {
-        codepoint: "🐌",
-        name: "snail",
-        img: "public/resources/pets/snail.svg"
-      },
-      happiness: Date("3/18/2021"),
-      health: Date("3/17/2021"),
-      interactions: {
-        fetch: [Date("3/13/2021"), Date("3/18/2021")],
-        feed: [Date("3/16/2021"), Date("3/17/2021")]
-      }
-    }
-  ]
+  let data = await $.get(`/api/user/${_user._id}/pets?alive=true`)
 
+  console.log(data)
+  
   for (var petData of data) {
     // pick a random point
     // TODO: make it so that pets don't spawn on top of each other
@@ -182,17 +149,17 @@ async function renderPets() {
     }
 
     // create html node for item
-    let petNode = document.createElement('img');
-    petNode.src = petData.emoji.img;
-    petNode.classList.add('pet');
-    petNode.id = `pet${_items.length}`
-    petNode.style.left = `${pt.x}px`;
-    petNode.style.top = `${pt.y}px`;
-    _container.appendChild(petNode);
+    let petNode = $(`<img src="${petData.emoji.img}" id="pet${_pets.length}" 
+                          class="pet" />`)
+    petNode.css({
+      left: `${pt.x}px`,
+      top: `${pt.y}px`
+    })
+    _container.append(petNode);
 
     // add pet to list
     _pets.push({
-      id: petNode.id,
+      id: petNode.attr('id'),
       // vars for animation
       pos: pt,
       delta: { x: 0, y: 0 },
