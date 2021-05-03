@@ -1,6 +1,8 @@
 /** global vars  **/
 const _container = document.getElementById('center-container');
 
+let _user = null // the currently logged in user.
+
 let _pets = []; // pets to be rendered
 let _items = []; // items (food or toys) that the pets will chase
 
@@ -63,6 +65,7 @@ function startAnimation() {
     // pets that are close enough to their target should consume the target
     if (_pets.some(pet => pet.target && withinRange(5, pet, pet.target))) {
       for (var pet of _pets) if (pet.target && withinRange(5, pet, pet.target)) {
+        // TODO: use ajax to make the pet consume its target!
         // stop rotation & snap to target
         pet.node.style.transform = 'rotate(0deg)';
         pet.node.style.top = `${pet.target.pos.y}px`
@@ -132,8 +135,9 @@ function startClickToPlace() {
 }
 
 /** gets the user's pets from the db and renders them **/
-function renderPets() {
+async function renderPets() {
   // TODO: get real data from the db (atm data is mocked)
+  // let data = await $.get(`/api/user/${_user._id}/pets?alive=true`)
   data = [
     {
       _id: "6052b0cf75f96d53fb455de8",
@@ -330,8 +334,9 @@ function bindEventsToPet(pet) {
 }
 
 /** Entrypoint! Should be run onload in homepage **/
-function start() {
-    renderPets()
-    startClickToPlace()
-    startAnimation()
+async function start() {
+  _user = await $.get('/api/user')
+  renderPets()
+  startClickToPlace()
+  startAnimation()
 }
