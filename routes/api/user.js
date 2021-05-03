@@ -53,6 +53,10 @@ const protect = {
   }
 }
 
+router.get('/', async (req, res) => {
+  res.status(500).json({ error: 'TODO: implement' })
+})
+
 // TODO: 🐛 check for bugs
 router.get('/:id', async (req, res) => {
   let id = req.params.id,
