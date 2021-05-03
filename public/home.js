@@ -67,12 +67,13 @@ function startAnimation() {
       for (var pet of _pets) if (pet.target && withinRange(5, pet, pet.target)) {
         // TODO: use ajax to make the pet consume its target!
         // stop rotation & snap to target
-        pet.node.style.transform = 'rotate(0deg)';
-        pet.node.style.top = `${pet.target.pos.y}px`
-        pet.node.style.left = `${pet.target.pos.x}px`
+        pet.node.css({
+          transform: 'rotate(0deg)',
+          top: `${pet.target.pos.y}px`,
+          left: `${pet.target.pos.x}px`
+        })
         // remove target from DOM
-        var targetNode = document.getElementById(pet.target.id);
-        targetNode.parentNode.removeChild(targetNode);
+        $(`#${pet.target.id}`).remove()
         // remove target from foodlist and from pet's targeting info
         _items.splice(_items.indexOf(pet.target), 1)
         pet.target = null;
@@ -86,8 +87,10 @@ function startAnimation() {
       for (var pet of _pets) if (pet.target && !withinRange(5, pet, pet.target)) {
         // move pet towards target
         pet.pos.x += pet.delta.x; pet.pos.y += pet.delta.y;
-        pet.node.style.top = `${pet.pos.y}px`
-        pet.node.style.left = `${pet.pos.x}px`
+        pet.node.css({
+          top: `${pet.pos.y}px`,
+          left: `${pet.pos.x}px`
+        })
         // compute rotation for next frame
         if (pet.rot.direction == 'L' && pet.rot.degrees == -15)
           pet.rot.direction = 'R'
@@ -96,7 +99,7 @@ function startAnimation() {
         if (pet.rot.direction == 'L') pet.rot.degrees--;
         if (pet.rot.direction == 'R') pet.rot.degrees++;
         // set rotation
-        pet.node.style.transform = `rotate(${pet.rot.degrees}deg)`;
+        pet.node.css({ transform: `rotate(${pet.rot.degrees}deg)` })
       }
     }
   }
