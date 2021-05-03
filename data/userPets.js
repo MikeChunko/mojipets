@@ -135,6 +135,36 @@ async function getPetsFromUser(id) {
   return user.pets.map(clean)
 }
 
+async function updatePetInUser(pet) {
+  if (!pet) throw 'Error: updating pet requires a pet' 
+  id = pet._id.toString()
+  let owner = null
+  try {
+    owner = await getOwner(id)
+  } catch (e) {
+    throw e
+  }
+
+  console.log(pet)
+
+  newPets = []
+  for (currPet of owner.pets) {
+    if (currPet._id != id) {
+      newPets.push(currPet)
+    }
+  }
+  newPets.push(pet)
+
+  owner.pets = newPets
+
+  let updateId = ObjectIdMongo(owner._id)
+  delete owner._id
+  const userCollection = await users()
+  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not update pet.'
+  return pet
+}
+
 async function feed(body) {
   id = body.id
   foodId = body.foodId
@@ -202,29 +232,14 @@ async function fetch(id) {
   pet.happiness = date;
   pet.interactions.fetch.push(date)
 
-  let owner = null
+  newPet = null
   try {
-    owner = await getOwner(id)
+    newPet = await updatePetInUser(pet)
   } catch (e) {
-    throw e
+    console.log(e)
+    throw 'Error: could not make pet fetch.'
   }
-
-  newPets = []
-  for (currPet of owner.pets) {
-    if (currPet._id != id) {
-      newPets.push(currPet)
-    }
-  }
-  newPets.push(pet)
-
-  owner.pets = newPets
-
-  let updateId = ObjectIdMongo(owner._id)
-  delete owner._id
-  const userCollection = await users()
-  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
-  if (updateInfo.modifiedCount == 0) throw 'Error: could not fetch pet.'
-  return pet
+  return newPet
 }
 
 async function favorite(id) {
@@ -377,6 +392,80 @@ async function getAge(id) {
   return age;
 }
 
+async function getHappiness(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let owner = null
+  try {
+    owner = await getOwner(id)
+  } catch (e) {
+    throw e
+  }
+  let currentDateTimestamp = new Date().getTime()
+  let lastPlayTime = pet.happiness.getTime()
+  if (lastPlayTime + (3 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Happy" }
+  if (lastPlayTime + (6 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Content" }
+  if (lastPlayTime + (8 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Unhappy" }
+  if (lastPlayTime + (9 * 24 * 60 * 60 * 1000) >= currentDateTimestamp) { return "Miserable" }
+  return "Depressed"
+}
+
+async function killPet(id) { // for testing
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    console.log(e)
+    throw e
+  }
+  let petDeathDate = new Date();
+  petDeathDate.setDate(petDeathDate.getDate() - 9);
+  pet.health = petDeathDate;
+  pet._id = ObjectIdMongo(pet._id)
+  
+  newPet = null
+  try {
+    newPet = await updatePetInUser(pet)
+  } catch (e) {
+    throw 'Error: could not make kill pet.'
+  }
+  return newPet
+}
+
+async function depressPet(id) { // for testing
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try {
+    pet = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let petDepressionDate = new Date();
+  petDepressionDate.setDate(petDepressionDate.getDate() - 9);
+  pet.happiness = petDepressionDate;
+  pet._id = ObjectIdMongo(pet._id)
+  
+  newPet = null
+  try {
+    newPet = await updatePetInUser(pet)
+  } catch (e) {
+    throw 'Error: could not make pet depressed.'
+  }
+  return newPet
+}
+
 
 module.exports = {
   add,
@@ -389,5 +478,7 @@ module.exports = {
   getStatus,
   getHappiness,
   getAge,
-  getOwner
+  getOwner,
+  killPet,
+  depressPet
 }
