@@ -65,7 +65,6 @@ function startAnimation() {
     // pets that are close enough to their target should consume the target
     if (_pets.some(pet => pet.target && withinRange(5, pet, pet.target))) {
       for (var pet of _pets) if (pet.target && withinRange(5, pet, pet.target)) {
-        // TODO: use ajax to make the pet consume its target!
         // stop rotation & snap to target
         pet.node.css({
           transform: 'rotate(0deg)',
@@ -74,10 +73,20 @@ function startAnimation() {
         })
         // remove target from DOM
         $(`#${pet.target.id}`).remove()
+
         // remove target from foodlist and from pet's targeting info
         _items.splice(_items.indexOf(pet.target), 1)
-        pet.target = null;
+
+        // TODO: 🐛 debug this
+        // use ajax to inform server of this interaction
+        if (pet.target.type == 'food' && pet.target.data)
+          $.post(`/api/user/pet/${pet.data._id}/interactions/feed`,
+                 { id: pet.target.data })
+        else if (pet.target.type == 'toy')
+          $.post(`/api/user/pet/${pet.data._id}/interactions/fetch`)
+
         // if new targets are available, pick a new target
+        pet.target = null
         let newTarget = findClosestTarget(pet, _items)
         if (newTarget) setTarget(pet, newTarget)
       }
@@ -128,12 +137,10 @@ function startClickToPlace() {
     _items.push({
       id: placedItem.attr('id'),
       type: 'food', // TODO: place food or toy contextually
-      data: null, // TODO: info from db about this food
+      data: null, // TODO: if it's food, add the id here
       pos: pt,
       targetedBy: null
     })
-
-    console.log(`X: ${pt.x}, Y: ${pt.y}`)
   })
 }
 
@@ -141,8 +148,6 @@ function startClickToPlace() {
 async function renderPets() {
   let data = await $.get(`/api/user/${_user._id}/pets?alive=true`)
 
-  console.log(data)
-  
   for (var petData of data) {
     // pick a random point
     // TODO: make it so that pets don't spawn on top of each other
@@ -173,6 +178,9 @@ async function renderPets() {
     })
   }
 }
+
+
+/** UI Functions **/
 
 (function ($) {
   const petShop = $('#pet-shop'),
