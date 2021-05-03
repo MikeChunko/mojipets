@@ -41,7 +41,8 @@ body {
 }
 
 .favorite-pets {
-  grid-area: 1 / 1 / 4 / 2;
+  grid-area: 1 / 2 / 4 / 2;
+  grid-template-columns: repeat(2, 1fr);
   height: 45vh;
   padding-top: 1vh;
   margin-bottom: 2vh;
@@ -99,7 +100,7 @@ body {
   padding-bottom: 130px;
 }
 
-.all-pets > div > input {
+.all-pets > div > div > input {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -164,6 +165,42 @@ body {
   height: 5vw;
   border-radius: 0.5vw;
   box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+}
+
+.favoriteable-container > .favorite-icon, .favoriteable-container > .unfavorite-icon {
+  position: absolute;
+  width: 1.8vw;
+  height: 1.8vw;
+  left: 3.1vw;
+  top: 0.1vw;
+  visibility: hidden;
+}
+
+.all-pets > div > div > .favorite-icon, .all-pets > div > div > .unfavorite-icon {
+  position: absolute;
+  width: 43px;
+  height: 43px;
+  left: 74.4px;
+  top: 2.4px;
+  visibility: hidden;
+}
+
+.favoriteable-container:hover > .favorite-icon, .favoriteable-container:hover > .unfavorite-icon,
+.all-pets > div > div:hover > .favorite-icon, .all-petes > div > div:hover > .unfavorite-icon {
+  visibility: visible;
+  background-color: #00000000;
+}
+
+.unfavorite-icon:hover {
+  filter: grayscale(60%);
+}
+
+.favorite-icon {
+  filter: grayscale(60%);
+}
+
+.favorite-icon:hover {
+  filter: grayscale(0%);
 }
 
 .emoji-container > img {
@@ -284,8 +321,12 @@ li {
   visibility: visible;
 }
 
-input[type="image"]:hover, .emoji-container:hover {
+.emoji-container:hover, .favoriteable-container:hover > input[type="image"], .pets-view-container:hover > input {
   background-color: #C4C4C4;
+}
+
+.pets-view-container > input {
+  background-color: #00000000;
 }
 
 .emoji-container > input:hover {
