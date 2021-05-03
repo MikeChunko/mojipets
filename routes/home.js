@@ -75,4 +75,24 @@ router.get("/pets/:id", async (req, res) => {
   });
 });
 
+router.get("/graveyard", async (req, res) => {
+  try {
+    let pets = await userData.getDeadPets(req.session.user._id);
+
+    // Map happiness, health, and age
+    for (let i = 0; i < pets.length; i++) {
+      pets[i].happiness = await userPets.getHappiness(pets[i]._id.toString());
+      pets[i].status = await userPets.getStatus(pets[i]._id.toString());
+      pets[i].age = await userPets.getAge(pets[i]._id.toString());
+    }
+
+    res.render("mojipets/home_partials/graveyard", {
+      layout: false,
+      pets: pets,
+    });
+  } catch (e) {  // Some error has occured in the db
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
+});
+
 module.exports = router;

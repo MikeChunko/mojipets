@@ -202,7 +202,6 @@ function renderPets() {
 
 (function ($) {
   const petShop = $('#pet-shop'),
-        allPetsLink = $("#all-pets"),
         favoritePets = $("#favorite-pets-ul");
 
   // Create form and submit it
@@ -218,8 +217,25 @@ function renderPets() {
     })).appendTo('body').submit();
   });
 
-  // Replace the center div
-  allPetsLink.click(function (e) {
+  allPetsHandler();
+
+  favoritePets.children().each(function(i, pet) {
+    bindEventsToPet($(pet).children()[0]);
+  });
+
+})(window.jQuery);
+
+// Sets up the link to reset the center div
+function returnHandler() {
+  $("#return").click(function (e) {
+    e.preventDefault();
+    $("#replaceable-container").hide();
+    $("#center-container").show();
+  });
+}
+
+function allPetsHandler() {
+  $("#all-pets").click(function (e) {
     e.preventDefault();
 
     var requestConfig = {
@@ -243,24 +259,48 @@ function renderPets() {
 
       // Return link now exists
       returnHandler();
+
+      // Graveyard link now exists
+      graveyardHandler();
     }).fail(function (e) {
       // TODO: Show an error somehow
     });
   });
+}
 
-  favoritePets.children().each(function(i, pet) {
-    bindEventsToPet($(pet).children()[0]);
-  });
-
-})(window.jQuery);
-
-// Sets up the link to reset the center div
-function returnHandler() {
-  $("#return").click(function (e) {
+function graveyardHandler() {
+  $("#graveyard").click(function (e) {
     e.preventDefault();
-    $("#replaceable-container").hide();
-    $("#center-container").show();
-  });
+
+    var requestConfig = {
+      method: "GET",
+      url: "/home/graveyard"
+    };
+
+    $.ajax(requestConfig).then(function (res) {
+      $("#replaceable-container").show();
+      $("#center-container").hide();
+
+      const parsed = $.parseHTML(res)[0];
+
+      // Replace contents
+      $("#replaceable-container").replaceWith(parsed);
+
+      // Bind click handlers to the pets
+      $("#replaceable-container").find("div > input").each(function(i, pet) {
+        bindEventsToPet(pet);
+      });
+
+      // Return link now exists
+      returnHandler();
+
+      // All pets link now exists
+      allPetsHandler();
+
+    }).fail(function (e) {
+      // TODO: Show an error somehow
+    });
+  })
 }
 
 // Set up the handler for clicking on a pet
