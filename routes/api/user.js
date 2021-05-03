@@ -53,7 +53,6 @@ const protect = {
   }
 }
 
-// TODO: 🐛 check for bugs
 router.get('/', async (req, res) => {
   if (!req.session.user)
     return res.status(403).json({

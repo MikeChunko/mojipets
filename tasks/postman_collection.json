@@ -368,6 +368,69 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "/",
+					"item": [
+						{
+							"name": "🛑 /",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"logout(pm)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🆔 /",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"login(pm, 'jack', 'sick_password')"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
