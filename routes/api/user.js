@@ -53,8 +53,14 @@ const protect = {
   }
 }
 
+// TODO: 🐛 check for bugs
 router.get('/', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+  if (!req.session.user)
+    return res.status(403).json({
+      error: 'Not logged in! No current user.'
+    })
+
+  res.json(protect.user.showSensitive(req.session.user))
 })
 
 // TODO: 🐛 check for bugs
