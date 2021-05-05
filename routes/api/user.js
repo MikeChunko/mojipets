@@ -167,7 +167,7 @@ router.post('/:id/favoritePets', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
 
-router.delete('/:id/favoritePets', async (req, res) => {
+router.delete('/:id/favoritePets/:petid', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
 
