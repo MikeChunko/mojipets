@@ -248,10 +248,7 @@ function allPetsHandler() {
           $(icon).addClass("unfavorite-icon");
         }
 
-        if ($(icon).attr("class").indexOf("unfavorite-icon") != 0)
-          favoriteHandler(icon, true);
-        else
-          favoriteHandler(icon, false);
+        favoriteHandler(icon, $(icon).attr("class").indexOf("unfavorite-icon") != 0);
       });
 
       // Return link now exists
@@ -297,10 +294,7 @@ function graveyardHandler() {
           $(icon).addClass("unfavorite-icon");
         }
 
-        if ($(icon).attr("class").indexOf("unfavorite-icon") != 0)
-          favoriteHandler(icon, true);
-        else
-          favoriteHandler(icon, false);
+        favoriteHandler(icon, $(icon).attr("class").indexOf("unfavorite-icon") != 0);
       });
 
       // Return link now exists
