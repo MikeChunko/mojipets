@@ -204,7 +204,6 @@ async function renderPets() {
     bindEventsToPet($(pet).find(".pet-container")[0]);
     unfavoriteHandler($(pet).find(".unfavorite-icon"));
   });
-
 })(window.jQuery);
 
 // Sets up the link to reset the center div
@@ -347,10 +346,30 @@ function unfavoriteHandler(icon) {
     // TODO: Ajax
 
     // Only do this code on successful unfavorite
+
+    // Switch to favorite icon
     $(icon).removeClass("unfavorite-icon");
     $(icon).addClass("favorite-icon");
     $(icon).unbind();
     favoriteHandler(icon);
+
+    // Re-render favorite pets
+    var requestConfig = {
+      method: "GET",
+      url: "/home/favorite-pets"
+    };
+
+    $.ajax(requestConfig).then(function (res) {
+      console.log($.parseHTML(res)[0]);
+      $("#favorite-pets-ul").replaceWith($.parseHTML(res)[0]);
+
+      $("#favorite-pets-ul").children().each(function(i, pet) {
+        bindEventsToPet($(pet).find(".pet-container")[0]);
+        unfavoriteHandler($(pet).find(".unfavorite-icon"));
+      });
+    }).fail(function (e) {
+      // TODO: Show an error somehow
+    });
   });
 }
 
@@ -361,10 +380,29 @@ function favoriteHandler(icon) {
     // TODO: Ajax
 
     // Only do this code on successful unfavorite
+
+    // Switch to unfavorite icon
     $(icon).removeClass("favorite-icon");
     $(icon).addClass("unfavorite-icon");
     $(icon).unbind();
     unfavoriteHandler(icon);
+
+    // Re-render favorite pets
+    var requestConfig = {
+      method: "GET",
+      url: "/home/favorite-pets"
+    };
+
+    $.ajax(requestConfig).then(function (res) {
+      $("#favorite-pets-ul").replaceWith($.parseHTML(res)[0]);
+
+      $("#favorite-pets-ul").children().each(function(i, pet) {
+        bindEventsToPet($(pet).find(".pet-container")[0]);
+        unfavoriteHandler($(pet).find(".unfavorite-icon"));
+      });
+    }).fail(function (e) {
+      // TODO: Show an error somehow
+    });
   });
 }
 

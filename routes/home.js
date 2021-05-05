@@ -94,4 +94,21 @@ router.get("/graveyard", async (req, res) => {
   }
 });
 
+router.get("/favorite-pets", async (req, res) => {
+  try {
+    let favorites = cloneDeep(req.session.user.favoritePets);
+
+    for (let i = 0; i < favorites.length; i++)
+      favorites[i] = await userPets.get(favorites[i]);
+
+    res.render("mojipets/home_partials/favorites", {
+      layout: false,
+      favorites: favorites,
+    });
+  } catch (e) {  // Some error has occured in the db
+    console.log(e);
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
+});
+
 module.exports = router;
