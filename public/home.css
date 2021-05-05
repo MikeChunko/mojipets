@@ -137,14 +137,6 @@ body {
   text-align: center;
 }
 
-/*.inventory {
-  grid-area: 4 / 1 / 7 / 2;
-  height: 45vh;
-  padding-top: 1vh;
-  text-align: center;
-  overflow: hidden;
-}*/
-
 .pet {
   width: 5vw;
   height: 5vw;
@@ -186,7 +178,7 @@ body {
 }
 
 .favoriteable-container:hover > .favorite-icon, .favoriteable-container:hover > .unfavorite-icon,
-.all-pets > div > div:hover > .favorite-icon, .all-petes > div > div:hover > .unfavorite-icon {
+.all-pets > div > div:hover > .favorite-icon, .all-pets > div > div:hover > .unfavorite-icon {
   visibility: visible;
   background-color: #00000000;
 }

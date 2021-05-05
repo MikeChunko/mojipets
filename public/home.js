@@ -125,7 +125,7 @@ function startClickToPlace() {
     };
 
     // create html node for item
-    let placedItem = $(`<img src="/public/resources/food/meat_on_bone.svg" 
+    let placedItem = $(`<img src="/public/resources/food/meat_on_bone.svg"
                              id="item${_items.length}" class="item"/>`)
     placedItem.css({
       left: `${pt.x}px`,
@@ -157,7 +157,7 @@ async function renderPets() {
     }
 
     // create html node for item
-    let petNode = $(`<img src="${petData.emoji.img}" id="pet${_pets.length}" 
+    let petNode = $(`<img src="${petData.emoji.img}" id="pet${_pets.length}"
                           class="pet" />`)
     petNode.css({
       left: `${pt.x}px`,
@@ -178,7 +178,6 @@ async function renderPets() {
     })
   }
 }
-
 
 /** UI Functions **/
 
@@ -202,7 +201,8 @@ async function renderPets() {
   allPetsHandler();
 
   favoritePets.children().each(function(i, pet) {
-    bindEventsToPet($(pet).children()[0]);
+    bindEventsToPet($(pet).find(".pet-container")[0]);
+    unfavoriteHandler($(pet).find(".unfavorite-icon"));
   });
 
 })(window.jQuery);
@@ -239,6 +239,16 @@ function allPetsHandler() {
         bindEventsToPet(pet);
       });
 
+      // Bind (un)favorite handlers
+      $("#replaceable-container").find("div > img").each(function(i, icon) {
+        // TODO: Check if the pet is favorited and change icon class appropriately
+
+        if ($(icon).attr("class").indexOf("unfavorite-icon") != 0)
+          favoriteHandler(icon);
+        else
+          unfavoriteHandler(icon);
+      });
+
       // Return link now exists
       returnHandler();
 
@@ -273,6 +283,16 @@ function graveyardHandler() {
         bindEventsToPet(pet);
       });
 
+      // Bind (un)favorite handlers
+      $("#replaceable-container").find("div > img").each(function(i, icon) {
+        // TODO: Check if the pet is favorited and change icon class appropriately
+
+        if ($(icon).attr("class").indexOf("unfavorite-icon") != 0)
+          favoriteHandler(icon);
+        else
+          unfavoriteHandler(icon);
+      });
+
       // Return link now exists
       returnHandler();
 
@@ -288,7 +308,6 @@ function graveyardHandler() {
 // Set up the handler for clicking on a pet
 function bindEventsToPet(pet) {
   $(pet).click(function (e) {
-
     e.preventDefault();
 
     var requestConfig = {
@@ -309,6 +328,34 @@ function bindEventsToPet(pet) {
       // TODO: Show an error somehow
     });
   })
+}
+
+function unfavoriteHandler(icon) {
+  $(icon).click(function (e) {
+    console.log("UNFAVORITE:", $(icon).attr("class").split(/\s+/));
+
+    // TODO: Ajax
+
+    // Only do this code on successful unfavorite
+    $(icon).removeClass("unfavorite-icon");
+    $(icon).addClass("favorite-icon");
+    $(icon).unbind();
+    favoriteHandler(icon);
+  });
+}
+
+function favoriteHandler(icon) {
+  $(icon).click(function (e) {
+    console.log("FAVORITE:", $(icon).attr("class").split(/\s+/));
+
+    // TODO: Ajax
+
+    // Only do this code on successful unfavorite
+    $(icon).removeClass("favorite-icon");
+    $(icon).addClass("unfavorite-icon");
+    $(icon).unbind();
+    unfavoriteHandler(icon);
+  });
 }
 
 /** Entrypoint! Should be run onload in homepage **/
