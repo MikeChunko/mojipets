@@ -360,8 +360,12 @@ function unfavoriteHandler(icon) {
     };
 
     $.ajax(requestConfig).then(function (res) {
-      console.log($.parseHTML(res)[0]);
+      // Used to keep scroll position
+      scrollPos = $("#favorite-pets-ul").scrollTop();
+
       $("#favorite-pets-ul").replaceWith($.parseHTML(res)[0]);
+
+      $("#favorite-pets-ul").scrollTop(scrollPos)
 
       $("#favorite-pets-ul").children().each(function(i, pet) {
         bindEventsToPet($(pet).find(".pet-container")[0]);
@@ -394,7 +398,12 @@ function favoriteHandler(icon) {
     };
 
     $.ajax(requestConfig).then(function (res) {
+      // Used to keep scroll position
+      scrollPos = $("#favorite-pets-ul").scrollTop();
+
       $("#favorite-pets-ul").replaceWith($.parseHTML(res)[0]);
+
+      $("#favorite-pets-ul").scrollTop(scrollPos)
 
       $("#favorite-pets-ul").children().each(function(i, pet) {
         bindEventsToPet($(pet).find(".pet-container")[0]);
