@@ -217,7 +217,7 @@ function returnHandler() {
 }
 
 function allPetsHandler() {
-  $("#all-pets").click(function (e) {
+  $(".all-pets-link").click(function (e) {
     e.preventDefault();
 
     var requestConfig = {
@@ -226,6 +226,7 @@ function allPetsHandler() {
     };
 
     $.ajax(requestConfig).then(function (res) {
+
       $("#replaceable-container").show();
       $("#center-container").hide();
 
@@ -241,7 +242,12 @@ function allPetsHandler() {
 
       // Bind (un)favorite handlers
       $("#replaceable-container").find("div > img").each(function(i, icon) {
-        // TODO: Check if the pet is favorited and change icon class appropriately
+        // Switch icon class if the pet is favorited already
+        // Defaults to assuming the pet is unfavorited so no need for an else
+        if (_user.favoritePets.includes($(icon).attr("data-id"))) {
+          $(icon).removeClass("favorite-icon");
+          $(icon).addClass("unfavorite-icon");
+        }
 
         if ($(icon).attr("class").indexOf("unfavorite-icon") != 0)
           favoriteHandler(icon);
@@ -285,7 +291,12 @@ function graveyardHandler() {
 
       // Bind (un)favorite handlers
       $("#replaceable-container").find("div > img").each(function(i, icon) {
-        // TODO: Check if the pet is favorited and change icon class appropriately
+        // Switch icon class if the pet is favorited already
+        // Defaults to assuming the pet is unfavorited so no need for an else
+        if (_user.favoritePets.includes($(icon).attr("data-id"))) {
+          $(icon).removeClass("favorite-icon");
+          $(icon).addClass("unfavorite-icon");
+        }
 
         if ($(icon).attr("class").indexOf("unfavorite-icon") != 0)
           favoriteHandler(icon);
@@ -298,7 +309,6 @@ function graveyardHandler() {
 
       // All pets link now exists
       allPetsHandler();
-
     }).fail(function (e) {
       // TODO: Show an error somehow
     });
