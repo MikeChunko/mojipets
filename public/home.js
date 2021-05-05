@@ -202,7 +202,7 @@ async function renderPets() {
 
   favoritePets.children().each(function(i, pet) {
     bindEventsToPet($(pet).find(".pet-container")[0]);
-    unfavoriteHandler($(pet).find(".unfavorite-icon"));
+    favoriteHandler($(pet).find(".unfavorite-icon"), false);
   });
 })(window.jQuery);
 
@@ -249,9 +249,9 @@ function allPetsHandler() {
         }
 
         if ($(icon).attr("class").indexOf("unfavorite-icon") != 0)
-          favoriteHandler(icon);
+          favoriteHandler(icon, true);
         else
-          unfavoriteHandler(icon);
+          favoriteHandler(icon, false);
       });
 
       // Return link now exists
@@ -298,9 +298,9 @@ function graveyardHandler() {
         }
 
         if ($(icon).attr("class").indexOf("unfavorite-icon") != 0)
-          favoriteHandler(icon);
+          favoriteHandler(icon, true);
         else
-          unfavoriteHandler(icon);
+          favoriteHandler(icon, false);
       });
 
       // Return link now exists
@@ -339,79 +339,45 @@ function bindEventsToPet(pet) {
   })
 }
 
-function unfavoriteHandler(icon) {
+function favoriteHandler(icon, b) {
   $(icon).click(function (e) {
-    console.log("UNFAVORITE:", $(icon).attr("class").split(/\s+/));
+    e.preventDefault();
 
     // TODO: Ajax
 
     // Only do this code on successful unfavorite
 
     // Switch to favorite icon
-    $(icon).removeClass("unfavorite-icon");
-    $(icon).addClass("favorite-icon");
+    $(icon).removeClass(b ? "favorite-icon" : "unfavorite-icon");
+    $(icon).addClass(b ? "unfavorite-icon" : "favorite-icon");
     $(icon).unbind();
-    favoriteHandler(icon);
+    favoriteHandler(icon, !b);
 
-    // Re-render favorite pets
-    var requestConfig = {
-      method: "GET",
-      url: "/home/favorite-pets"
-    };
-
-    $.ajax(requestConfig).then(function (res) {
-      // Used to keep scroll position
-      scrollPos = $("#favorite-pets-ul").scrollTop();
-
-      $("#favorite-pets-ul").replaceWith($.parseHTML(res)[0]);
-
-      $("#favorite-pets-ul").scrollTop(scrollPos)
-
-      $("#favorite-pets-ul").children().each(function(i, pet) {
-        bindEventsToPet($(pet).find(".pet-container")[0]);
-        unfavoriteHandler($(pet).find(".unfavorite-icon"));
-      });
-    }).fail(function (e) {
-      // TODO: Show an error somehow
-    });
+    updateFavoritePets();
   });
 }
 
-function favoriteHandler(icon) {
-  $(icon).click(function (e) {
-    console.log("FAVORITE:", $(icon).attr("class").split(/\s+/));
+function updateFavoritePets() {
+  // Re-render favorite pets
+  var requestConfig = {
+    method: "GET",
+    url: "/home/favorite-pets"
+  };
 
-    // TODO: Ajax
+  $.ajax(requestConfig).then(function (res) {
+    // Used to keep scroll position
+    scrollPos = $("#favorite-pets-ul").scrollTop();
 
-    // Only do this code on successful unfavorite
+    $("#favorite-pets-ul").replaceWith($.parseHTML(res)[0]);
 
-    // Switch to unfavorite icon
-    $(icon).removeClass("favorite-icon");
-    $(icon).addClass("unfavorite-icon");
-    $(icon).unbind();
-    unfavoriteHandler(icon);
+    $("#favorite-pets-ul").scrollTop(scrollPos)
 
-    // Re-render favorite pets
-    var requestConfig = {
-      method: "GET",
-      url: "/home/favorite-pets"
-    };
-
-    $.ajax(requestConfig).then(function (res) {
-      // Used to keep scroll position
-      scrollPos = $("#favorite-pets-ul").scrollTop();
-
-      $("#favorite-pets-ul").replaceWith($.parseHTML(res)[0]);
-
-      $("#favorite-pets-ul").scrollTop(scrollPos)
-
-      $("#favorite-pets-ul").children().each(function(i, pet) {
-        bindEventsToPet($(pet).find(".pet-container")[0]);
-        unfavoriteHandler($(pet).find(".unfavorite-icon"));
-      });
-    }).fail(function (e) {
-      // TODO: Show an error somehow
+    $("#favorite-pets-ul").children().each(function(i, pet) {
+      bindEventsToPet($(pet).find(".pet-container")[0]);
+      favoriteHandler($(pet).find(".unfavorite-icon"), false);
     });
+  }).fail(function (e) {
+    // TODO: Show an error somehow
   });
 }
 
