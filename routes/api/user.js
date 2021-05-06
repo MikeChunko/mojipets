@@ -9,7 +9,8 @@
 
 const express = require("express"),
       router = express.Router(),
-      data = require("../../data");
+      data = require("../../data"),
+      bcrypt = require("bcrypt");
 
 /** 
  * helper functions to remove sensitive fields from objects on return 
@@ -110,9 +111,11 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'password is either an empty string or just whitespace.' })
   if (displayname.trim().length == 0)
     return res.status(400).json({ error: 'displayname is either an empty string or just whitespace.' })
+  
   let user = null;
   try { user = await data.users.add({ username: username, plaintextPassword: password, displayname: displayname }) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
+
   res.json(protect.user.hideSensitive(user)) // unsure if you want me to change req.session.user in api
 })
 
@@ -127,7 +130,44 @@ router.patch('/:id', async (req, res) => {
 })
 
 router.put('/:id/password', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+  let id = req.params.id
+  let body = req.body;
+  if (!id) return res.status(400).json({ error: 'id not given' })
+  if (!body) return res.status(400).json({ error: 'body not given' })
+  let oldpassword = body.oldpassword
+  let newpassword = body.newpassword
+  if (typeof(id) != "string")
+    return res.status(400).json({ error: 'type of id not string' })
+  if (id.trim().length == 0)
+    return res.status(400).json({
+      error: 'id is either an empty string or just whitespace.'
+    })
+  if (typeof(id) != "oldpassword")
+    return res.status(400).json({ error: 'type of oldpassword not string' })
+  if (oldpassword.trim().length == 0)
+    return res.status(400).json({
+      error: 'oldpassword is either an empty string or just whitespace.'
+    })
+  if (typeof(id) != "newpassword")
+    return res.status(400).json({ error: 'type of newpassword not string' })
+  if (newpassword.trim().length == 0)
+    return res.status(400).json({
+      error: 'newpassword is either an empty string or just whitespace.'
+    })
+
+  let user = null;
+  try { user = await data.users.get(id) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+  const match = await bcrypt.compare(oldpassword, user.passwordhash)
+  
+  if (!match) return res.status(400).json({ error: `oldpassword is incorrect` })
+  
+  let pwUpdate = null;
+  try { 
+    pwUpdate = await data.users.updatePassword({ userId: id, plaintextPassword: newpassword })
+  } catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  res.json(protect.user.hideSensitive(pwUpdate))
 })
 
 router.put('/:id/food', async (req, res) => {
