@@ -111,7 +111,7 @@ router.post('/', async (req, res) => {
   if (displayname.trim().length == 0)
     return res.status(400).json({ error: 'displayname is either an empty string or just whitespace.' })
   let user = null;
-  try { user = await data.users.add({ username: username, password: password, displayname: displayname }) }
+  try { user = await data.users.add({ username: username, plaintextPassword: password, displayname: displayname }) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
   res.json(protect.user.hideSensitive(user)) // unsure if you want me to change req.session.user in api
 })
