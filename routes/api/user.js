@@ -90,7 +90,30 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+  let body = req.body;
+  if (!body) return res.status(400).json({ error: 'no info given' })
+  let username = body.username
+  let password = body.password
+  let displayname = body.displayname
+  if (!username) return res.status(400).json({ error: 'username not given' })
+  if (!password) return res.status(400).json({ error: 'password not given' })
+  if (!displayname) return res.status(400).json({ error: 'displayname not given' })
+  if (typeof(username) != "string")
+    return res.status(400).json({ error: 'type of username not string' })
+  if (typeof(password) != "string")
+    return res.status(400).json({ error: 'type of password not string' })
+  if (typeof(displayname) != "string")
+    return res.status(400).json({ error: 'type of displayname not string' })
+  if (username.trim().length == 0)
+    return res.status(400).json({ error: 'username is either an empty string or just whitespace.' })
+  if (password.trim().length == 0)
+    return res.status(400).json({ error: 'password is either an empty string or just whitespace.' })
+  if (displayname.trim().length == 0)
+    return res.status(400).json({ error: 'displayname is either an empty string or just whitespace.' })
+  let user = null;
+  try { user = await data.users.add({ username: username, password: password, displayname: displayname }) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+  res.json(protect.user.hideSensitive(user)) // unsure if you want me to change req.session.user in api
 })
 
 // TODO: consider excluding put and patch for /:id
