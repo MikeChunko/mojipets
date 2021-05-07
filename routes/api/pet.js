@@ -9,58 +9,12 @@
 
 const express = require("express"),
       router = express.Router(),
-      data = require("../../data");
+      data = require("../../data"),
+      { protect } = require("../../util");
 
 // For calculating the number of days from date d1 to date d2.
 const daysDifference = (d1, d2) =>
       Math.abs((d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24))
-
-/** 
- * helper functions to remove sensitive fields from objects on return 
- **/
-const protect = {
-  user: {
-    // user is logged in, show private info
-    showSensitive: (user) => {
-      user_ = cloneDeep(user);
-      delete user_.passwordhash
-      return user_
-    },
-
-    // user is not logged in, only show public info
-    hideSensitive: (user) => {
-      user_ = cloneDeep(user)
-      delete user_.passwordhash
-      delete user_.friends
-      delete user_.pets
-      delete user_.credits
-      delete user_.foods
-
-      // remaining fields: username, pfp, displayname, favoritePets, joinDate
-      return user_
-    }
-  },
-  pet: {
-    // pet owner is logged in, show private info
-    showSensitive: (pet) => {
-      pet_ = cloneDeep(pet)
-      delete pet_.interactions
-      return pet_
-    },
-
-    // pet owner is not logged in, only show public info
-    hideSensitive: (pet) => {
-      pet_ = cloneDeep(pet);
-      delete pet_.interactions
-      delete pet_.happiness
-      delete pet_.health
-
-      // remaining fields: name, birthday, emoji
-      return pet_
-    }
-  }
-}
-
 
 /** Router Functions **/
 
