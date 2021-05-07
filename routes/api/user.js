@@ -9,7 +9,8 @@
 
 const express = require("express"),
       router = express.Router(),
-      data = require("../../data");
+      data = require("../../data"),
+      cloneDeep = require("lodash.clonedeep");;
 
 /** 
  * helper functions to remove sensitive fields from objects on return 
@@ -18,37 +19,41 @@ const protect = {
   user: {
     // user is logged in, show private info
     showSensitive: (user) => {
-      delete user.passwordhash
-      return user
+      user_ = cloneDeep(user);
+      delete user_.passwordhash
+      return user_
     },
 
     // user is not logged in, only show public info
     hideSensitive: (user) => {
-      delete user.passwordhash
-      delete user.friends
-      delete user.pets
-      delete user.credits
-      delete user.foods
+      user_ = cloneDeep(user)
+      delete user_.passwordhash
+      delete user_.friends
+      delete user_.pets
+      delete user_.credits
+      delete user_.foods
 
       // remaining fields: username, pfp, displayname, favoritePets, joinDate
-      return user
+      return user_
     }
   },
   pet: {
     // pet owner is logged in, show private info
     showSensitive: (pet) => {
-      delete pet.interactions
-      return pet
+      pet_ = cloneDeep(pet)
+      delete pet_.interactions
+      return pet_
     },
 
     // pet owner is not logged in, only show public info
     hideSensitive: (pet) => {
-      delete pet.interactions
-      delete pet.happiness
-      delete pet.health
+      pet_ = cloneDeep(pet)
+      delete pet_.interactions
+      delete pet_.happiness
+      delete pet_.health
 
       // remaining fields: name, birthday, emoji
-      return pet
+      return pet_
     }
   }
 }
