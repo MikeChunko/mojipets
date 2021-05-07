@@ -10,10 +10,11 @@
 const express = require("express"),
       router = express.Router(),
       data = require("../../data"),
-      cloneDeep = require("lodash.clonedeep");;
+      cloneDeep = require("lodash.clonedeep"),
+      bcrypt = require("bcrypt");
 
-/** 
- * helper functions to remove sensitive fields from objects on return 
+/**
+ * helper functions to remove sensitive fields from objects on return
  **/
 const protect = {
   user: {
@@ -95,7 +96,32 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+  let body = req.body;
+  if (!body) return res.status(400).json({ error: 'no info given' })
+  let username = body.username
+  let password = body.password
+  let displayname = body.displayname
+  if (!username) return res.status(400).json({ error: 'username not given' })
+  if (!password) return res.status(400).json({ error: 'password not given' })
+  if (!displayname) return res.status(400).json({ error: 'displayname not given' })
+  if (typeof(username) != "string")
+    return res.status(400).json({ error: 'type of username not string' })
+  if (typeof(password) != "string")
+    return res.status(400).json({ error: 'type of password not string' })
+  if (typeof(displayname) != "string")
+    return res.status(400).json({ error: 'type of displayname not string' })
+  if (username.trim().length == 0)
+    return res.status(400).json({ error: 'username is either an empty string or just whitespace.' })
+  if (password.trim().length == 0)
+    return res.status(400).json({ error: 'password is either an empty string or just whitespace.' })
+  if (displayname.trim().length == 0)
+    return res.status(400).json({ error: 'displayname is either an empty string or just whitespace.' })
+
+  let user = null;
+  try { user = await data.users.add({ username: username, plaintextPassword: password, displayname: displayname }) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  res.json(protect.user.hideSensitive(user)) // unsure if you want me to change req.session.user in api
 })
 
 // TODO: consider excluding put and patch for /:id
@@ -109,7 +135,44 @@ router.patch('/:id', async (req, res) => {
 })
 
 router.put('/:id/password', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+  let id = req.params.id
+  let body = req.body;
+  if (!id) return res.status(400).json({ error: 'id not given' })
+  if (!body) return res.status(400).json({ error: 'body not given' })
+  let oldpassword = body.oldpassword
+  let newpassword = body.newpassword
+  if (typeof(id) != "string")
+    return res.status(400).json({ error: 'type of id not string' })
+  if (id.trim().length == 0)
+    return res.status(400).json({
+      error: 'id is either an empty string or just whitespace.'
+    })
+  if (typeof(id) != "oldpassword")
+    return res.status(400).json({ error: 'type of oldpassword not string' })
+  if (oldpassword.trim().length == 0)
+    return res.status(400).json({
+      error: 'oldpassword is either an empty string or just whitespace.'
+    })
+  if (typeof(id) != "newpassword")
+    return res.status(400).json({ error: 'type of newpassword not string' })
+  if (newpassword.trim().length == 0)
+    return res.status(400).json({
+      error: 'newpassword is either an empty string or just whitespace.'
+    })
+
+  let user = null;
+  try { user = await data.users.get(id) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+  const match = await bcrypt.compare(oldpassword, user.passwordhash)
+
+  if (!match) return res.status(400).json({ error: `oldpassword is incorrect` })
+
+  let pwUpdate = null;
+  try {
+    pwUpdate = await data.users.updatePassword({ userId: id, plaintextPassword: newpassword })
+  } catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  res.json(protect.user.hideSensitive(pwUpdate))
 })
 
 router.put('/:id/food', async (req, res) => {
@@ -143,13 +206,13 @@ router.get('/:id/pets', async (req, res) => {
   }
 
   // api doesn't care abt alive/dead
-  if (alive == null || alive == undefined) { 
+  if (alive == null || alive == undefined) {
     if (req.session.user && req.session.user._id === id)
       res.json(user.pets.map(protect.pet.showSensitive))
     else res.json(user.pets.map(protect.pet.hideSensitive))
 
   // api should try to get only alive pets if alive === true
-  } else { 
+  } else {
     let pets = []
     try {
       pets = alive
