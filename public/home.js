@@ -337,17 +337,23 @@ function favoriteHandler(icon, b) {
   $(icon).click(function (e) {
     e.preventDefault();
 
-    // TODO: Ajax
+    var requestConfig = {
+      method: b ? "POST" : "DELETE",
+      url: `/api/user/${_user._id}/favoritePets/${$(icon).attr("data-id")}`
+    };
 
-    // Only do this code on successful unfavorite
+    $.ajax(requestConfig).then(function (res) {
+      // Switch to favorite icon
+      $(icon).removeClass(b ? "favorite-icon" : "unfavorite-icon");
+      $(icon).addClass(b ? "unfavorite-icon" : "favorite-icon");
+      $(icon).unbind();
+      favoriteHandler(icon, !b);
 
-    // Switch to favorite icon
-    $(icon).removeClass(b ? "favorite-icon" : "unfavorite-icon");
-    $(icon).addClass(b ? "unfavorite-icon" : "favorite-icon");
-    $(icon).unbind();
-    favoriteHandler(icon, !b);
-
-    updateFavoritePets();
+      // Re-render list of favorites
+      updateFavoritePets();
+    }).fail(function (e) {
+      // TODO: Show an error somehow
+    });
   });
 }
 

@@ -185,7 +185,7 @@ router.post('/:id/pets', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
 
-router.post('/:id/favoritePets', async (req, res) => {
+router.post('/:id/favoritePets/:petid', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
 
