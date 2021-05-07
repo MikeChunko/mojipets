@@ -51,7 +51,6 @@ const protect = {
     // pet owner is not logged in, only show public info
     hideSensitive: (pet) => {
       pet_ = cloneDeep(pet);
-      console.log(pet_);
       delete pet_.interactions
       delete pet_.happiness
       delete pet_.health
