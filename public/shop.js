@@ -57,8 +57,13 @@
       e.preventDefault();
 
       var name = "";
-      while (name == null || name.trim().length == 0)
+      while (name != null && name.trim().length == 0) {
         name = prompt("Please enter a name for your new pet:", "");
+      }
+
+      // User pressed 'cancel'
+      if (name == null)
+        return;
 
       var requestConfig = {
         method: "POST",
