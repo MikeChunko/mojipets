@@ -85,8 +85,19 @@ router.get('/:id', async (req, res) => {
     return res.status(500).json({ error: e.toString() })
   }
 
-  if (req.session.pet && req.session.user._pet === id)
-    res.json(protect.pet.showSensitive(pet))
+  if (req.session.user) {
+    const pets = req.session.user.pets;
+    if(pets && pets.length)
+    for(let i = 0; i < pets.length; i++) {
+      const p = pets[i];
+      if(p._id === id) {
+        res.json(protect.pet.showSensitive(pet));
+        return;
+      }
+    }
+
+    res.json(protect.pet.hideSensitive(pet));
+  }
   else res.json(protect.pet.hideSensitive(pet));
 })
 
