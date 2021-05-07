@@ -56,9 +56,13 @@
     $(pet).click(function(e) {
       e.preventDefault();
 
+      var name = "";
+      while (name == null || name.trim().length == 0)
+        name = prompt("Please enter a name for your new pet:", "");
+
       var requestConfig = {
         method: "POST",
-        url: "/api/store/pet/" + $($(pet).children()[0]).attr("id") + "/" + "smelly animal"
+        url: `/api/store/pet/${$($(pet).children()[0]).attr("id")}/${name}`
       };
 
       $.ajax(requestConfig).then(function (res) {
