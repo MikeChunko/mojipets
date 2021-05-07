@@ -50,7 +50,8 @@ const protect = {
 
     // pet owner is not logged in, only show public info
     hideSensitive: (pet) => {
-      pet_ = cloneDeep(pet)
+      pet_ = cloneDeep(pet);
+      console.log(pet_);
       delete pet_.interactions
       delete pet_.happiness
       delete pet_.health
@@ -65,7 +66,29 @@ const protect = {
 /** Router Functions **/
 
 router.get('/:id', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+  let id = req.params.id,
+    pet = null;
+
+  // Error checking
+  if (!id) return res.status(400).json({ error: 'id not given' })
+  if (typeof(id) != "string")
+    return res.status(400).json({ error: 'type of id not string' })
+  if (id.trim().length == 0)
+    return res.status(400).json({
+      error: 'id is either an empty string or just whitespace.'
+    });
+
+  try { pet = await data.userPets.get(id) }
+  catch (e) {
+    if (e.toString().startsWith('No pet could be found'))
+      return res.status(404).json({ error: e.toString() })
+    // TODO: consider using error 400 for bad-input errors from this fcn?
+    return res.status(500).json({ error: e.toString() })
+  }
+
+  if (req.session.pet && req.session.user._pet === id)
+    res.json(protect.pet.showSensitive(pet))
+  else res.json(protect.pet.hideSensitive(pet));
 })
 
 // TODO: consider excluding put and patch
