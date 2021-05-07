@@ -40,6 +40,7 @@ app.use("/", (req, res, next) => {
   // Fall through
   if (req.originalUrl == "/" || req.originalUrl.indexOf("/signup") == 0 ||
       req.originalUrl.indexOf("/login") == 0 ||
+      req.originalUrl.indexOf("/profile") == 0 ||
       req.originalUrl.startsWith('/api') || req.session.user)
     return next();
 

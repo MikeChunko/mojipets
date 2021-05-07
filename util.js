@@ -73,10 +73,16 @@ function clean(obj) {
   return obj
 }
 
+// Convert a Date object to MM/DD/YY format
+function dateToMMDDYY(date) {
+  return `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getYear() - 100}`;
+}
+
 module.exports = {
     protect,
     isEmoji,
     isImg,
     isDate,
-    clean
+    clean,
+    dateToMMDDYY
 };

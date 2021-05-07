@@ -13,7 +13,8 @@ const express = require("express"),
   router = express.Router(),
   data = require("../data"),
   userData = data.users,
-  config = require("../config.json");
+  config = require("../config.json"),
+  { dateToMMDDYY } = require("../util");
 
 router.get("/:uname", async (req, res) => {
   let uname = req.params.uname;
@@ -57,8 +58,8 @@ router.get("/:uname", async (req, res) => {
       uname: userObj.username,
       display_name: userObj.displayname,
       profile_pic: userObj.pfp.img,
-      join_date: `${userObj.joinDate.getUTCMonth() + 1}/${userObj.joinDate.getUTCDate()}/${userObj.joinDate.getYear() - 100}`,
-      last_online: "01/02/1234", // TODO: Use the DB for this
+      join_date: dateToMMDDYY(userObj.joinDate),
+      last_online: dateToMMDDYY(new Date()), // TODO: Use the DB for this
       fav_pets: pets,
       max_pets: config.maxFavoritePetsDisplay,
       css: "/public/site.css"
@@ -110,8 +111,8 @@ router.get("/:uname/all", async (req, res) => {
       uname: userObj.username,
       display_name: userObj.displayname,
       profile_pic: userObj.pfp.img,
-      join_date: `${userObj.joinDate.getUTCMonth() + 1}/${userObj.joinDate.getUTCDate()}/${userObj.joinDate.getYear() - 100}`,
-      last_online: "01/02/1234", // TODO: Use the DB for this
+      join_date: dateToMMDDYY(userObj.joinDate),
+      last_online: dateToMMDDYY(new Date()), // TODO: Use the DB for this
       pets: pets,
       css: "/public/site.css"
     });
