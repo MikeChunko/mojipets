@@ -254,7 +254,7 @@ async function favorite(id) {
   const userCollection = await users()
   const updateInfo = await userCollection.updateOne({ _id: userId }, { $set: owner })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not favorite pet.'
-  return pet
+  return owner.favoritePets
 }
 
 async function unfavorite(id) {
@@ -287,7 +287,7 @@ async function unfavorite(id) {
   const userCollection = await users()
   const updateInfo = await userCollection.updateOne({ _id: userId }, { $set: owner })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not unfavorite pet.'
-  return pet
+  return owner.favoritePets
 }
 
 async function getStatus(id) {
