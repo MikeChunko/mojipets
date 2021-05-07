@@ -69,8 +69,22 @@ router.get("/pets", async (req, res) => {
 });
 
 router.get("/pets/:id", async (req, res) => {
+  if (!req.params.id || typeof(req.params.id) != "string" || req.params.id.trim().length == 0)
+    return res.sendStatus(400);
+
+  // Find the full info for the desired pet
+  let pet = req.session.user.pets.find((pet, i) => {
+    if (pet._id == req.params.id)
+      return cloneDeep(pet);
+  });
+
+  // Either the pet doesn't exist or doesn't belong to this user
+  if (!pet)
+    return res.sendStatus(403);
+
   res.render("mojipets/home_partials/pet", {
     layout: false,
+    name: pet.name
   });
 });
 
