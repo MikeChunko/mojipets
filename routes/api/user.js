@@ -188,6 +188,7 @@ router.post('/:id/pets', async (req, res) => {
 router.post('/:id/favoritePets/:petid', async (req, res) => {
   let petId = req.params.petid
   let userId = req.params.id
+
   if (!userId) return res.status(400).json({ error: 'userId not given' })
   if (typeof(userId) != "string")
     return res.status(400).json({ error: 'type of userId not string' })
@@ -195,6 +196,7 @@ router.post('/:id/favoritePets/:petid', async (req, res) => {
     return res.status(400).json({
       error: 'userId is either an empty string or just whitespace.'
     })
+
   if (!petId) return res.status(400).json({ error: 'petId not given' })
   if (typeof(petId) != "string")
     return res.status(400).json({ error: 'type of petId not string' })
@@ -208,21 +210,25 @@ router.post('/:id/favoritePets/:petid', async (req, res) => {
   if (req.session.user._id != userId) return res.status(403).json({
     error: `cannot add pet to different user's favorites`
   })
+
   let petOwner = null;
   try { petOwner = await data.userPets.getOwner(petId) } 
   catch (e) { return res.status(500).json({error: e.toString()}) }
   if (petOwner._id != userId) return res.status(403).json({
     error: `cannot add unowned pet to favorites`
   })
+
   let favePets = null;
   try { favePets = await data.userPets.favorite(petId) }
   catch (e) { return res.status(500).json({error: e}) }
+
   res.json(favePets.map(protect.pet.showSensitive))
 })
 
 router.delete('/:id/favoritePets/:petid', async (req, res) => {
   let petId = req.params.petid
   let userId = req.params.id
+
   if (!userId) return res.status(400).json({ error: 'userId not given' })
   if (typeof(userId) != "string")
     return res.status(400).json({ error: 'type of userId not string' })
@@ -230,6 +236,7 @@ router.delete('/:id/favoritePets/:petid', async (req, res) => {
     return res.status(400).json({
       error: 'userId is either an empty string or just whitespace.'
     })
+
   if (!petId) return res.status(400).json({ error: 'petId not given' })
   if (typeof(petId) != "string")
     return res.status(400).json({ error: 'type of petId not string' })
@@ -243,12 +250,14 @@ router.delete('/:id/favoritePets/:petid', async (req, res) => {
   if (req.session.user._id != userId) return res.status(403).json({
     error: `cannot delete pet from different user's favorites`
   })
+
   let petOwner = null;
   try { petOwner = await data.userPets.getOwner(petId) } 
   catch (e) { return res.status(500).json({error: e.toString()}) }
   if (petOwner._id != userId) return res.status(403).json({
     error: `cannot delete unowned pet from favorites`
   })
+
   isFav = false
   for (i of petOwner.favorites) { // i'm so sorry for this
     if (i.toString() == petId) {
@@ -259,9 +268,11 @@ router.delete('/:id/favoritePets/:petid', async (req, res) => {
   if (!isFav) return res.status(403).json({
     error: `cannot delete pet from favorites if pet is not a favorite`
   })
+
   let favePets = null;
   try { favePets = await data.userPets.unfavorite(petId) }
   catch (e) { return res.status(500).json({error: e}) }
+  
   res.json(favePets.map(protect.pet.showSensitive))
 })
 
