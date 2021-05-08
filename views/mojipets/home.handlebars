@@ -30,7 +30,7 @@
       <ul class="inventory-ul">
         {{#each inventory}}
         <li>
-          <div class="emoji-container">
+          <div data-id={{_id}} class="emoji-container">
             <input type="image" data-id={{_id}} alt="{{emoji.name}}" src="{{emoji.img}}" />
             <p>{{quantity}}</p>
           </div>
@@ -51,7 +51,7 @@
       <ul class="toys-ul">
         {{#each toys}}
         <li>
-          <div class="emoji-container">
+          <div data-id={{_id}} class="emoji-container">
             <input type="image" data-id={{_id}} alt="{{emoji.name}}" src="{{emoji.img}}" />
             <p>{{quantity}}</p>
           </div>

@@ -204,6 +204,11 @@ async function renderPets() {
     bindEventsToPet($(pet).find(".pet-container")[0]);
     favoriteHandler($(pet).find(".unfavorite-icon"), false);
   });
+
+  inventoryHandler();
+
+  toysHandler();
+
 })(window.jQuery);
 
 // Sets up the link to reset the center div
@@ -381,6 +386,26 @@ function updateFavoritePets() {
     });
   }).fail(function (e) {
     // TODO: Show an error somehow
+  });
+}
+
+function inventoryHandler() {
+  $($(".inventory-ul").find(".emoji-container")).each(function (i, food) {
+    $(food).click(function (e) {
+      e.preventDefault();
+
+      console.log("Clicked a food with id value:", $(food).attr("data-id"));
+    });
+  });
+}
+
+function toysHandler() {
+  $($(".toys-ul").find(".emoji-container")).each(function (i, toy) {
+    $(toy).click(function (e) {
+      e.preventDefault();
+
+      console.log("Clicked a toy with id value:", $(toy).attr("data-id"));
+    });
   });
 }
 
