@@ -14,7 +14,9 @@ const express = require("express"),
       session = require("express-session"),
       static = express.static(__dirname + "/public"),
       configRoutes = require("./routes"),
-      exphbs = require("express-handlebars");
+      exphbs = require("express-handlebars"),
+      data = require("./data"),
+      userData = data.users;
 
 app.use(session({
   name: "MojiPets",
@@ -46,7 +48,15 @@ app.use("/", (req, res, next) => {
 
   // User failed authentication - redirect to login page
   return res.status(403).redirect("/");
-})
+});
+
+// lastLogin middleware
+app.use("/", async (req, res, next) => {
+  if (req.session.user)
+    req.session.user.lastLogin = await userData.updateLoginTime(req.session.user._id).lastLogin;
+
+  return next();
+});
 
 configRoutes(app);
 
