@@ -429,6 +429,16 @@ async function depressPet(id) { // for testing
   return newPet
 }
 
+async function getTotalInteractions(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try { pet = await get(id) }
+  catch (e) { throw e }
+  return pet.interactions.feed.length + pet.interactions.fetch.length
+}
+
 
 module.exports = {
   add,
@@ -443,5 +453,6 @@ module.exports = {
   getAge,
   getOwner,
   killPet,
-  depressPet
+  depressPet,
+  getTotalInteractions
 }
