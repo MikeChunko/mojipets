@@ -36,10 +36,21 @@ router.get("/", async (req, res) => {
     for (let i = 0; i < friends.length; i++)
       friends[i] = await userData.get(friends[i]);
 
+    // Harcoding since we only have a single toy for now
+    toys = [{
+      _id: "-1",
+      quantity: "∞",
+      emoji: {
+        name: "basketball",
+        img: "/public/resources/toys/basketball.svg"
+      }
+    }]
+
     res.render("mojipets/home", {
       title: "MojiPets",
       favorites: favorites,
       inventory: inventoryKeys,
+      toys: toys,
       friends: friends,
       onload: "start()"
     });

@@ -14,7 +14,7 @@
         {{/each}}
       </ul>
     </div>
-    
+
     <div class="bottom">
       <a href="/home/pets" class="left all-pets-link">See all pets</a>
       <a href="/shop" class="right" id="pet-shop">Shop</a>
@@ -31,7 +31,7 @@
         {{#each inventory}}
         <li>
           <div class="emoji-container">
-            <input type="image" alt="{{emoji.name}}" src="{{emoji.img}}" />
+            <input type="image" data-id={{_id}} alt="{{emoji.name}}" src="{{emoji.img}}" />
             <p>{{quantity}}</p>
           </div>
         </li>
@@ -42,17 +42,23 @@
         <a href="/shop" class="center" id="item-shop">Shop</a>
       </div>
     </div>
-
   </div>
 
-    <div class="inventory">
+  <div class="toys">
     <h2>Toy</h2>
 
     <div class="centered">
-      <ul class="inventory-ul">
+      <ul class="toys-ul">
+        {{#each toys}}
+        <li>
+          <div class="emoji-container">
+            <input type="image" data-id={{_id}} alt="{{emoji.name}}" src="{{emoji.img}}" />
+            <p>{{quantity}}</p>
+          </div>
+        </li>
+        {{/each}}
       </ul>
     </div>
-
   </div>
 
 </div>
@@ -75,7 +81,7 @@
       </div>
     </li>
     {{/each}}
-  </ul>  
+  </ul>
 </div>
 
 <div class="bottom-bar">
