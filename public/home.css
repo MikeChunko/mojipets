@@ -50,11 +50,11 @@ body {
 
 .inventory {
   /* grid-area: 4 / 1 / 6 / 2; */
-  grid-area: 4 / 1 / 7 / 2;
-  height: 45vh;
-  padding-top: 1vh;
+  /* grid-area: 1/1/1/1; */
+  height: 22.1vh;
+  /* padding-top: 1vh; */
   text-align: center;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 #favorite-pets-ul {
@@ -64,7 +64,7 @@ body {
 
 #inventory-ul {
   overflow-y: scroll;
-  height: 34vh;
+  /* height: 34vh; */
 }
 
 .toys {
@@ -230,7 +230,6 @@ body {
 div > div {
   background-color: #FFFFFF;
   border-radius: 0.5vw;
-
   margin-left: auto;
   margin-right: auto;
   vertical-align: middle;
