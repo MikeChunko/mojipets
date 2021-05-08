@@ -59,7 +59,7 @@ router.get("/:uname", async (req, res) => {
       display_name: userObj.displayname,
       profile_pic: userObj.pfp.img,
       join_date: dateToMMDDYY(userObj.joinDate),
-      last_online: dateToMMDDYY(new Date()), // TODO: Use the DB for this
+      last_online: dateToMMDDYY(userObj.lastLogin),
       fav_pets: pets,
       max_pets: config.maxFavoritePetsDisplay,
       css: "/public/site.css"
@@ -112,7 +112,7 @@ router.get("/:uname/all", async (req, res) => {
       display_name: userObj.displayname,
       profile_pic: userObj.pfp.img,
       join_date: dateToMMDDYY(userObj.joinDate),
-      last_online: dateToMMDDYY(new Date()), // TODO: Use the DB for this
+      last_online: dateToMMDDYY(userObj.lastLogin),
       pets: pets,
       css: "/public/site.css"
     });
