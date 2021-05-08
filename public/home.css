@@ -38,6 +38,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
+  padding-top: 3vh;
 }
 
 .favorite-pets {
@@ -49,9 +50,12 @@ body {
 }
 
 .inventory {
+  grid-area: 1 / 1 / 1 / 1;
+  grid-template-columns: repeat(2, 1fr);
+  padding-top: 0.002vh;
+  margin-bottom: 1vh;
   /* grid-area: 4 / 1 / 6 / 2; */
   /* grid-area: 1/1/1/1; */
-  height: 22.1vh;
   /* padding-top: 1vh; */
   text-align: center;
   /* overflow: hidden; */
@@ -62,9 +66,10 @@ body {
   height: 34vh;
 }
 
-#inventory-ul {
+.inventory-ul {
   overflow-y: scroll;
-  /* height: 34vh; */
+  height: 13.5vh;
+  padding-bottom: 5vh;
 }
 
 .toys {
@@ -241,6 +246,8 @@ div > div {
 div > h2 {
   text-align: center;
   vertical-align: bottom;
+  margin-top: 1vh;
+  margin-bottom: 0vh;
 }
 
 div > a {
