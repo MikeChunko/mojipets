@@ -10,6 +10,7 @@
 const express = require("express"),
       router = express.Router(),
       data = require("../../data"),
+      userData = data.users,
       bcrypt = require("bcrypt"),
       { protect } = require("../../util");
 
@@ -206,13 +207,13 @@ router.post('/:id/favoritePets/:petid', async (req, res) => {
     })
   if (!req.session.user) return res.status(403).json({
     error: 'cannot favorite a pet without being logged in'
-  }) 
+  })
   if (req.session.user._id != userId) return res.status(403).json({
     error: `cannot add pet to different user's favorites`
   })
 
   let petOwner = null;
-  try { petOwner = await data.userPets.getOwner(petId) } 
+  try { petOwner = await data.userPets.getOwner(petId) }
   catch (e) { return res.status(500).json({error: e.toString()}) }
   if (petOwner._id != userId) return res.status(403).json({
     error: `cannot add unowned pet to favorites`
@@ -222,6 +223,7 @@ router.post('/:id/favoritePets/:petid', async (req, res) => {
   try { favePets = await data.userPets.favorite(petId) }
   catch (e) { return res.status(500).json({error: e}) }
 
+  req.session.user = await userData.get(userId);
   res.json(favePets.map(protect.pet.showSensitive))
 })
 
@@ -246,20 +248,20 @@ router.delete('/:id/favoritePets/:petid', async (req, res) => {
     })
   if (!req.session.user) return res.status(403).json({
     error: 'cannot unfavorite a pet without being logged in'
-  }) 
+  })
   if (req.session.user._id != userId) return res.status(403).json({
     error: `cannot delete pet from different user's favorites`
   })
 
   let petOwner = null;
-  try { petOwner = await data.userPets.getOwner(petId) } 
+  try { petOwner = await data.userPets.getOwner(petId) }
   catch (e) { return res.status(500).json({error: e.toString()}) }
   if (petOwner._id != userId) return res.status(403).json({
     error: `cannot delete unowned pet from favorites`
   })
 
   isFav = false
-  for (i of petOwner.favorites) { // i'm so sorry for this
+  for (i of petOwner.favoritePets) { // i'm so sorry for this
     if (i.toString() == petId) {
       isFav = true
       break;
@@ -272,7 +274,8 @@ router.delete('/:id/favoritePets/:petid', async (req, res) => {
   let favePets = null;
   try { favePets = await data.userPets.unfavorite(petId) }
   catch (e) { return res.status(500).json({error: e}) }
-  
+
+  req.session.user = await userData.get(userId);
   res.json(favePets.map(protect.pet.showSensitive))
 })
 

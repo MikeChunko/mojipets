@@ -342,12 +342,15 @@ function favoriteHandler(icon, b) {
       url: `/api/user/${_user._id}/favoritePets/${$(icon).attr("data-id")}`
     };
 
-    $.ajax(requestConfig).then(function (res) {
+    $.ajax(requestConfig).then(async function (res) {
       // Switch to favorite icon
       $(icon).removeClass(b ? "favorite-icon" : "unfavorite-icon");
       $(icon).addClass(b ? "unfavorite-icon" : "favorite-icon");
       $(icon).unbind();
       favoriteHandler(icon, !b);
+
+      // Update the user object
+      _user = await $.get('/api/user');
 
       // Re-render list of favorites
       updateFavoritePets();
@@ -370,7 +373,7 @@ function updateFavoritePets() {
 
     $("#favorite-pets-ul").replaceWith($.parseHTML(res)[0]);
 
-    $("#favorite-pets-ul").scrollTop(scrollPos)
+    $("#favorite-pets-ul").scrollTop(scrollPos);
 
     $("#favorite-pets-ul").children().each(function(i, pet) {
       bindEventsToPet($(pet).find(".pet-container")[0]);
