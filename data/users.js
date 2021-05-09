@@ -48,6 +48,7 @@ async function add(body) {
   if (typeof(displayname) != 'string') throw 'Error: password must be a string.'
   if (username.trim().length == 0) throw 'Error: name is either an empty string or just whitespace.'
   if (plaintextPassword.trim().length == 0) throw 'Error: password is either an empty string or just whitespace.'
+  if (plaintextPassword.length < 8) throw 'Error: password must be at least 8 characters long'
   if (displayname.trim().length == 0) { displayname = username }
   if (typeof(emoji) != 'object') throw 'Error: pfp emoji must be an object.'
   if (!('codepoint' in emoji)) throw 'Error: pfp emoji object must have a codepoint.'
@@ -174,6 +175,7 @@ async function updatePassword(body) {
   if (typeof(plaintextPassword) != 'string') throw 'Error: password must be a string.'
   if (uid.trim().length == 0) throw 'Error: uid is either an empty string or just whitespace.'
   if (plaintextPassword.trim().length == 0) throw 'Error: password is either an empty string or just whitespace.'
+  if (plaintextPassword.length < 8) throw 'Error: password must be at least 8 characters long'
 
   let userCollection = await users()
 

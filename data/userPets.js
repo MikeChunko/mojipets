@@ -124,7 +124,7 @@ async function getPetsFromUser(id) {
 }
 
 async function updatePetInUser(pet) {
-  if (!pet) throw 'Error: updating pet requires a pet' 
+  if (!pet) throw 'Error: updating pet requires a pet'
   id = pet._id.toString()
   let owner = null
   try {
@@ -395,7 +395,7 @@ async function killPet(id) { // for testing
   petDeathDate.setDate(petDeathDate.getDate() - 9);
   pet.health = petDeathDate;
   pet._id = ObjectIdMongo(pet._id)
-  
+
   newPet = null
   try {
     newPet = await updatePetInUser(pet)
@@ -419,7 +419,7 @@ async function depressPet(id) { // for testing
   petDepressionDate.setDate(petDepressionDate.getDate() - 9);
   pet.happiness = petDepressionDate;
   pet._id = ObjectIdMongo(pet._id)
-  
+
   newPet = null
   try {
     newPet = await updatePetInUser(pet)
