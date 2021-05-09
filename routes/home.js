@@ -17,7 +17,7 @@ const express = require("express"),
 
 router.get("/", async (req, res) => {
   try {
-    // Fetch user's favorite pets and limit to the configured setting
+    // Fetch user's favorite pets
     let favorites = cloneDeep(req.session.user.favoritePets)
 
     for (let i = 0; i < favorites.length; i++)
@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
     for (let i = 0; i < inventoryKeys.length; i++)
       inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
 
-    // Fetch user's friends and limit to the configured settings
+    // Fetch user's friends
     let friends = cloneDeep(req.session.user.friends);
 
     for (let i = 0; i < friends.length; i++)
@@ -128,12 +128,30 @@ router.get("/favorite-pets", async (req, res) => {
 
     res.render("mojipets/home_partials/favorites", {
       layout: false,
-      favorites: favorites,
+      favorites: favorites
     });
   } catch (e) {  // Some error has occured in the db
     console.log(e);
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
 });
+
+router.get("/friends", async (req, res) => {
+  try {
+    // Fetch user's friends
+    let friends = cloneDeep(req.session.user.friends);
+
+    for (let i = 0; i < friends.length; i++)
+      friends[i] = await userData.get(friends[i]);
+
+    res.render("mojipets/home_partials/friends", {
+      layout: false,
+      friends: friends
+    });
+  } catch (e) {  // Some error has occured in the db
+    console.log(e);
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
+})
 
 module.exports = router;

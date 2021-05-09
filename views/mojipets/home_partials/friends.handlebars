@@ -1,0 +1,14 @@
+<ul id="friends-ul">
+  {{#each friends}}
+  <li>
+    <div>
+      <p>{{this.displayname}}</p>
+      <form class="friend-form" method="GET" action="profile/{{this.username}}">
+        <label for="{{this._id}}">
+          <input id="{{this._id}}" type="submit" name="profile" value="View Profile" />
+        </label>
+      </form>
+    </div>
+  </li>
+  {{/each}}
+</ul>

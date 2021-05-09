@@ -463,7 +463,7 @@ function addFriendsHandler() {
     if (!user) {
       $("#addFriendText").addClass("formError");
       $("#formErrorMessage").show();
-      $("#formErrorMessage").text(`${uname} does not exist`);
+      $("#formErrorMessage").text(`Username ${uname} does not exist`);
       return;
     }
 
@@ -474,7 +474,23 @@ function addFriendsHandler() {
     };
 
     $.ajax(requestConfig).then(function (res) {
+      // Update the friends list
+      var requestConfig = {
+        method: "GET",
+        url: "/home/friends"
+      };
+      console.log("HELP")
+      $.ajax(requestConfig).then(function (res) {
+        console.log("ME")
+        // Used to keep scroll position
+        scrollPos = $("#friends-ul").scrollTop();
 
+        $("#friends-ul").replaceWith($.parseHTML(res)[0]);
+
+        $("#friends-ul").scrollTop(scrollPos);
+      }).fail(function (e) {
+        // TODO: Show an error somehow
+      });
     }).fail(function (e) {
       // TODO: Show an error somehow
     });
