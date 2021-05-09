@@ -23,6 +23,12 @@ router.get('/', async (req, res) => {
   res.json(protect.user.showSensitive(req.session.user))
 })
 
+router.get("/all", async (req, res) => {
+  users = await userData.getAllUsers();
+
+  res.json(users.map(user => protect.user.hideSensitive(user)));
+})
+
 // TODO: 🐛 check for bugs
 router.get('/:id', async (req, res) => {
   let id = req.params.id,
@@ -279,8 +285,36 @@ router.delete('/:id/favoritePets/:petid', async (req, res) => {
   res.json(favePets.map(protect.pet.showSensitive))
 })
 
-router.post('/:id/friends', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+router.post('/:id/friends/:friendid', async (req, res) => {
+  if (!req.session.user || req.session.user._id.toString() != req.params.id)
+    return res.sendStatus(403);
+
+  if (!req.params.id || typeof(req.params.id) != "string" ||
+      req.params.id.trim().length == 0)
+    return res.sendStatus(400)
+
+  if (!req.params.friendid || typeof(req.params.friendid) != "string" ||
+      req.params.friendid.trim().length == 0)
+    return res.sendStatus(400)
+
+  try {
+    await userData.get(req.params.friendid);
+  } catch (e) {
+    return res.status(400).json({ error: e.toString() });
+  }
+
+  try {
+    let [u1, u2] = await userData.makeFriends({
+      userId1: req.params.id,
+      userId2: req.params.friendid
+    });
+
+    // Update session info
+    req.session.user = u1;
+    return res.sendStatus(200);
+  } catch (e) {
+    return res.status(500).json({ error: e.toString() });
+  }
 })
 
 router.delete('/:id/friends/:friendid', async (req, res) => {

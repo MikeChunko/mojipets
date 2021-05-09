@@ -209,6 +209,8 @@ async function renderPets() {
 
   toysHandler();
 
+  addFriendsHandler();
+
 })(window.jQuery);
 
 // Sets up the link to reset the center div
@@ -429,6 +431,52 @@ function toysHandler() {
       $(toy).attr("data-clicked", "y");
 
       console.log("Clicked a toy with id value:", $(toy).attr("data-id"));
+    });
+  });
+}
+
+function addFriendsHandler() {
+  $("#addFriendForm").submit(async function (e) {
+    e.preventDefault();
+
+    // Purge errors
+    $("#addFriendText").removeClass("formError");
+    $("#formErrorMessage").hide();
+
+    var uname = $("#addFriendText").val();
+
+    // Check for well-formedness
+    if (!uname || uname.trim().length == 0) {
+      $("#addFriendText").addClass("formError");
+      $("#formErrorMessage").show();
+      $("#formErrorMessage").text("Enter a non-empty username");
+      return;
+    }
+
+    // Check if the user exists
+    users = await $.get("/api/user/all");
+    var user = users.find((user, i) => {
+      if (user.username.toLowerCase() == uname.toLowerCase())
+        return user;
+    })
+
+    if (!user) {
+      $("#addFriendText").addClass("formError");
+      $("#formErrorMessage").show();
+      $("#formErrorMessage").text(`${uname} does not exist`);
+      return;
+    }
+
+    // Add the friend
+    var requestConfig = {
+      method: "POST",
+      url: `api/user/${_user._id}/friends/${user._id.toString()}`
+    };
+
+    $.ajax(requestConfig).then(function (res) {
+
+    }).fail(function (e) {
+      // TODO: Show an error somehow
     });
   });
 }

@@ -155,9 +155,7 @@ async function main() {
   brock = await storeFoodData.buy({userId: brock._id, foodId: onigiri._id, quantity: 20})
   notch = await storeFoodData.buy({userId: notch._id, foodId: donut._id, quantity: 20})
   yu = await storeFoodData.buy({userId: yu._id, foodId: sushi._id, quantity: 20})
-  console.log(await userData.get(yu._id))
   let hermit = await storePetData.buy({userId: yu._id, petId: fox._id, petName: "hermit"})
-  console.log(await userData.get(yu._id))
   await db.serverConfig.close();
 }
 

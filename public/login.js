@@ -28,7 +28,7 @@ if (document.getElementById("loginForm")) {
           password = passwordInput.value;
 
     // Check for well-formedness of values
-    if (username.trim().length == 0) {
+    if (!username || username.trim().length == 0) {
       usernameInput.classList.add("formError");
       usernameInput.focus();
       errorMsg.innerHTML = "Please enter a username";
@@ -36,7 +36,7 @@ if (document.getElementById("loginForm")) {
       return;
     }
 
-    if (password.trim().length == 0) {
+    if (!password || password.trim().length == 0) {
       passwordInput.classList.add("formError");
       passwordInput.focus();
       errorMsg.innerHTML = "Please enter a password";

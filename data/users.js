@@ -279,8 +279,6 @@ async function makeFriends(body) {
 
   let objId1 = ObjectIdMongo(id1)
   let objId2 = ObjectIdMongo(id2)
-  console.log(user1)
-  console.log(user2)
   if (user2.friends.includes(objId1) && user1.friends.includes(objId2)) throw 'Error: users are already friends.'
   const userCollection = await users()
   user1.friends.push(objId2)

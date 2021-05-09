@@ -76,12 +76,28 @@
       <div>
         <p>{{this.displayname}}</p>
         <form class="friend-form" method="GET" action="profile/{{this.username}}">
-          <input type="submit" name="profile" value="View Profile" />
+          <label for="{{this._id}}">
+            <input id="{{this._id}}" type="submit" name="profile" value="View Profile" />
+          </label>
         </form>
       </div>
     </li>
     {{/each}}
   </ul>
+
+  <div id="addFriendDiv" class="centered bottom">
+    <h3 class="center">Add Friends</h3><br />
+    <form class="center" id="addFriendForm">
+      <label for="addFriendText">
+        <input id="addFriendText" name="addFriendText" type="text" placeholder="username" />
+      </label><br />
+      <label for="addFriendSubmit">
+        <input id="addFriendSubmit" name="addFriendSubmit" type="submit" value="Add" />
+      </label>
+    </form>
+     <p id="formErrorMessage" hidden></p>
+  </div>
+
 </div>
 
 <div class="bottom-bar">

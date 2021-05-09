@@ -26,6 +26,41 @@ body {
   background-color: #868fd7;
 }
 
+.formError {
+  box-shadow: 0 0 5px red !important;
+  border: 1px solid red !important;
+}
+
+input[type="text"] {
+  padding: 3px 3px 3px 3px;
+  margin: 3px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 255);
+  background: #ECECEC;
+  border-radius: 5px;
+  border: none;
+
+  width: 14vw;
+  height: 2.5em;
+
+  padding-left: 15px;
+  outline: none;
+}
+
+#addFriendSubmit {
+  background-color: #868fd7;
+  color: white;
+  font-size: 110%;
+  font-weight: bolder;
+
+  width: 12vw;
+}
+
+#error {
+  color: #000000 !important;
+  text-align: center !important;
+}
+
 .centered {
   width: inherit;
   text-align: center;
@@ -384,6 +419,10 @@ li > div > p {
 
 form > label {
   visibility: hidden;
+}
+
+#addFriendDiv > form > label {
+  visibility: visible;
 }
 
 input[type="submit"] {

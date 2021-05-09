@@ -133,8 +133,6 @@ async function updatePetInUser(pet) {
     throw e
   }
 
-  console.log(pet)
-
   newPets = []
   for (currPet of owner.pets) {
     if (currPet._id != id) {

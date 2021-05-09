@@ -34,7 +34,7 @@ if (document.getElementById("signupForm")) {
     passwordRepeat = passwordRepeatInput.value;
 
     // Check for well-formedness of values
-    if (username.trim().length == 0) {
+    if (!username || username.trim().length == 0) {
       usernameInput.classList.add("formError");
       usernameInput.focus();
       errorMsg.innerHTML = "Please enter a username";
@@ -42,7 +42,7 @@ if (document.getElementById("signupForm")) {
       return;
     }
 
-    if (displayname.trim().length == 0) {
+    if (!displayname || displayname.trim().length == 0) {
       displaynameInput.classList.add("formError");
       displaynameInput.focus();
       errorMsg.innerHTML = "Please enter a display name";
@@ -50,7 +50,7 @@ if (document.getElementById("signupForm")) {
       return;
     }
 
-    if (password.trim().length == 0) {
+    if (!password || password.trim().length == 0) {
       passwordInput.classList.add("formError");
       passwordInput.focus();
       errorMsg.innerHTML = "Please enter a password";
@@ -66,7 +66,7 @@ if (document.getElementById("signupForm")) {
       return;
     }
 
-    if (password != passwordRepeat) {
+    if (!passwordRepeat || password != passwordRepeat) {
       passwordRepeatInput.classList.add("formError");
       passwordRepeatInput.focus();
       errorMsg.innerHTML = "Passwords must match";
