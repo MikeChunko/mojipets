@@ -15,16 +15,25 @@
     <p>Member since {{join_date}}</p>
     <p>Last online: {{last_online}}</p>
 
-    <h2>Favorite Pets</h2>
+    <h2>Most Interacted With Pets</h2>
 
-    <div id="fav-pets">
-      {{#each fav_pets}}
-        <img alt="{{emoji.name}}" src="{{emoji.img}}" />
+    <div id="all-pets">
+      {{#each most_pets}}
+        <div>
+          <img alt="{{emoji.name}}" src="{{emoji.img}}" class="left" />
+          <div class="left">
+            <p>{{name}}</p>
+            <p>{{happiness}}</p>
+            <p>{{status}}</p>
+            <p>{{age}}</p>
+            <p>{{interactions}} interactions</p>
+          </div>
+        </div>
       {{/each}}
     </div>
 
   <div class="left">
-    <a href="/profile/{{uname}}/all">See all pets</a>
+    <a href="/profile/{{uname}}">See favorite pets</a>
   </div>
 
   <div class="right">
@@ -32,7 +41,7 @@
   </div>
 
   <div class="center">
-    <a href="/profile/{{uname}}/most">See most interacted with</a>
+    <a href="/profile/{{uname}}/all">See all pets</a>
   </div>
   {{/if}}
 </div>
