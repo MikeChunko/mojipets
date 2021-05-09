@@ -337,6 +337,10 @@ li {
   background-color: #C4C4C4;
 }
 
+[data-clicked="y"] {
+  background-color: #BFBFBF;
+}
+
 .pets-view-container > input {
   background-color: #00000000;
 }

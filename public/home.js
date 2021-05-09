@@ -394,6 +394,18 @@ function inventoryHandler() {
     $(food).click(function (e) {
       e.preventDefault();
 
+      // "Un-click" everyting else
+      $($(".inventory-ul").find(".emoji-container")).each(function (i, food) {
+        $(food).attr("data-clicked", "n");
+      });
+
+      $($(".toys-ul").find(".emoji-container")).each(function (i, toy) {
+        $(toy).attr("data-clicked", "n");
+      });
+
+      // "Click" the selected item
+      $(food).attr("data-clicked", "y");
+
       console.log("Clicked a food with id value:", $(food).attr("data-id"));
     });
   });
@@ -403,6 +415,18 @@ function toysHandler() {
   $($(".toys-ul").find(".emoji-container")).each(function (i, toy) {
     $(toy).click(function (e) {
       e.preventDefault();
+
+      // "Un-click" everyting else
+      $($(".inventory-ul").find(".emoji-container")).each(function (i, food) {
+        $(food).attr("data-clicked", "n");
+      });
+
+      $($(".toys-ul").find(".emoji-container")).each(function (i, toy) {
+        $(toy).attr("data-clicked", "n");
+      });
+
+      // "Click" the selected item
+      $(toy).attr("data-clicked", "y");
 
       console.log("Clicked a toy with id value:", $(toy).attr("data-id"));
     });
