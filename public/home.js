@@ -125,7 +125,7 @@ function startClickToPlace() {
     };
 
     // create html node for item
-    let placedItem = $(`<img src="/public/resources/food/meat_on_bone.svg"
+    let placedItem = $(`<img alt="meat on bone" src="/public/resources/food/meat_on_bone.svg"
                              id="item${_items.length}" class="item"/>`)
     placedItem.css({
       left: `${pt.x}px`,
@@ -157,7 +157,7 @@ async function renderPets() {
     }
 
     // create html node for item
-    let petNode = $(`<img src="${petData.emoji.img}" id="pet${_pets.length}"
+    let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}" id="pet${_pets.length}"
                           class="pet" />`)
     petNode.css({
       left: `${pt.x}px`,
