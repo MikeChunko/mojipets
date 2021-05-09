@@ -279,4 +279,12 @@ router.delete('/:id/favoritePets/:petid', async (req, res) => {
   res.json(favePets.map(protect.pet.showSensitive))
 })
 
+router.post('/:id/friends', async (req, res) => {
+  res.status(500).json({ error: 'TODO: implement' })
+})
+
+router.delete('/:id/friends/:friendid', async (req, res) => {
+  res.status(500).json({ error: 'TODO: implement' })
+})
+
 module.exports = router
