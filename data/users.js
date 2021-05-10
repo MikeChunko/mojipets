@@ -85,6 +85,24 @@ async function add(body) {
     foods: {}
   }
 
+  // Add an infinite source of meat_on_bone
+
+  // Need to have this code here to avoid circular dependencies
+  const storeFoodCollection = await storeFood()
+  const storeFoodArr = await storeFoodCollection.find({}).toArray()
+  const shopFood = storeFoodArr.map(clean)
+
+  const mob = shopFood.find((food, i) => {
+    if (food.emoji.name == "meat on bone")
+      return food;
+  });
+
+  if (mob) {
+    newUser.foods[mob._id] = -1
+  };
+
+  console.log(mob, newUser.foods);
+
   let insertInfo = await userCollection.insertOne(newUser)
   if (insertInfo.insertedCount == 0) throw 'Error: could not add user.'
   const newId = insertInfo.insertedId
@@ -454,11 +472,11 @@ async function checkDeathsBeforeLoginUpdates(id) {
   if (!id) throw 'Error: id not given.'
   if (typeof(id) != "string") throw 'Error: type of id not string.'
   if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-  
+
   let user = null;
   try { user = await get(id) }
   catch (e) { throw e }
-  
+
   deadPets = null;
   try { deadPets = await getDeadPets(id) }
   catch (e) { throw e }
@@ -478,7 +496,7 @@ async function checkDeaths(id) {
   if (!id) throw 'Error: id not given.'
   if (typeof(id) != "string") throw 'Error: type of id not string.'
   if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
-  
+
   let user = null;
   try { user = await get(id) }
   catch (e) { throw e }
