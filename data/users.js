@@ -510,6 +510,39 @@ async function checkDeaths(id) {
   return newDeaths
 }
 
+async function placeFood(body) {
+  userId = body.userId
+  foodId = body.foodId
+  if (!userId) throw 'Error: must provide an userId for get.'
+  if (typeof(userId) != "string") throw 'Error: type of userId not string.'
+  if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
+  if (!foodId) throw 'Error: must provide an foodId for get.'
+  if (typeof(foodId) != "string") throw 'Error: type of foodId not string.'
+  if (foodId.trim().length == 0) throw 'Error: foodId is either an empty string or just whitespace.'
+
+  owner = null;
+  try { owner = await get(userId) }
+  catch (e) { throw e }
+
+  if (!owner.foods[foodId] || owner.foods[foodId] <= 0) {
+    if (!owner.foods[foodId] || owner.foods[foodId] != -1) throw 'Error: not enough food to feed pet.'
+  }
+  if (owner.foods[foodId] != -1) {
+    owner.foods[foodId] -= 1
+  }
+  if (owner.foods[foodId] == 0) {
+    delete owner.foods[foodId]
+  }
+
+  let updateId = ObjectIdMongo(owner._id)
+  delete owner._id
+  const userCollection = await users()
+
+  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
+  return owner
+}
+
 module.exports = {
   add,
   get,
@@ -523,5 +556,6 @@ module.exports = {
   getLivingPets,
   updateLoginTime,
   updateLoginTimeWithDays,
-  checkDeaths
+  checkDeaths,
+  placeFood
 }
