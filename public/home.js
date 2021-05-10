@@ -140,9 +140,6 @@ function startClickToPlace() {
       pos: pt,
       targetedBy: null
     })
-
-    // Update the inventory
-    updateInventory();
   })
 }
 
