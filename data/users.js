@@ -81,6 +81,7 @@ async function add(body) {
     friends: [],
     pets: [],
     favoritePets: [],
+    notifiedDeaths: [],
     foods: {}
   }
 
@@ -154,6 +155,7 @@ async function update(body) {
     friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
+    notifiedDeaths: user.notifiedDeaths,
     foods: user.foods
   }
 
@@ -199,6 +201,7 @@ async function updatePassword(body) {
     friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
+    notifiedDeaths: user.notifiedDeaths,
     foods: user.foods
   }
 
@@ -241,6 +244,7 @@ async function modifyCredits(body) {
     friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
+    notifiedDeaths: user.notifiedDeaths,
     foods: user.foods
   }
 
@@ -446,7 +450,7 @@ async function updateLoginTimeWithDays(body) {
   return await get(id)
 }
 
-async function checkDeaths(id) {
+async function checkDeathsBeforeLoginUpdates(id) {
   if (!id) throw 'Error: id not given.'
   if (typeof(id) != "string") throw 'Error: type of id not string.'
   if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
@@ -468,6 +472,43 @@ async function checkDeaths(id) {
     }
   }
   return newPetDeaths
+}
+
+async function checkDeaths(id) {
+  if (!id) throw 'Error: id not given.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  
+  let user = null;
+  try { user = await get(id) }
+  catch (e) { throw e }
+
+  deadPets = null;
+  try { deadPets = await getDeadPets(id) }
+  catch (e) { throw e }
+
+  notifiedDeathStrings = user.notifiedDeaths.map(id => { return id.toString() })
+
+  changed = false;
+  newDeaths = [];
+  for (pet of deadPets) {
+    if (!notifiedDeathStrings.includes(pet._id.toString())) {
+      console.log("here")
+      changed = true;
+      newDeaths.push(pet)
+      petId = ObjectIdMongo(pet._id)
+      user.notifiedDeaths.push(petId)
+    }
+  }
+
+  if (changed) {
+    const userCollection = await users()
+    let objId = ObjectIdMongo(id)
+    delete user._id
+    const updateInfo = await userCollection.updateOne({ _id: objId }, { $set: user })
+    if (updateInfo.modifiedCount == 0) throw 'Error: could not update notifiedDeaths.'
+  }
+  return newDeaths
 }
 
 module.exports = {
