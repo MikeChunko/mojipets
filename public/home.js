@@ -75,9 +75,6 @@ function startAnimation() {
         // remove target from DOM
         $(`#${pet.target.id}`).remove()
 
-        // remove target from foodlist and from pet's targeting info
-        _items.splice(_items.indexOf(pet.target), 1)
-
         // use ajax to inform server of this interaction
         if (pet.target.type == 'food' && pet.target.data)
           $.post(`/api/user/pet/${pet.data._id}/interactions/feed`,
@@ -85,6 +82,8 @@ function startAnimation() {
         else if (pet.target.type == 'toy')
           $.post(`/api/user/pet/${pet.data._id}/interactions/fetch`)
 
+        // remove target from foodlist and from pet's targeting info
+        _items.splice(_items.indexOf(pet.target), 1)
         pet.target = null
       }
     }
