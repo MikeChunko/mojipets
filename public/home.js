@@ -55,7 +55,7 @@ function startAnimation() {
   }
 
   /** ANIMATION LOGIC PER-FRAME **/
-  function frame() {
+  async function frame() {
     // pets without a target should pair up with targets without a pet
     if (_items.some(i => !i.targetedBy) && _pets.some(p => !p.target)) {
       while (_items.some(i => !i.targetedBy)) {
@@ -140,6 +140,9 @@ function startClickToPlace() {
       pos: pt,
       targetedBy: null
     })
+
+    // Update the inventory
+    updateInventory();
   })
 }
 
@@ -401,7 +404,6 @@ function updateFavoritePets() {
 }
 
 function updateInventory() {
-  console.log("HERE!");
   // Re-render favorite pets
   var requestConfig = {
     method: "GET",
@@ -409,13 +411,18 @@ function updateInventory() {
   };
 
   $.ajax(requestConfig).then(function (res) {
-    console.log("HERE!!");
     // Used to keep scroll position
     scrollPos = $("#inventory-ul").scrollTop();
 
+    // Used for remembering which item was clicked
+    clicked = $($("[data-clicked|='y'")[0]).attr("data-id");
+    
     $("#inventory-ul").replaceWith($.parseHTML(res)[0]);
-
+    
     $("#inventory-ul").scrollTop(scrollPos);
+
+    // "Click" the item again
+    $($(`[data-id|='${clicked}']`)[0]).attr("data-clicked", "y");
 
     inventoryHandler();
   }).fail(function (e) {
