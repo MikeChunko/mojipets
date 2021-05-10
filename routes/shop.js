@@ -27,9 +27,10 @@ async function handleRequest(req, res) {
     const mob = shopFood.find((food, i) => {
       if (food.emoji.name == "meat on bone")
         return food;
-    })
+    });
 
-    shopFood.splice(shopFood.indexOf(mob), 1);
+    if (mob)
+      shopFood.splice(shopFood.indexOf(mob), 1);
 
     res.render("mojipets/shop", {
       title: "MojiPets",
