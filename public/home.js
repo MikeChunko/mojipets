@@ -85,10 +85,7 @@ function startAnimation() {
         else if (pet.target.type == 'toy')
           $.post(`/api/user/pet/${pet.data._id}/interactions/fetch`)
 
-        // if new targets are available, pick a new target
         pet.target = null
-        let newTarget = findClosestTarget(pet, _items)
-        if (newTarget) setTarget(pet, newTarget)
       }
     }
     // pets that need to move closer to their targets should move closer
