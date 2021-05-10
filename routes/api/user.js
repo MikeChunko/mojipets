@@ -228,6 +228,10 @@ router.post('/:id/pets', async (req, res) => {
   res.json(protect.pet.showSensitive)
 })
 
+router.post('/:id/foods/:foodid', async (req, res) => {
+  res.status(500).json({ error: 'TODO: implement' })
+})
+
 router.post('/:id/favoritePets/:petid', async (req, res) => {
   let petId = req.params.petid
   let userId = req.params.id
