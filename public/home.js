@@ -5,6 +5,7 @@ let _user = null // the currently logged in user.
 
 let _pets = []; // pets to be rendered
 let _items = []; // items (food or toys) that the pets will chase
+let _selecteditem = null // item that the user has selected
 
 let _looper = null; // for loop iteration
 
@@ -77,7 +78,7 @@ function startAnimation() {
         // remove target from foodlist and from pet's targeting info
         _items.splice(_items.indexOf(pet.target), 1)
 
-        // TODO: 🐛 debug this
+        // TODO: 🐛 test for bugs
         // use ajax to inform server of this interaction
         if (pet.target.type == 'food' && pet.target.data)
           $.post(`/api/user/pet/${pet.data._id}/interactions/feed`,
@@ -116,17 +117,21 @@ function startAnimation() {
 
 /** Proof of concept click-to-place **/
 function startClickToPlace() {
-  // TODO: place food or toy contextually
+  // TODO: 🐛 test for bugs
   // TODO: subtract correct val so obj is placed in center of mouse
   _container.click((event) => {
+    // Can't place anything if nothing is selected
+    if (_selecteditem == null) return
+    
     let pt = {
       x: event.offsetX - 25,
       y: event.offsetY - 25
     };
 
     // create html node for item
-    let placedItem = $(`<img alt="meat on bone" src="/public/resources/food/meat_on_bone.svg"
-                             id="item${_items.length}" class="item"/>`)
+    let placedItem =
+        $(`<img alt="${_selecteditem.alt}" src="${_selecteditem.img}" 
+                id="item${_items.length}" class="item"/>`)
     placedItem.css({
       left: `${pt.x}px`,
       top: `${pt.y}px`
@@ -136,8 +141,8 @@ function startClickToPlace() {
     // update info and add item to list
     _items.push({
       id: placedItem.attr('id'),
-      type: 'food', // TODO: place food or toy contextually
-      data: null, // TODO: if it's food, add the id here
+      type: _selecteditem.type, // either 'food' or 'toy'
+      data: _selecteditem.data, // objectid if food, -1 if toy
       pos: pt,
       targetedBy: null
     })
@@ -412,6 +417,13 @@ function inventoryHandler() {
       // "Click" the selected item
       $(food).attr("data-clicked", "y");
 
+      _selecteditem = {
+        type: 'food',
+        data: $(food).attr('data-id'),
+        img: $(food).children('input').eq(0).attr('src'),
+        alt: $(food).children('input').eq(0).attr('alt')
+      }
+
       console.log("Clicked a food with id value:", $(food).attr("data-id"));
     });
   });
@@ -433,6 +445,13 @@ function toysHandler() {
 
       // "Click" the selected item
       $(toy).attr("data-clicked", "y");
+
+      _selecteditem = {
+        type: 'toy',
+        data: $(toy).attr('data-id'),
+        img: $(toy).children('input').eq(0).attr('src'),
+        alt: $(toy).children('input').eq(0).attr('alt')
+      }
 
       console.log("Clicked a toy with id value:", $(toy).attr("data-id"));
     });
