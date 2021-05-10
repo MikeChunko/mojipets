@@ -116,7 +116,7 @@ function startClickToPlace() {
   _container.click((event) => {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
-    
+
     let pt = {
       x: event.offsetX - 25,
       y: event.offsetY - 25
@@ -124,7 +124,7 @@ function startClickToPlace() {
 
     // create html node for item
     let placedItem =
-        $(`<img alt="${_selecteditem.alt}" src="${_selecteditem.img}" 
+        $(`<img alt="${_selecteditem.alt}" src="${_selecteditem.img}"
                 id="item${_items.length}" class="item"/>`)
     placedItem.css({
       left: `${pt.x}px`,
@@ -160,9 +160,9 @@ async function renderPets() {
       x: Math.floor((Math.random() * dims.width) + 25),
       y: Math.floor((Math.random() * dims.height) + 25)
     }
-    
+
     // create html node for item
-    let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}" 
+    let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}"
                           id="pet${_pets.length}" class="pet" />`)
     petNode.css({
       left: `${pt.x}px`,
@@ -413,9 +413,9 @@ function updateInventory() {
 
     // Used for remembering which item was clicked
     clicked = $($("[data-clicked|='y'")[0]).attr("data-id");
-    
+
     $("#inventory-ul").replaceWith($.parseHTML(res)[0]);
-    
+
     $("#inventory-ul").scrollTop(scrollPos);
 
     // "Click" the item again
