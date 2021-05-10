@@ -400,6 +400,29 @@ function updateFavoritePets() {
   });
 }
 
+function updateInventory() {
+  console.log("HERE!");
+  // Re-render favorite pets
+  var requestConfig = {
+    method: "GET",
+    url: "/home/inventory"
+  };
+
+  $.ajax(requestConfig).then(function (res) {
+    console.log("HERE!!");
+    // Used to keep scroll position
+    scrollPos = $("#inventory-ul").scrollTop();
+
+    $("#inventory-ul").replaceWith($.parseHTML(res)[0]);
+
+    $("#inventory-ul").scrollTop(scrollPos);
+
+    inventoryHandler();
+  }).fail(function (e) {
+    // TODO: Show an error somehow
+  });
+}
+
 function inventoryHandler() {
   $($(".inventory-ul").find(".emoji-container")).each(function (i, food) {
     $(food).click(function (e) {
