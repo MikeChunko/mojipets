@@ -492,7 +492,9 @@ function addFriendsHandler() {
         // TODO: Show an error somehow
       });
     }).fail(function (e) {
-      // TODO: Show an error somehow
+      $("#addFriendText").addClass("formError");
+      $("#formErrorMessage").show();
+      $("#formErrorMessage").text(`Could not add friends`);
     });
   });
 }

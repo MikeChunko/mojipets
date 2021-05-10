@@ -279,10 +279,22 @@ async function makeFriends(body) {
 
   let objId1 = ObjectIdMongo(id1)
   let objId2 = ObjectIdMongo(id2)
-  if (user2.friends.includes(objId1) && user1.friends.includes(objId2)) throw 'Error: users are already friends.'
+  let cond1 = false;
+  let cond2 = false;
+
+  for (let i = 0; i < user1.friends.length && !cond1; i++)
+    if (id2 == user1.friends[i].toString())
+      cond1 = true;
+
+  for (let i = 0; i < user2.friends.length && !cond2; i++)
+    if (id1 == user2.friends[i].toString())
+      cond2 = true;
+
+
+  if (cond1 && cond2) throw 'Error: users are already friends.'
   const userCollection = await users()
-  user1.friends.push(objId2)
-  user2.friends.push(objId1)
+  if (!cond1) user1.friends.push(objId2)
+  if (!cond2) user2.friends.push(objId1)
   delete user1._id
   delete user2._id
   const updateInfo1 = await userCollection.updateOne({ _id: objId1 }, { $set: user1 })
