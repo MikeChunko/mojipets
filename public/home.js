@@ -33,33 +33,33 @@ function startAnimation() {
     pet.target = target
     target.targetedBy = pet
   }
-  // find the closest un-targetted target to a given pet
-  const findClosestTarget = (pet, targets) => {
+  // finds the closest available (pet, target) pair
+  const findClosestPair = (pets, targets) => {
     let closest = null
     for (var target of targets) if (!target.targetedBy) {
-      let vecToTarget = { // vector from the pet to the target
-        x: target.pos.x - pet.pos.x,
-        y: target.pos.y - pet.pos.y
-      }
-      // calculate distance and update if closer than current closest
-      let dist = Math.sqrt(vecToTarget.x ** 2 + vecToTarget.y ** 2)
-      if (!closest || dist < closest.dist) closest = {
-        dist: dist,
-        target: target
+      for (var pet of pets) if (!pet.target) {
+        let vecToTarget = { // vector from the pet to the target
+          x: target.pos.x - pet.pos.x,
+          y: target.pos.y - pet.pos.y
+        }
+        // calculate distance and update if closer than current closest
+        let dist = Math.sqrt(vecToTarget.x ** 2 + vecToTarget.y ** 2)
+        if (!closest || dist < closest.dist) closest = {
+          dist: dist,
+          pet: pet,
+          target: target
+        }
       }
     }
-    return !closest ? null : closest.target
+    return !closest ? null : closest
   }
 
   /** ANIMATION LOGIC PER-FRAME **/
-  // TODO: 🐛 when the food item is placed, it's not always the closest pet that
-  //          tries to eat it.
   function frame() {
     // pets without a target should pair up with targets without a pet
     if (_items.some(i => !i.targetedBy) && _pets.some(p => !p.target)) {
       while (_items.some(i => !i.targetedBy)) {
-        let pet = _pets.find(p => !p.target)
-        let target = findClosestTarget(pet, _items)
+        let { pet, target } = findClosestPair(_pets, _items)
         if (pet && target) setTarget(pet, target)
       }
     }
