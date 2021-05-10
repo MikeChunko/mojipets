@@ -152,16 +152,22 @@ async function renderPets() {
   let data = await $.get(`/api/user/${_user._id}/pets?alive=true`)
 
   for (var petData of data) {
-    // pick a random point
-    // TODO: make it so that pets don't spawn on top of each other
-    let pt = { // TODO: use a more accurate area than between 1 & 100
-      x: Math.floor((Math.random() * 100) + 1),
-      y: Math.floor((Math.random() * 100) + 1)
+    let dims = { // dimensions of window
+      width: $('#center-container').width() - 100,
+      height: parseFloat($('#center-container').css('padding-bottom')
+                         .slice(0,-2)) - 100 // assumes units are px
     }
 
+    // pick a random point
+    // TODO: make it so that pets don't spawn on top of each other
+    let pt = {
+      x: Math.floor((Math.random() * dims.width) + 25),
+      y: Math.floor((Math.random() * dims.height) + 25)
+    }
+    
     // create html node for item
-    let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}" id="pet${_pets.length}"
-                          class="pet" />`)
+    let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}" 
+                          id="pet${_pets.length}" class="pet" />`)
     petNode.css({
       left: `${pt.x}px`,
       top: `${pt.y}px`
