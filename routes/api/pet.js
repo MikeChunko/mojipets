@@ -150,7 +150,7 @@ router.post('/:id/interactions/fetch', async (req, res) => {
       error: `This user is not authorized to play fetch with pet '${id}'`
     })
 
-  try { pet = await data.userPets.get({ id }) }
+  try { pet = await data.userPets.get(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
   if (daysDifference(pet.health, new Date()) > 9)
