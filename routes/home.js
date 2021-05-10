@@ -27,8 +27,13 @@ router.get("/", async (req, res) => {
     let inventory = cloneDeep(req.session.user.foods),
         inventoryKeys = Object.keys(inventory);
 
-    for (let i = 0; i < inventoryKeys.length; i++)
+    for (let i = 0; i < inventoryKeys.length; i++) {
       inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
+
+      // Handle "infinite" quantities
+      if (inventoryKeys[i].quantity == -1)
+        inventoryKeys[i].quantity = "∞";
+    }
 
     // Fetch user's friends
     let friends = cloneDeep(req.session.user.friends);
