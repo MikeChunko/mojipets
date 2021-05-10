@@ -81,6 +81,7 @@ async function add(body) {
     friends: [],
     pets: [],
     favoritePets: [],
+    notifiedDeaths: [],
     foods: {}
   }
 
@@ -154,6 +155,7 @@ async function update(body) {
     friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
+    notifiedDeaths: user.notifiedDeaths,
     foods: user.foods
   }
 
@@ -199,6 +201,7 @@ async function updatePassword(body) {
     friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
+    notifiedDeaths: user.notifiedDeaths,
     foods: user.foods
   }
 
@@ -241,6 +244,7 @@ async function modifyCredits(body) {
     friends: user.friends,
     pets: user.pets,
     favoritePets: user.favoritePets,
+    notifiedDeaths: user.notifiedDeaths,
     foods: user.foods
   }
 
@@ -421,6 +425,92 @@ async function updateLoginTime(id) {
   return await get(id)
 }
 
+async function updateLoginTimeWithDays(body) {
+  id = body.id
+  days = body.days
+  if (!id) throw 'Error: id not given.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  if (!days) throw 'Error: days not given.'
+  if (typeof(days) != "number") throw 'Error: type of days not number.'
+  let user = null;
+  try {
+    user = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let currentDateTimestamp = new Date()
+  currentDateTimestamp.setDate(currentDateTimestamp.getDate() + days)
+  const userCollection = await users()
+  user.lastLogin = currentDateTimestamp
+  let objId = ObjectIdMongo(id)
+  delete user._id
+  const updateInfo = await userCollection.updateOne({ _id: objId }, { $set: user })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not update user1.'
+  return await get(id)
+}
+
+async function checkDeathsBeforeLoginUpdates(id) {
+  if (!id) throw 'Error: id not given.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  
+  let user = null;
+  try { user = await get(id) }
+  catch (e) { throw e }
+  
+  deadPets = null;
+  try { deadPets = await getDeadPets(id) }
+  catch (e) { throw e }
+
+  let lastLoginTimestamp = user.lastLogin.getTime()
+  let newPetDeaths = []
+  for (pet of deadPets) {
+    let weekPastFeedTime = pet.health.getTime() + (9 * 24 * 60 * 60 * 1000)
+    if (lastLoginTimestamp < weekPastFeedTime) {
+      newPetDeaths.push(pet)
+    }
+  }
+  return newPetDeaths
+}
+
+async function checkDeaths(id) {
+  if (!id) throw 'Error: id not given.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  
+  let user = null;
+  try { user = await get(id) }
+  catch (e) { throw e }
+
+  deadPets = null;
+  try { deadPets = await getDeadPets(id) }
+  catch (e) { throw e }
+
+  notifiedDeathStrings = user.notifiedDeaths.map(id => { return id.toString() })
+
+  changed = false;
+  newDeaths = [];
+  for (pet of deadPets) {
+    if (!notifiedDeathStrings.includes(pet._id.toString())) {
+      console.log("here")
+      changed = true;
+      newDeaths.push(pet)
+      petId = ObjectIdMongo(pet._id)
+      user.notifiedDeaths.push(petId)
+    }
+  }
+
+  if (changed) {
+    const userCollection = await users()
+    let objId = ObjectIdMongo(id)
+    delete user._id
+    const updateInfo = await userCollection.updateOne({ _id: objId }, { $set: user })
+    if (updateInfo.modifiedCount == 0) throw 'Error: could not update notifiedDeaths.'
+  }
+  return newDeaths
+}
+
 module.exports = {
   add,
   get,
@@ -432,5 +522,7 @@ module.exports = {
   removeFriends,
   getDeadPets,
   getLivingPets,
-  updateLoginTime
+  updateLoginTime,
+  updateLoginTimeWithDays,
+  checkDeaths
 }
