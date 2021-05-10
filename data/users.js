@@ -421,6 +421,31 @@ async function updateLoginTime(id) {
   return await get(id)
 }
 
+async function updateLoginTimeWithDays(body) {
+  id = body.id
+  days = body.days
+  if (!id) throw 'Error: id not given.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  if (!days) throw 'Error: days not given.'
+  if (typeof(days) != "number") throw 'Error: type of days not number.'
+  let user = null;
+  try {
+    user = await get(id)
+  } catch (e) {
+    throw e
+  }
+  let currentDateTimestamp = new Date()
+  currentDateTimestamp.setDate(currentDateTimestamp.getDate() + days)
+  const userCollection = await users()
+  user.lastLogin = currentDateTimestamp
+  let objId = ObjectIdMongo(id)
+  delete user._id
+  const updateInfo = await userCollection.updateOne({ _id: objId }, { $set: user })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not update user1.'
+  return await get(id)
+}
+
 async function checkDeaths(id) {
   if (!id) throw 'Error: id not given.'
   if (typeof(id) != "string") throw 'Error: type of id not string.'
@@ -457,5 +482,6 @@ module.exports = {
   getDeadPets,
   getLivingPets,
   updateLoginTime,
+  updateLoginTimeWithDays,
   checkDeaths
 }
