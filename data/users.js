@@ -9,8 +9,7 @@
 
 const { ObjectID } = require('bson'),
       ObjectIdMongo = require('mongodb').ObjectID,
-      mongoCollections = require('../config/mongoCollections'),
-      { users } = require('../config/mongoCollections'),
+      { users, storeFood } = require('../config/mongoCollections'),
       bcrypt = require('bcrypt'),
       settings = require("../config.json"),
       saltRounds = settings.saltRounds,
@@ -88,7 +87,7 @@ async function add(body) {
   // Add an infinite source of meat_on_bone
 
   // Need to have this code here to avoid circular dependencies
-  const storeFoodCollection = await storeFood()
+  const storeFoodCollection = await storeFood();
   const storeFoodArr = await storeFoodCollection.find({}).toArray()
   const shopFood = storeFoodArr.map(clean)
 
