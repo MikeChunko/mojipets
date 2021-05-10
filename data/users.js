@@ -304,6 +304,61 @@ async function makeFriends(body) {
   return [await get(id1), await get(id2)]
 }
 
+async function removeFriends(body) {
+  id1 = body.userId1
+  id2 = body.userId2
+  if (!id1) throw 'Error: userId1 not given.'
+  if (typeof(id1) != "string") throw 'Error: type of userId1 not string.'
+  if (id1.trim().length == 0) throw 'Error: userId1 is either an empty string or just whitespace.'
+  if (!id2) throw 'Error: userId2 not given.'
+  if (typeof(id2) != "string") throw 'Error: type of userId2 not string.'
+  if (id2.trim().length == 0) throw 'Error: userId2 is either an empty string or just whitespace.'
+
+  let user1 = null;
+  let user2 = null;
+  try {
+    user1 = await get(id1)
+  } catch (e) {
+    throw e
+  }
+  try {
+    user2 = await get(id2)
+  } catch (e) {
+    throw e
+  }
+
+  let objId1 = ObjectIdMongo(id1)
+  let objId2 = ObjectIdMongo(id2)
+  let cond1 = false;
+  let cond2 = false;
+  let i1 = -1;
+  let i2 = -1;
+
+  for (let i = 0; i < user1.friends.length && !cond1; i++)
+    if (id2 == user1.friends[i].toString()) {
+      cond1 = true;
+      i1 = i;
+    }
+
+  for (let i = 0; i < user2.friends.length && !cond2; i++)
+    if (id1 == user2.friends[i].toString()) {
+      cond2 = true;
+      i2 = i
+    }
+
+  if (!cond1 && !cond2) throw 'Error: users are not friends.'
+  const userCollection = await users()
+  if (cond1) user1.friends.splice(i1, 1);
+  if (cond2) user2.friends.splice(i2, 1);
+  delete user1._id
+  delete user2._id
+  const updateInfo1 = await userCollection.updateOne({ _id: objId1 }, { $set: user1 })
+  if (updateInfo1.modifiedCount == 0) throw 'Error: could not update user1.'
+  const updateInfo2 = await userCollection.updateOne({ _id: objId2 }, { $set: user2 })
+  if (updateInfo2.modifiedCount == 0) throw 'Error: could not update user2.'
+  return [await get(id1), await get(id2)]
+}
+
 async function getDeadPets(id) {
   if (!id) throw 'Error: id not given.'
   if (typeof(id) != "string") throw 'Error: type of id not string.'
@@ -374,6 +429,7 @@ module.exports = {
   updatePassword,
   modifyCredits,
   makeFriends,
+  removeFriends,
   getDeadPets,
   getLivingPets,
   updateLoginTime

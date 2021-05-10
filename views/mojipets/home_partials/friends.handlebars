@@ -8,6 +8,12 @@
           <input id="{{this._id}}" type="submit" name="profile" value="View Profile" />
         </label>
       </form>
+
+      <form class="friend-form delete" data-id={{this._id}}>
+        <label for="{{this._id}}-delete">
+          <input id="{{this._id}}-delete" data-id={{this._id}} type="submit" name="delete" value="X" />
+        </label>
+      </form>
     </div>
   </li>
   {{/each}}

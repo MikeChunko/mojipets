@@ -318,7 +318,35 @@ router.post('/:id/friends/:friendid', async (req, res) => {
 })
 
 router.delete('/:id/friends/:friendid', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+  if (!req.session.user || req.session.user._id.toString() != req.params.id)
+    return res.sendStatus(403);
+
+  if (!req.params.id || typeof(req.params.id) != "string" ||
+      req.params.id.trim().length == 0)
+    return res.sendStatus(400)
+
+  if (!req.params.friendid || typeof(req.params.friendid) != "string" ||
+      req.params.friendid.trim().length == 0)
+    return res.sendStatus(400)
+
+  try {
+    await userData.get(req.params.friendid);
+  } catch (e) {
+    return res.status(400).json({ error: e.toString() });
+  }
+
+  try {
+    let [u1, u2] = await userData.removeFriends({
+      userId1: req.params.id,
+      userId2: req.params.friendid
+    });
+
+    // Update session info
+    req.session.user = u1;
+    return res.sendStatus(200);
+  } catch (e) {
+    return res.status(500).json({ error: e.toString() });
+  }
 })
 
 module.exports = router

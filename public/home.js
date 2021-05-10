@@ -211,6 +211,10 @@ async function renderPets() {
 
   addFriendsHandler();
 
+  $("#friends-ul").children().each(function(i, friend) {
+    friendDeleteHandler(friend);
+  });
+
 })(window.jQuery);
 
 // Sets up the link to reset the center div
@@ -474,29 +478,56 @@ function addFriendsHandler() {
     };
 
     $.ajax(requestConfig).then(function (res) {
-      // Update the friends list
-      var requestConfig = {
-        method: "GET",
-        url: "/home/friends"
-      };
-      console.log("HELP")
-      $.ajax(requestConfig).then(function (res) {
-        console.log("ME")
-        // Used to keep scroll position
-        scrollPos = $("#friends-ul").scrollTop();
-
-        $("#friends-ul").replaceWith($.parseHTML(res)[0]);
-
-        $("#friends-ul").scrollTop(scrollPos);
-      }).fail(function (e) {
-        // TODO: Show an error somehow
-      });
+      updateFriends();
     }).fail(function (e) {
       $("#addFriendText").addClass("formError");
       $("#formErrorMessage").show();
       $("#formErrorMessage").text(`Could not add friends`);
     });
   });
+}
+
+function updateFriends() {
+  // Update the friends list
+  var requestConfig = {
+    method: "GET",
+    url: "/home/friends"
+  };
+
+  $.ajax(requestConfig).then(function (res) {
+    // Used to keep scroll position
+    scrollPos = $("#friends-ul").scrollTop();
+
+    $("#friends-ul").replaceWith($.parseHTML(res)[0]);
+
+    $("#friends-ul").scrollTop(scrollPos);
+
+    $("#friends-ul").children().each(function(i, friend) {
+      friendDeleteHandler(friend);
+    });
+  }).fail(function (e) {
+    // TODO: Show an error somehow
+  });
+}
+
+function friendDeleteHandler(friend) {
+  var deleteForm = $($(friend).find(".delete")[0])
+  deleteForm.submit(async function (e) {
+    e.preventDefault();
+
+    // Removethe friend
+    var requestConfig = {
+      method: "DELETE",
+      url: `api/user/${_user._id}/friends/${$(deleteForm).attr("data-id")}`
+    };
+
+    $.ajax(requestConfig).then(function (res) {
+      updateFriends();
+    }).fail(function (e) {
+      // TODO: Show an error somehow
+    });
+
+  })
 }
 
 /** Entrypoint! Should be run onload in homepage **/
