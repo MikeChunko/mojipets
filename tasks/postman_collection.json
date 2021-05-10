@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f12577d8-61d1-4199-8352-ca3856fe11a3",
+		"_postman_id": "8ab49fc7-5eed-4bf5-9e85-634e427a9a34",
 		"name": "Mojipets",
 		"description": "### Route labels\n\n- 🆔 Correctly Authenticated\n- 🛑 Incorrectly authenticated\n- ❌ Erroneous",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -41,7 +41,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "608b19dacb49ac364985d2e0",
+											"value": "{{jack.id}}",
 											"description": "jack's id"
 										}
 									]
@@ -78,7 +78,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "608b19dacb49ac364985d2e0",
+											"value": "{{jack.id}}",
 											"description": "jack's id"
 										}
 									]
@@ -195,7 +195,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "608b19f2cb49ac364985d2e5",
+											"value": "{{gym3johto.id}}",
 											"description": "gym3johto's id"
 										}
 									]
@@ -233,7 +233,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "608b19f2cb49ac364985d2e5",
+											"value": "{{gym3johto.id}}",
 											"description": "gym3johto's id"
 										}
 									]
@@ -271,7 +271,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "608b19f2cb49ac364985d2e5",
+											"value": "{{gym3johto.id}}",
 											"description": "gym3johto's id"
 										}
 									]
@@ -315,7 +315,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "608b19f2cb49ac364985d2e5",
+											"value": "{{gym3johto.id}}",
 											"description": "gym3johto's id"
 										}
 									]
@@ -359,7 +359,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "608b19f2cb49ac364985d2e5",
+											"value": "{{gym3johto.id}}",
 											"description": "gym3johto's id"
 										}
 									]
@@ -478,7 +478,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b1a00cb49ac364985d300",
+									"value": "{{jack.pet}}",
 									"description": "feed jack's only pet"
 								}
 							]
@@ -527,7 +527,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b1a00cb49ac364985d300",
+									"value": "{{jack.pet}}",
 									"description": "feed jack's only pet"
 								}
 							]
@@ -576,7 +576,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b1a00cb49ac364985d306",
+									"value": "{{jack.pet}}",
 									"description": "feed jack's only pet"
 								}
 							]
@@ -625,7 +625,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b1a00cb49ac364985d300",
+									"value": "{{jack.pet}}",
 									"description": "feed jack's only pet"
 								}
 							]
@@ -665,7 +665,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b1a00cb49ac364985d300",
+									"value": "{{jack.pet}}",
 									"description": "feed jack's only pet"
 								}
 							]
@@ -705,7 +705,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b1a00cb49ac364985d300",
+									"value": "{{jack.pet}}",
 									"description": "feed jack's only pet"
 								}
 							]
@@ -745,7 +745,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "608b1a00cb49ac364985d306",
+									"value": "{{jack.pet}}",
 									"description": "feed jack's only pet"
 								}
 							]
@@ -871,6 +871,18 @@
 		{
 			"key": "base_url",
 			"value": "http://localhost:3000"
+		},
+		{
+			"key": "gym3johto.id",
+			"value": "608b19f2cb49ac364985d2e5"
+		},
+		{
+			"key": "jack.pet",
+			"value": "608b1a00cb49ac364985d300"
+		},
+		{
+			"key": "jack.id",
+			"value": "608b19dacb49ac364985d2e0"
 		}
 	]
 }
