@@ -58,6 +58,36 @@ app.use("/", async (req, res, next) => {
   return next();
 });
 
+// Death notification middleware
+app.use("/", async (req, res, next) => {
+  // This should only be done if the user is logged in
+  if (req.session.user) {
+    let deaths = await userData.checkDeaths(req.session.user._id);
+
+    // No deaths have happened
+    if (deaths.length == 0)
+      return next();
+
+    req.session.user = await userData.get(req.session.user._id);
+
+     // Map happiness, health, and age
+    for (let i = 0; i < deaths.length; i++) {
+      deaths[i].happiness = await userPets.getHappiness(deaths[i]._id.toString());
+      deaths[i].status = await userPets.getStatus(deaths[i]._id.toString());
+      deaths[i].age = await userPets.getAge(deaths[i]._id.toString());
+    }
+
+    // Render the death page
+    return res.render("mojipets/deaths", {
+      title: "MojiPets",
+      deaths: deaths,
+      css: "/public/site.css"
+    })
+  }
+
+  return next();
+});
+
 configRoutes(app);
 
 app.listen(3000, () => {

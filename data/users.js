@@ -493,7 +493,6 @@ async function checkDeaths(id) {
   newDeaths = [];
   for (pet of deadPets) {
     if (!notifiedDeathStrings.includes(pet._id.toString())) {
-      console.log("here")
       changed = true;
       newDeaths.push(pet)
       petId = ObjectIdMongo(pet._id)
