@@ -116,7 +116,6 @@ function startAnimation() {
 
 /** Proof of concept click-to-place **/
 function startClickToPlace() {
-  // TODO: 🐛 test for bugs
   // TODO: subtract correct val so obj is placed in center of mouse
   _container.click((event) => {
     // Can't place anything if nothing is selected
