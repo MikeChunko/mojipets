@@ -189,7 +189,53 @@ router.get('/:id/pets', async (req, res) => {
 })
 
 router.post('/:id/pets', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+  let userId = req.params.id
+  let body = req.body
+
+  if (!body) return res.status(400).json({ error: 'body not given' })
+
+  let name = body.name
+  let petId = body.store
+
+  if (!userId) return res.status(400).json({ error: 'userId not given' })
+  if (typeof(userId) != "string")
+    return res.status(400).json({ error: 'type of userId not string' })
+  if (userId.trim().length == 0)
+    return res.status(400).json({
+      error: 'userId is either an empty string or just whitespace.'
+    })
+  if (!name) return res.status(400).json({ error: 'name not given' })
+  if (typeof(name) != "string")
+    return res.status(400).json({ error: 'type of name not string' })
+  if (name.trim().length == 0)
+    return res.status(400).json({
+      error: 'name is either an empty string or just whitespace.'
+    })
+  if (!petId) return res.status(400).json({ error: 'store not given' })
+  if (typeof(petId) != "string")
+    return res.status(400).json({ error: 'type of store not string' })
+  if (petId.trim().length == 0)
+    return res.status(400).json({
+      error: 'store is either an empty string or just whitespace.'
+    })
+  
+  let user = null;
+  try { user = await data.users.get(userId) }
+  catch (e) { return res.status(500).json({error: e.toString()}) }
+
+  if (!req.session.user) return res.status(403).json({
+    error: 'cannot buy a pet without being logged in'
+  })
+  if (req.session.user._id != userId) return res.status(403).json({
+    error: `cannot buy pet as a different user`
+  })
+
+  let pet = null;
+  try { pet = await data.storePets.buy({userId: userId, petId: petId, petName: name}) }
+  catch (e) { return res.status(500).json({error: e.toString()}) }
+
+  req.session.user = await userData.get(userId);
+  res.json(protect.pet.showSensitive)
 })
 
 router.post('/:id/favoritePets/:petid', async (req, res) => {
