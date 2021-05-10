@@ -24,6 +24,7 @@ async function hash_password(plaintextPassword) {
   return await bcrypt.hash(plaintextPassword, saltRounds);
 }
 
+// TODO: Do we need this?
 function validPassword (pwdStr) {
   var pwdFormat = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$";
   if (pwdStr.match(pwdFormat)) { return true }
@@ -73,7 +74,7 @@ async function add(body) {
     username: username.trim().toLowerCase(),
     passwordhash: passwordhash,
     displayname: displayname.trim(),
-    credits: 0, // change later maybe
+    credits: 100,  // The bare minimum to buy a pet
     pfp: emoji,
     joinDate: joinDate,
     lastLogin: joinDate,
