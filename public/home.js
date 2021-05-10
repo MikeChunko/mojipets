@@ -78,11 +78,10 @@ function startAnimation() {
         // remove target from foodlist and from pet's targeting info
         _items.splice(_items.indexOf(pet.target), 1)
 
-        // TODO: 🐛 test for bugs
         // use ajax to inform server of this interaction
         if (pet.target.type == 'food' && pet.target.data)
           $.post(`/api/user/pet/${pet.data._id}/interactions/feed`,
-                 { id: pet.target.data })
+                 { 'food.id': pet.target.data })
         else if (pet.target.type == 'toy')
           $.post(`/api/user/pet/${pet.data._id}/interactions/fetch`)
 
