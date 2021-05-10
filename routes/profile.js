@@ -48,7 +48,7 @@ router.get("/:uname", async (req, res) => {
 
     // Map favorite pet IDs to the full pet
     for (let i = 0; i < pets.length; i++) {
-      pets[i] = userObj.pets.find((pet, i) => {
+      pets[i] = userObj.pets.find((pet, j) => {
         if (pet._id.equals(pets[i]))
           return pet;
       });
