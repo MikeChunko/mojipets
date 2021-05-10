@@ -424,8 +424,6 @@ function inventoryHandler() {
         img: $(food).children('input').eq(0).attr('src'),
         alt: $(food).children('input').eq(0).attr('alt')
       }
-
-      console.log("Clicked a food with id value:", $(food).attr("data-id"));
     });
   });
 }
@@ -453,8 +451,6 @@ function toysHandler() {
         img: $(toy).children('input').eq(0).attr('src'),
         alt: $(toy).children('input').eq(0).attr('alt')
       }
-
-      console.log("Clicked a toy with id value:", $(toy).attr("data-id"));
     });
   });
 }

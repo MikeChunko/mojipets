@@ -110,7 +110,6 @@ router.post('/:id/interactions/feed', async (req, res) => {
   try { user = await data.userPets.getOwner(id) }
   catch (e) { return res.status(500).json({ error: e.toString() })}
   req.session.user = await protect.user.showSensitive(user)
-  console.log(req.session.user);
 })
 
 router.post('/:id/interactions/fetch', async (req, res) => {

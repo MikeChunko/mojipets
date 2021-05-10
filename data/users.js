@@ -101,8 +101,6 @@ async function add(body) {
     newUser.foods[mob._id] = -1
   };
 
-  console.log(mob, newUser.foods);
-
   let insertInfo = await userCollection.insertOne(newUser)
   if (insertInfo.insertedCount == 0) throw 'Error: could not add user.'
   const newId = insertInfo.insertedId
