@@ -9,8 +9,7 @@
 
 const { ObjectID } = require('bson'),
       ObjectIdMongo = require('mongodb').ObjectID,
-      mongoCollections = require('../config/mongoCollections'),
-      { users } = require('../config/mongoCollections'),
+      { users, storeFood } = require('../config/mongoCollections'),
       bcrypt = require('bcrypt'),
       settings = require("../config.json"),
       saltRounds = settings.saltRounds,
@@ -25,6 +24,7 @@ async function hash_password(plaintextPassword) {
   return await bcrypt.hash(plaintextPassword, saltRounds);
 }
 
+// TODO: Do we need this?
 function validPassword (pwdStr) {
   var pwdFormat = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$";
   if (pwdStr.match(pwdFormat)) { return true }
@@ -74,7 +74,7 @@ async function add(body) {
     username: username.trim().toLowerCase(),
     passwordhash: passwordhash,
     displayname: displayname.trim(),
-    credits: 0, // change later maybe
+    credits: 100,  // The bare minimum to buy a pet
     pfp: emoji,
     joinDate: joinDate,
     lastLogin: joinDate,
@@ -88,7 +88,7 @@ async function add(body) {
   // Add an infinite source of meat_on_bone
 
   // Need to have this code here to avoid circular dependencies
-  const storeFoodCollection = await storeFood()
+  const storeFoodCollection = await storeFood();
   const storeFoodArr = await storeFoodCollection.find({}).toArray()
   const shopFood = storeFoodArr.map(clean)
 
@@ -100,8 +100,6 @@ async function add(body) {
   if (mob) {
     newUser.foods[mob._id] = -1
   };
-
-  console.log(mob, newUser.foods);
 
   let insertInfo = await userCollection.insertOne(newUser)
   if (insertInfo.insertedCount == 0) throw 'Error: could not add user.'
@@ -528,6 +526,39 @@ async function checkDeaths(id) {
   return newDeaths
 }
 
+async function placeFood(body) {
+  userId = body.userId
+  foodId = body.foodId
+  if (!userId) throw 'Error: must provide an userId for get.'
+  if (typeof(userId) != "string") throw 'Error: type of userId not string.'
+  if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
+  if (!foodId) throw 'Error: must provide an foodId for get.'
+  if (typeof(foodId) != "string") throw 'Error: type of foodId not string.'
+  if (foodId.trim().length == 0) throw 'Error: foodId is either an empty string or just whitespace.'
+
+  owner = null;
+  try { owner = await get(userId) }
+  catch (e) { throw e }
+
+  if (!owner.foods[foodId] || owner.foods[foodId] <= 0) {
+    if (!owner.foods[foodId] || owner.foods[foodId] != -1) throw 'Error: not enough food to feed pet.'
+  }
+  if (owner.foods[foodId] != -1) {
+    owner.foods[foodId] -= 1
+  }
+  if (owner.foods[foodId] == 0) {
+    delete owner.foods[foodId]
+  }
+
+  let updateId = ObjectIdMongo(owner._id)
+  delete owner._id
+  const userCollection = await users()
+
+  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
+  return owner
+}
+
 module.exports = {
   add,
   get,
@@ -541,5 +572,6 @@ module.exports = {
   getLivingPets,
   updateLoginTime,
   updateLoginTimeWithDays,
-  checkDeaths
+  checkDeaths,
+  placeFood
 }

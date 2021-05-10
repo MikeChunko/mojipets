@@ -100,7 +100,7 @@ router.post('/:id/interactions/feed', async (req, res) => {
     })
 
   // TODO: consider using error 400 for bad-input errors from this fcn?
-  try { pet = await data.userPets.feed({ id, foodId }) }
+  try { pet = await data.userPets.feed(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
   // send updated pet to browser
@@ -110,7 +110,6 @@ router.post('/:id/interactions/feed', async (req, res) => {
   try { user = await data.userPets.getOwner(id) }
   catch (e) { return res.status(500).json({ error: e.toString() })}
   req.session.user = await protect.user.showSensitive(user)
-  console.log(req.session.user);
 })
 
 router.post('/:id/interactions/fetch', async (req, res) => {

@@ -162,6 +162,31 @@ router.get("/friends", async (req, res) => {
     console.log(e);
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
-})
+});
+
+router.get("/inventory", async (req, res) => {
+  try {
+    // Fetch user's inventory
+    // For some reason req.session.user inventory refuses to update properly
+    let inventory = cloneDeep((await userData.get(req.session.user._id)).foods),
+        inventoryKeys = Object.keys(inventory);
+
+    for (let i = 0; i < inventoryKeys.length; i++) {
+      inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
+
+      // Handle "infinite" quantities
+      if (inventoryKeys[i].quantity == -1)
+        inventoryKeys[i].quantity = "∞";
+    }
+
+    res.render("mojipets/home_partials/inventory", {
+      layout: false,
+      inventory: inventoryKeys
+    });
+  } catch (e) {  // Some error has occured in the db
+    console.log(e);
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
+});
 
 module.exports = router;

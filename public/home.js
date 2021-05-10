@@ -55,7 +55,7 @@ function startAnimation() {
   }
 
   /** ANIMATION LOGIC PER-FRAME **/
-  function frame() {
+  async function frame() {
     // pets without a target should pair up with targets without a pet
     if (_items.some(i => !i.targetedBy) && _pets.some(p => !p.target)) {
       while (_items.some(i => !i.targetedBy)) {
@@ -116,7 +116,7 @@ function startClickToPlace() {
   _container.click((event) => {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
-    
+
     let pt = {
       x: event.offsetX - 25,
       y: event.offsetY - 25
@@ -124,7 +124,7 @@ function startClickToPlace() {
 
     // create html node for item
     let placedItem =
-        $(`<img alt="${_selecteditem.alt}" src="${_selecteditem.img}" 
+        $(`<img alt="${_selecteditem.alt}" src="${_selecteditem.img}"
                 id="item${_items.length}" class="item"/>`)
     placedItem.css({
       left: `${pt.x}px`,
@@ -160,9 +160,9 @@ async function renderPets() {
       x: Math.floor((Math.random() * dims.width) + 25),
       y: Math.floor((Math.random() * dims.height) + 25)
     }
-    
+
     // create html node for item
-    let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}" 
+    let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}"
                           id="pet${_pets.length}" class="pet" />`)
     petNode.css({
       left: `${pt.x}px`,
@@ -400,6 +400,33 @@ function updateFavoritePets() {
   });
 }
 
+function updateInventory() {
+  // Re-render favorite pets
+  var requestConfig = {
+    method: "GET",
+    url: "/home/inventory"
+  };
+
+  $.ajax(requestConfig).then(function (res) {
+    // Used to keep scroll position
+    scrollPos = $("#inventory-ul").scrollTop();
+
+    // Used for remembering which item was clicked
+    clicked = $($("[data-clicked|='y'")[0]).attr("data-id");
+
+    $("#inventory-ul").replaceWith($.parseHTML(res)[0]);
+
+    $("#inventory-ul").scrollTop(scrollPos);
+
+    // "Click" the item again
+    $($(`[data-id|='${clicked}']`)[0]).attr("data-clicked", "y");
+
+    inventoryHandler();
+  }).fail(function (e) {
+    // TODO: Show an error somehow
+  });
+}
+
 function inventoryHandler() {
   $($(".inventory-ul").find(".emoji-container")).each(function (i, food) {
     $(food).click(function (e) {
@@ -423,8 +450,6 @@ function inventoryHandler() {
         img: $(food).children('input').eq(0).attr('src'),
         alt: $(food).children('input').eq(0).attr('alt')
       }
-
-      console.log("Clicked a food with id value:", $(food).attr("data-id"));
     });
   });
 }
@@ -452,8 +477,6 @@ function toysHandler() {
         img: $(toy).children('input').eq(0).attr('src'),
         alt: $(toy).children('input').eq(0).attr('alt')
       }
-
-      console.log("Clicked a toy with id value:", $(toy).attr("data-id"));
     });
   });
 }
