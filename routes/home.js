@@ -13,10 +13,13 @@ const express = require("express"),
       userData = data.users,
       userPets = data.userPets,
       storeFood = data.storeFood,
-      cloneDeep = require("lodash.clonedeep");
+      cloneDeep = require("lodash.clonedeep"),
+      { protect } = require("../util");
 
 router.get("/", async (req, res) => {
   try {
+    // Make sure our version of the user is up-to-daate
+
     // Fetch user's favorite pets
     let favorites = cloneDeep(req.session.user.favoritePets)
 
@@ -24,11 +27,17 @@ router.get("/", async (req, res) => {
       favorites[i] = await userPets.get(favorites[i]);
 
     // Fetch user's inventory
-    let inventory = cloneDeep(req.session.user.foods),
+    // For some reason req.session.user inventory refuses to update properly
+    let inventory = cloneDeep((await userData.get(req.session.user._id)).foods),
         inventoryKeys = Object.keys(inventory);
 
-    for (let i = 0; i < inventoryKeys.length; i++)
+    for (let i = 0; i < inventoryKeys.length; i++) {
       inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
+
+      // Handle "infinite" quantities
+      if (inventoryKeys[i].quantity == -1)
+        inventoryKeys[i].quantity = "∞";
+    }
 
     // Fetch user's friends
     let friends = cloneDeep(req.session.user.friends);
@@ -55,6 +64,7 @@ router.get("/", async (req, res) => {
       onload: "start()"
     });
   } catch (e) {  // Some error has occured in the db
+    console.log(e);
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
 });
@@ -152,6 +162,31 @@ router.get("/friends", async (req, res) => {
     console.log(e);
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
-})
+});
+
+router.get("/inventory", async (req, res) => {
+  try {
+    // Fetch user's inventory
+    // For some reason req.session.user inventory refuses to update properly
+    let inventory = cloneDeep((await userData.get(req.session.user._id)).foods),
+        inventoryKeys = Object.keys(inventory);
+
+    for (let i = 0; i < inventoryKeys.length; i++) {
+      inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
+
+      // Handle "infinite" quantities
+      if (inventoryKeys[i].quantity == -1)
+        inventoryKeys[i].quantity = "∞";
+    }
+
+    res.render("mojipets/home_partials/inventory", {
+      layout: false,
+      inventory: inventoryKeys
+    });
+  } catch (e) {  // Some error has occured in the db
+    console.log(e);
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
+});
 
 module.exports = router;

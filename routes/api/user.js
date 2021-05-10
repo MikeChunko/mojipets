@@ -85,16 +85,6 @@ router.post('/', async (req, res) => {
   res.json(protect.user.hideSensitive(user)) // unsure if you want me to change req.session.user in api
 })
 
-// TODO: consider excluding put and patch for /:id
-
-router.put('/:id', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
-})
-
-router.patch('/:id', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
-})
-
 router.put('/:id/password', async (req, res) => {
   let id = req.params.id
   let body = req.body;

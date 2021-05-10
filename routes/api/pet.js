@@ -55,20 +55,9 @@ router.get('/:id', async (req, res) => {
   else res.json(protect.pet.hideSensitive(pet));
 })
 
-// TODO: consider excluding put and patch
-
-router.put('/:id', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
-})
-
-router.patch('/:id', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
-})
-
 router.delete('/:id', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
-
 
 router.post('/:id/interactions/feed', async (req, res) => {
   // Error checking
@@ -120,7 +109,7 @@ router.post('/:id/interactions/feed', async (req, res) => {
   // update user in session
   try { user = await data.userPets.getOwner(id) }
   catch (e) { return res.status(500).json({ error: e.toString() })}
-  req.session.user = protect.user.showSensitive(user)
+  req.session.user = await protect.user.showSensitive(user)
 })
 
 router.post('/:id/interactions/fetch', async (req, res) => {

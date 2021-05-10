@@ -33,33 +33,33 @@ function startAnimation() {
     pet.target = target
     target.targetedBy = pet
   }
-  // find the closest un-targetted target to a given pet
-  const findClosestTarget = (pet, targets) => {
+  // finds the closest available (pet, target) pair
+  const findClosestPair = (pets, targets) => {
     let closest = null
     for (var target of targets) if (!target.targetedBy) {
-      let vecToTarget = { // vector from the pet to the target
-        x: target.pos.x - pet.pos.x,
-        y: target.pos.y - pet.pos.y
-      }
-      // calculate distance and update if closer than current closest
-      let dist = Math.sqrt(vecToTarget.x ** 2 + vecToTarget.y ** 2)
-      if (!closest || dist < closest.dist) closest = {
-        dist: dist,
-        target: target
+      for (var pet of pets) if (!pet.target) {
+        let vecToTarget = { // vector from the pet to the target
+          x: target.pos.x - pet.pos.x,
+          y: target.pos.y - pet.pos.y
+        }
+        // calculate distance and update if closer than current closest
+        let dist = Math.sqrt(vecToTarget.x ** 2 + vecToTarget.y ** 2)
+        if (!closest || dist < closest.dist) closest = {
+          dist: dist,
+          pet: pet,
+          target: target
+        }
       }
     }
-    return !closest ? null : closest.target
+    return !closest ? null : closest
   }
 
   /** ANIMATION LOGIC PER-FRAME **/
-  // TODO: 🐛 when the food item is placed, it's not always the closest pet that
-  //          tries to eat it.
   function frame() {
     // pets without a target should pair up with targets without a pet
     if (_items.some(i => !i.targetedBy) && _pets.some(p => !p.target)) {
       while (_items.some(i => !i.targetedBy)) {
-        let pet = _pets.find(p => !p.target)
-        let target = findClosestTarget(pet, _items)
+        let { pet, target } = findClosestPair(_pets, _items)
         if (pet && target) setTarget(pet, target)
       }
     }
@@ -75,9 +75,6 @@ function startAnimation() {
         // remove target from DOM
         $(`#${pet.target.id}`).remove()
 
-        // remove target from foodlist and from pet's targeting info
-        _items.splice(_items.indexOf(pet.target), 1)
-
         // use ajax to inform server of this interaction
         if (pet.target.type == 'food' && pet.target.data)
           $.post(`/api/user/pet/${pet.data._id}/interactions/feed`,
@@ -85,10 +82,9 @@ function startAnimation() {
         else if (pet.target.type == 'toy')
           $.post(`/api/user/pet/${pet.data._id}/interactions/fetch`)
 
-        // if new targets are available, pick a new target
+        // remove target from foodlist and from pet's targeting info
+        _items.splice(_items.indexOf(pet.target), 1)
         pet.target = null
-        let newTarget = findClosestTarget(pet, _items)
-        if (newTarget) setTarget(pet, newTarget)
       }
     }
     // pets that need to move closer to their targets should move closer
@@ -152,16 +148,22 @@ async function renderPets() {
   let data = await $.get(`/api/user/${_user._id}/pets?alive=true`)
 
   for (var petData of data) {
-    // pick a random point
-    // TODO: make it so that pets don't spawn on top of each other
-    let pt = { // TODO: use a more accurate area than between 1 & 100
-      x: Math.floor((Math.random() * 100) + 1),
-      y: Math.floor((Math.random() * 100) + 1)
+    let dims = { // dimensions of window
+      width: $('#center-container').width() - 100,
+      height: parseFloat($('#center-container').css('padding-bottom')
+                         .slice(0,-2)) - 100 // assumes units are px
     }
 
+    // pick a random point
+    // TODO: make it so that pets don't spawn on top of each other
+    let pt = {
+      x: Math.floor((Math.random() * dims.width) + 25),
+      y: Math.floor((Math.random() * dims.height) + 25)
+    }
+    
     // create html node for item
-    let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}" id="pet${_pets.length}"
-                          class="pet" />`)
+    let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}" 
+                          id="pet${_pets.length}" class="pet" />`)
     petNode.css({
       left: `${pt.x}px`,
       top: `${pt.y}px`
@@ -398,6 +400,29 @@ function updateFavoritePets() {
   });
 }
 
+function updateInventory() {
+  console.log("HERE!");
+  // Re-render favorite pets
+  var requestConfig = {
+    method: "GET",
+    url: "/home/inventory"
+  };
+
+  $.ajax(requestConfig).then(function (res) {
+    console.log("HERE!!");
+    // Used to keep scroll position
+    scrollPos = $("#inventory-ul").scrollTop();
+
+    $("#inventory-ul").replaceWith($.parseHTML(res)[0]);
+
+    $("#inventory-ul").scrollTop(scrollPos);
+
+    inventoryHandler();
+  }).fail(function (e) {
+    // TODO: Show an error somehow
+  });
+}
+
 function inventoryHandler() {
   $($(".inventory-ul").find(".emoji-container")).each(function (i, food) {
     $(food).click(function (e) {
@@ -421,8 +446,6 @@ function inventoryHandler() {
         img: $(food).children('input').eq(0).attr('src'),
         alt: $(food).children('input').eq(0).attr('alt')
       }
-
-      console.log("Clicked a food with id value:", $(food).attr("data-id"));
     });
   });
 }
@@ -450,8 +473,6 @@ function toysHandler() {
         img: $(toy).children('input').eq(0).attr('src'),
         alt: $(toy).children('input').eq(0).attr('alt')
       }
-
-      console.log("Clicked a toy with id value:", $(toy).attr("data-id"));
     });
   });
 }

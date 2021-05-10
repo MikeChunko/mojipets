@@ -20,8 +20,17 @@ async function handleRequest(req, res) {
   }
 
   try {
-    const shopPets = await storePets.getAll(),
-          shopFood = await storeFood.getAll();
+    let shopPets = await storePets.getAll(),
+        shopFood = await storeFood.getAll();
+    
+    // Remove our infinite food source from the shop
+    const mob = shopFood.find((food, i) => {
+      if (food.emoji.name == "meat on bone")
+        return food;
+    });
+
+    if (mob)
+      shopFood.splice(shopFood.indexOf(mob), 1);
 
     res.render("mojipets/shop", {
       title: "MojiPets",
@@ -32,9 +41,9 @@ async function handleRequest(req, res) {
       css: "/public/site.css",
       postjs: "/public/shop.js"
     });
-} catch (e) {  // Some error has occured in the db
-  res.status(500).sendFile(path.resolve("static/error_db.html"));
-}
+  } catch (e) {  // Some error has occured in the db
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
 }
 
 router.post("/", async (req, res) => {
