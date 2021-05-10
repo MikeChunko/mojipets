@@ -421,6 +421,30 @@ async function updateLoginTime(id) {
   return await get(id)
 }
 
+async function checkDeaths(id) {
+  if (!id) throw 'Error: id not given.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  
+  let user = null;
+  try { user = await get(id) }
+  catch (e) { throw e }
+  
+  deadPets = null;
+  try { deadPets = await getDeadPets(id) }
+  catch (e) { throw e }
+
+  let lastLoginTimestamp = user.lastLogin.getTime()
+  let newPetDeaths = []
+  for (pet of deadPets) {
+    let weekPastFeedTime = pet.health.getTime() + (9 * 24 * 60 * 60 * 1000)
+    if (lastLoginTimestamp < weekPastFeedTime) {
+      newPetDeaths.push(pet)
+    }
+  }
+  return newPetDeaths
+}
+
 module.exports = {
   add,
   get,
@@ -432,5 +456,6 @@ module.exports = {
   removeFriends,
   getDeadPets,
   getLivingPets,
-  updateLoginTime
+  updateLoginTime,
+  checkDeaths
 }
