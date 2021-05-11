@@ -9,8 +9,12 @@
   <br />
 
   <div class="center">
-    <p>{{pet.happiness}}</p>
-    <p>{{pet.status}}</p>
+    <p>{{pet.happiness}}: 
+      <meter class="health {{happy_class}}" value="{{pet.happiness_percent}}" min="0" max="100">{{pet.happiness_percent}}%</meter>
+    </p>
+    <p>{{pet.status}}: 
+      <meter class="health {{status_class}}" value="{{pet.status_percent}}" min="0" max="100">{{pet.status_percent}}%</meter>
+    </p>
     <p>{{pet.age}}</p>
     <p>{{pet.interactions}} interactions</p>
   </div>

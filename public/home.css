@@ -321,6 +321,35 @@ input[type="text"] {
   padding: 0;
 }
 
+.individual-pet > h2 {
+  font-size: 40px;
+}
+
+.individual-pet > div > p {
+  font-size: 30px; 
+}
+
+.health {
+  width: 20vw;
+  height: 2vw;
+  border: 0 solid black;
+  margin: 0;
+  padding: 0;
+  top: -100vh;
+}
+
+.health-high::-webkit-meter-optimum-value {
+  background: green;
+}
+
+.health-med::-webkit-meter-optimum-value {
+  background: orange;
+}
+
+.health-low::-webkit-meter-optimum-value {
+  background: red;
+}
+
 div > div {
   background-color: #FFFFFF;
   border-radius: 0.5vw;
