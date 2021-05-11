@@ -53,7 +53,7 @@ async function add(body) {
   if (insertInfo.insertedCount == 0) throw 'Error: could not add storePet.'
   const newId = insertInfo.insertedId
   const pet = await get(newId.toString())
-  return pet
+  return clean(pet)
 }
 
 async function get(id) {
@@ -98,7 +98,7 @@ async function buy(body) {
     } catch (e) {
       throw e
     }
-    return userPet
+    return clean(userPet)
 }
 
 

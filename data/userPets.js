@@ -148,7 +148,7 @@ async function updatePetInUser(pet) {
   const userCollection = await users()
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not update pet.'
-  return pet
+  return clean(pet)
 }
 
 async function feed(id) {
@@ -201,7 +201,7 @@ async function feed(id) {
 
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
-  return pet
+  return clean(pet)
 }
 
 async function fetch(id) {
@@ -228,7 +228,7 @@ async function fetch(id) {
     console.log(e)
     throw 'Error: could not make pet fetch.'
   }
-  return newPet
+  return clean(newPet)
 }
 
 async function favorite(id) {
@@ -403,7 +403,7 @@ async function killPet(id) { // for testing
   } catch (e) {
     throw 'Error: could not make kill pet.'
   }
-  return newPet
+  return clean(newPet)
 }
 
 async function depressPet(id) { // for testing
@@ -427,7 +427,7 @@ async function depressPet(id) { // for testing
   } catch (e) {
     throw 'Error: could not make pet depressed.'
   }
-  return newPet
+  return clean(newPet)
 }
 
 async function getTotalInteractions(id) {

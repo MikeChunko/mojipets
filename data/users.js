@@ -397,7 +397,7 @@ async function getDeadPets(id) {
       deadPets.push(pet)
     }
   }
-  return deadPets
+  return deadPets.map(clean)
 }
 
 async function getLivingPets(id) {
@@ -418,7 +418,7 @@ async function getLivingPets(id) {
       livingPets.push(pet)
     }
   }
-  return livingPets
+  return livingPets.map(clean)
 }
 
 async function updateLoginTime(id) {
@@ -463,7 +463,7 @@ async function updateLoginTimeWithDays(body) {
   delete user._id
   const updateInfo = await userCollection.updateOne({ _id: objId }, { $set: user })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not update user1.'
-  return await get(id)
+  return clean(await get(id))
 }
 
 async function checkDeathsBeforeLoginUpdates(id) {
@@ -487,7 +487,7 @@ async function checkDeathsBeforeLoginUpdates(id) {
       newPetDeaths.push(pet)
     }
   }
-  return newPetDeaths
+  return newPetDeaths.map(clean)
 }
 
 async function checkDeaths(id) {
@@ -523,7 +523,7 @@ async function checkDeaths(id) {
     const updateInfo = await userCollection.updateOne({ _id: objId }, { $set: user })
     if (updateInfo.modifiedCount == 0) throw 'Error: could not update notifiedDeaths.'
   }
-  return newDeaths
+  return newDeaths.map(clean)
 }
 
 async function placeFood(body) {

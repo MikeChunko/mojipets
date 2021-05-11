@@ -48,7 +48,7 @@ async function add(body) {
   if (insertInfo.insertedCount == 0) throw 'Error: could not add storeFood.'
   const newId = insertInfo.insertedId
   const food = await get(newId.toString())
-  return food
+  return clean(food)
 }
 
 async function get(id) {
@@ -119,7 +119,7 @@ async function buy(body) {
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: user })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not add new pet to user.'
   let changedUser = await usersJs.get(userId)
-  return changedUser
+  return clean(changedUser)
 }
 
 
