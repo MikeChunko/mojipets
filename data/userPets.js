@@ -486,5 +486,6 @@ module.exports = {
   killPet,
   depressPet,
   getTotalInteractions,
-  getHealthAsNumber
+  getHealthAsNumber,
+  getHappinessAsNumber
 }
