@@ -72,6 +72,10 @@ function startAnimation() {
           top: `${pet.target.pos.y}px`,
           left: `${pet.target.pos.x}px`
         })
+        pet.label.css({
+          top: `${pet.target.pos.y - 20}px`,
+          left: `${pet.target.pos.x}px`
+        })
         // remove target from DOM
         $(`#${pet.target.id}`).remove()
 
@@ -94,6 +98,10 @@ function startAnimation() {
         pet.pos.x += pet.delta.x; pet.pos.y += pet.delta.y;
         pet.node.css({
           top: `${pet.pos.y}px`,
+          left: `${pet.pos.x}px`
+        })
+        pet.label.css({
+          top: `${pet.pos.y - 20}px`,
           left: `${pet.pos.x}px`
         })
         // compute rotation for next frame
@@ -178,15 +186,23 @@ async function renderPets() {
       y: Math.floor((Math.random() * dims.height) + 25)
     }
 
-    // create html node for item
+    // create html nodes for item and label
     let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}"
-                          id="pet${_pets.length}" class="pet" />`)
+                          id="pet${_pets.length}" class="pet" />`),
+        labelNode = $(`<div class="petlabel" data-id="pet${_pets.length}">
+                         ${petData.name}
+                       </div>`)
     petNode.css({
       left: `${pt.x}px`,
       top: `${pt.y}px`
     })
+    labelNode.css({
+      left: `${pt.x}px`,
+      top: `${pt.y - 20}px`
+    })
     petNode.click((event) => { event.stopPropagation() })
-    _container.append(petNode);
+    labelNode.click((event) => { event.stopPropagation() })
+    _container.append(labelNode); _container.append(petNode);
 
     // add pet to list
     _pets.push({
@@ -197,6 +213,7 @@ async function renderPets() {
       rot: { degrees: 0, direction: 'L' }, // rotation
       target: null,
       node: petNode,
+      label: labelNode,
       data: petData
     })
   }

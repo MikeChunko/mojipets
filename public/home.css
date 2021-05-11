@@ -198,6 +198,12 @@ input[type="text"] {
   position: absolute;
 }
 
+.petlabel {
+  position: absolute;
+  background-color: transparent;
+  user-select: none;
+}
+
 .item {
   width: 5vw;
   height: 5vw;
