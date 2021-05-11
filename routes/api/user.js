@@ -275,7 +275,7 @@ router.post('/:id/foods/:foodid', async (req, res) => {
   }
 
   req.session.user = await protect.user.showSensitive(user)
-  res.json(protect.user.showSensitive(user))
+  res.json(user.foods[foodId])
 })
 
 router.post('/:id/favoritePets/:petid', async (req, res) => {
