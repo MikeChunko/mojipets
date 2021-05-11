@@ -113,19 +113,26 @@ function startAnimation() {
 /** Proof of concept click-to-place **/
 function startClickToPlace() {
   // TODO: subtract correct val so obj is placed in center of mouse
-  _container.click(async (event) => {
+  _container.click((event) => {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
-
-    // inform the api that the user is trying to use the food
-    let amt = null
-    try {
-      amt = await $.post(`/api/user/${_user._id}/foods/${_selecteditem.data}`)
+    
+    if (_selecteditem.type == 'food') {
+      // can't place anything if there's no food left
+      if ($(_selecteditem.node).children('p').eq(0).text() === '0')
+        return
+      
+      // inform the api that the user is trying to use the food
+      $.post(`/api/user/${_user._id}/foods/${_selecteditem.data}`)
+        .then(amt => {
+          // update the counter with the new amt
+          $(_selecteditem.node).children('p').eq(0).text(amt != -1 ? amt : '∞')
+        })
+        .fail(() => {
+          // forcibly set the counter to 0
+          $(_selecteditem.node).children('p').eq(0).text('0')
+        })
     }
-    catch (_) { return } // don't place food at all if error
-
-    // update the counter with the new amt
-    _selecteditem.node.children('p').eq(0).text(amt != -1 ? amt : '∞')
 
     let pt = {
       x: event.offsetX - 25,
