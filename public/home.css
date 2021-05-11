@@ -202,6 +202,7 @@ input[type="text"] {
   position: absolute;
   background-color: transparent;
   user-select: none;
+  font-weight: bold;
 }
 
 .item {
