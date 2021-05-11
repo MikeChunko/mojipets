@@ -133,12 +133,10 @@ function startClickToPlace() {
       // inform the api that the user is trying to use the food
       $.post(`/api/user/${_user._id}/foods/${_selecteditem.data}`)
         .then(amt => {
-          // update the counter with the new amt
-          $(_selecteditem.node).children('p').eq(0).text(amt != -1 ? amt : '∞')
+          updateInventory();
         })
         .fail(() => {
-          // forcibly set the counter to 0
-          $(_selecteditem.node).children('p').eq(0).text('0')
+          updateInventory();
         })
     }
 
@@ -460,6 +458,12 @@ function updateInventory() {
 
     // Used for remembering which item was clicked
     clicked = $($("[data-clicked|='y'")[0]).attr("data-id");
+
+    // Last of this item was used
+    if ($($(`[data-id|='${clicked}']`)[0]).find("p")[0].innerHTML == "1") {
+      console.log("BOOYAH");
+      _selecteditem = null;
+    }
 
     $("#inventory-ul").replaceWith($.parseHTML(res)[0]);
 

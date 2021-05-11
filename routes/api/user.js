@@ -261,7 +261,7 @@ router.post('/:id/foods/:foodid', async (req, res) => {
 
   if (!user.foods[foodId] || user.foods[foodId] <= 0) {
     if (!user.foods[foodId] || user.foods[foodId] != -1) {
-      res.status(400).json({ error: 'Error: not enough food to feed pet.' })
+      return res.status(400).json({ error: 'Error: not enough food to feed pet.' })
     }
   }
 
