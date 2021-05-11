@@ -113,9 +113,19 @@ function startAnimation() {
 /** Proof of concept click-to-place **/
 function startClickToPlace() {
   // TODO: subtract correct val so obj is placed in center of mouse
-  _container.click((event) => {
+  _container.click(async (event) => {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
+
+    // inform the api that the user is trying to use the food
+    let amt = null
+    try {
+      amt = await $.post(`/api/user/${_user._id}/foods/${_selecteditem.data}`)
+    }
+    catch (_) { return } // don't place food at all if error
+
+    // update the counter with the new amt
+    _selecteditem.node.children('p').eq(0).text(amt != -1 ? amt : '∞')
 
     let pt = {
       x: event.offsetX - 25,
@@ -460,7 +470,8 @@ function inventoryHandler() {
         type: 'food',
         data: $(food).attr('data-id'),
         img: $(food).children('input').eq(0).attr('src'),
-        alt: $(food).children('input').eq(0).attr('alt')
+        alt: $(food).children('input').eq(0).attr('alt'),
+        node: food
       }
     });
   });
@@ -487,7 +498,8 @@ function toysHandler() {
         type: 'toy',
         data: $(toy).attr('data-id'),
         img: $(toy).children('input').eq(0).attr('src'),
-        alt: $(toy).children('input').eq(0).attr('alt')
+        alt: $(toy).children('input').eq(0).attr('alt'),
+        node: toy
       }
     });
   });
