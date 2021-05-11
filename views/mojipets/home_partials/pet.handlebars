@@ -1,7 +1,18 @@
 <div id="replaceable-container" class="individual-pet">
-  <h2 class="center">{{name}}</h2>
-  <div>
-    <p>THIS VIEW IS NOWHERE NEAR FINISHED</p>
+  <h2 class="center">{{pet.name}}</h2>
+  <br />
+
+  <div class="pet-view-container">
+    <input type="image" data-id="{{pet._id}}" alt="{{pet.emoji.name}}" src="{{pet.emoji.img}}" class="left" />
+    <img class="favorite-icon" data-id="{{pet._id}}" src="/public/resources/star.svg" />
+  </div>
+  <br />
+
+  <div class="center">
+    <p>{{pet.happiness}}</p>
+    <p>{{pet.status}}</p>
+    <p>{{pet.age}}</p>
+    <p>{{pet.interactions}} interactions</p>
   </div>
 
   <div class="bottom">

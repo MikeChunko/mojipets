@@ -103,9 +103,15 @@ router.get("/pets/:id", async (req, res) => {
   if (!pet)
     return res.sendStatus(403);
 
+  // Map happiness, health, age and total interactions
+  pet.happiness = await userPets.getHappiness(pet._id);
+  pet.status = await userPets.getStatus(pet._id);
+  pet.age = await userPets.getAge(pet._id);
+  pet.interactions = await userPets.getTotalInteractions(pet._id);
+
   res.render("mojipets/home_partials/pet", {
     layout: false,
-    name: pet.name
+    pet: pet
   });
 });
 
