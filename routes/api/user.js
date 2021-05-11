@@ -98,13 +98,15 @@ router.put('/:id/password', async (req, res) => {
     return res.status(400).json({
       error: 'id is either an empty string or just whitespace.'
     })
-  if (typeof(id) != "oldpassword")
+  if (!oldpassword) return res.status(400).json({ error: 'oldpassword not given' })
+  if (typeof(oldpassword) != "string")
     return res.status(400).json({ error: 'type of oldpassword not string' })
   if (oldpassword.trim().length == 0)
     return res.status(400).json({
       error: 'oldpassword is either an empty string or just whitespace.'
     })
-  if (typeof(id) != "newpassword")
+  if (!newpassword) return res.status(400).json({ error: 'newpassword not given' })
+  if (typeof(newpassword) != "string")
     return res.status(400).json({ error: 'type of newpassword not string' })
   if (newpassword.trim().length == 0)
     return res.status(400).json({
@@ -127,7 +129,53 @@ router.put('/:id/password', async (req, res) => {
 })
 
 router.put('/:id/food', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
+  let id = req.params.id
+  let body = req.body;
+  if (!id) return res.status(400).json({ error: 'id not given' })
+  if (!body) return res.status(400).json({ error: 'body not given' })
+  let foodId = body.foodId
+  if (typeof(id) != "string")
+    return res.status(400).json({ error: 'type of id not string' })
+  if (id.trim().length == 0)
+    return res.status(400).json({
+      error: 'id is either an empty string or just whitespace.'
+    })
+  if (!foodId) return res.status(400).json({ error: 'foodId not given' })
+  if (typeof(foodId) != "string")
+    return res.status(400).json({ error: 'type of foodId not string' })
+  if (foodId.trim().length == 0)
+    return res.status(400).json({
+      error: 'foodId is either an empty string or just whitespace.'
+    })
+
+  let user = null;
+  try { user = await data.users.get(id) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  if (!req.session.user) return res.status(403).json({
+    error: 'cannot place food without being logged in'
+  })
+  if (req.session.user._id != id) return res.status(403).json({
+    error: `cannot place food as a different user`
+  })
+
+  if (!user.foods[foodId] || user.foods[foodId] <= 0) {
+    if (!user.foods[foodId] || user.foods[foodId] != -1) {
+      res.status(400).json({ error: 'Error: not enough food to feed pet.' })
+    }
+  }
+
+  try { user = await data.users.placeFood({userId: id, foodId: foodId}) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  if (!req.session.health_owed) {
+    req.session.health_owed = 1;
+  } else {
+    req.session.health_owed += 1;
+  }
+
+  req.session.user = await protect.user.showSensitive(user)
+  res.json(protect.user.showSensitive(user))
 })
 
 router.delete('/:id', async (req, res) => {
@@ -225,7 +273,7 @@ router.post('/:id/pets', async (req, res) => {
   catch (e) { return res.status(500).json({error: e.toString()}) }
 
   req.session.user = await userData.get(userId);
-  res.json(protect.pet.showSensitive)
+  res.json(protect.pet.showSensitive(pet))
 })
 
 router.post('/:id/favoritePets/:petid', async (req, res) => {
