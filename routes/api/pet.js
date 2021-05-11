@@ -99,6 +99,14 @@ router.post('/:id/interactions/feed', async (req, res) => {
       error: `Cannot feed pet '${id}'. This pet is dead.`
     })
 
+  if (!req.session.health_owed || req.session.health_owed <= 0) { // new health_owed
+    return res.status(400).json({
+      error: `Cannot feed pet if no food has been placed.`
+    })
+  } else {
+    req.session.health_owed -= 1;
+  }
+
   // TODO: consider using error 400 for bad-input errors from this fcn?
   try { pet = await data.userPets.feed(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }

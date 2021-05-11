@@ -222,6 +222,15 @@ input[type="text"] {
   visibility: hidden;
 }
 
+.pet-view-container > .favorite-icon, .pet-view-container > .unfavorite-icon {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  left: 10vw;
+  top: -0.5vw;
+  visibility: hidden;
+}
+
 .all-pets > div > div > .favorite-icon, .all-pets > div > div > .unfavorite-icon {
   position: absolute;
   width: 43px;
@@ -232,6 +241,7 @@ input[type="text"] {
 }
 
 .favoriteable-container:hover > .favorite-icon, .favoriteable-container:hover > .unfavorite-icon,
+.pet-view-container:hover > .favorite-icon, .pet-view-container:hover > .unfavorite-icon,
 .all-pets > div > div:hover > .favorite-icon, .all-pets > div > div:hover > .unfavorite-icon {
   visibility: visible;
   background-color: #00000000;
@@ -279,6 +289,36 @@ input[type="text"] {
   border-radius: 0.5vw;
   box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
   text-align: center;
+}
+
+.pet-view-container > img {
+  margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: #F5F5F5;
+  width: 100px;
+  height: 100px;
+}
+
+.pet-view-container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: #F5F5F5;
+  width: 15vw;
+  height: 15vw;
+  border-radius: 0.5vw;
+  box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+  text-align: center;
+}
+
+.pet-view-container > input {
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 div > div {

@@ -440,6 +440,36 @@ async function getTotalInteractions(id) {
   return pet.interactions.feed.length + pet.interactions.fetch.length
 }
 
+async function getHealthAsNumber(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try { pet = await get(id) }
+  catch (e) { throw e }
+  let currentDateTimestamp = new Date().getTime()
+  let nineDaysPrior = currentDateTimestamp - (9 * 24 * 60 * 60 * 1000)
+  let lastFeedTime = pet.health.getTime()
+  let ret = (lastFeedTime - nineDaysPrior) / (9 * 24 * 60 * 60 * 1000)
+  if (ret <= 0) {return 0}
+  return ret
+}
+
+async function getHappinessAsNumber(id) {
+  if (!id) throw 'Error: must provide an id.'
+  if (typeof(id) != "string") throw 'Error: type of id not string.'
+  if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
+  let pet = null
+  try { pet = await get(id) }
+  catch (e) { throw e }
+  let currentDateTimestamp = new Date().getTime()
+  let nineDaysPrior = currentDateTimestamp - (9 * 24 * 60 * 60 * 1000)
+  let lastPlayTime = pet.happiness.getTime()
+  let ret = (lastPlayTime - nineDaysPrior) / (9 * 24 * 60 * 60 * 1000)
+  if (ret <= 0) {return 0}
+  return ret
+}
+
 
 module.exports = {
   add,
@@ -455,5 +485,7 @@ module.exports = {
   getOwner,
   killPet,
   depressPet,
-  getTotalInteractions
+  getTotalInteractions,
+  getHealthAsNumber,
+  getHappinessAsNumber
 }
