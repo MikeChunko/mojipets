@@ -460,10 +460,8 @@ function updateInventory() {
     clicked = $($("[data-clicked|='y'")[0]).attr("data-id");
 
     // Last of this item was used
-    if ($($(`[data-id|='${clicked}']`)[0]).find("p")[0].innerHTML == "1") {
-      console.log("BOOYAH");
+    if ($($(`[data-id|='${clicked}']`)[0]).find("p")[0].innerHTML == "1")
       _selecteditem = null;
-    }
 
     $("#inventory-ul").replaceWith($.parseHTML(res)[0]);
 

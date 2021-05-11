@@ -212,8 +212,6 @@ router.get("/inventory", async (req, res) => {
     let inventory = cloneDeep((await userData.get(req.session.user._id)).foods),
         inventoryKeys = Object.keys(inventory);
 
-    console.log(inventory);
-
     for (let i = 0; i < inventoryKeys.length; i++) {
       inventoryKeys[i] = { quantity: inventory[inventoryKeys[i]], ...await storeFood.get(inventoryKeys[i]) };
 
