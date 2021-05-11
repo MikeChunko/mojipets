@@ -185,6 +185,7 @@ async function renderPets() {
       left: `${pt.x}px`,
       top: `${pt.y}px`
     })
+    petNode.click((event) => { event.stopPropagation() })
     _container.append(petNode);
 
     // add pet to list
