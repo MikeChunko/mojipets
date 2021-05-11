@@ -556,7 +556,7 @@ async function placeFood(body) {
 
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
-  return owner
+  return await get(userId)
 }
 
 module.exports = {
