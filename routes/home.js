@@ -103,47 +103,51 @@ router.get("/pets/:id", async (req, res) => {
   if (!pet)
     return res.sendStatus(403);
 
-  // Map happiness, health, agel and total interactions
-  pet.happiness = await userPets.getHappiness(pet._id);
-  pet.status = await userPets.getStatus(pet._id);
-  pet.age = await userPets.getAge(pet._id);
-  pet.interactions = await userPets.getTotalInteractions(pet._id);
+  try {
+    // Map happiness, health, agel and total interactions
+    pet.happiness = await userPets.getHappiness(pet._id);
+    pet.status = await userPets.getStatus(pet._id);
+    pet.age = await userPets.getAge(pet._id);
+    pet.interactions = await userPets.getTotalInteractions(pet._id);
 
-  // TODO: Make this call some db functions
-  // Fetch and scale percentages
-  pet.happiness_percent = 100 * (.7);
-  pet.status_percent = 100 * (.5);
+    // Fetch and scale percentages
+    pet.happiness_percent = 100 * (await userPets.getHappinessAsNumber(pet._id));
+    pet.status_percent = 100 * (await userPets.getHealthAsNumber(pet._id));
 
-  let happy_class = "";
-  switch (true) {
-    case (pet.happiness_percent >= 66.7):
-      happy_class = "health_high";
-      break;
-    case (pet.happines_percent >= 33.4):
-      happy_class = "health-med";
-      break;
-    default:
-      happy_class = "health-low";
+    // Map precents to classes (used for coloring the bar)
+    let happy_class = "";
+    switch (true) {
+      case (pet.happiness_percent >= 66.7):
+        happy_class = "health_high";
+        break;
+      case (pet.happines_percent >= 33.4):
+        happy_class = "health-med";
+        break;
+      default:
+        happy_class = "health-low";
+    }
+
+    let status_class = "";
+    switch (true) {
+      case (pet.status_percent >= 66.7):
+        status_class = "health_high";
+        break;
+      case (pet.status_percent >= 33.4):
+        status_class = "health-med";
+        break;
+      default:
+        status_class = "health-low";
+    }
+
+    res.render("mojipets/home_partials/pet", {
+      layout: false,
+      pet: pet,
+      happy_class: happy_class,
+      status_class: status_class
+    });
+  } catch (e) {  // Some error has occured in the db
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
-
-  let status_class = "";
-  switch (true) {
-    case (pet.status_percent >= 66.7):
-      status_class = "health_high";
-      break;
-    case (pet.status_percent >= 33.4):
-      status_class = "health-med";
-      break;
-    default:
-      status_class = "health-low";
-  }
-
-  res.render("mojipets/home_partials/pet", {
-    layout: false,
-    pet: pet,
-    happy_class: happy_class,
-    status_class: status_class
-  });
 });
 
 router.get("/graveyard", async (req, res) => {
