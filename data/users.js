@@ -540,22 +540,25 @@ async function placeFood(body) {
   try { owner = await get(userId) }
   catch (e) { throw e }
 
+  changed = false;
   if (!owner.foods[foodId] || owner.foods[foodId] <= 0) {
     if (!owner.foods[foodId] || owner.foods[foodId] != -1) throw 'Error: not enough food to feed pet.'
   }
   if (owner.foods[foodId] != -1) {
     owner.foods[foodId] -= 1
+    changed = true;
   }
   if (owner.foods[foodId] == 0) {
     delete owner.foods[foodId]
   }
 
-  let updateId = ObjectIdMongo(owner._id)
-  delete owner._id
-  const userCollection = await users()
-
-  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
-  if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
+  if (changed) {
+    let updateId = ObjectIdMongo(owner._id)
+    delete owner._id
+    const userCollection = await users()
+    const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
+    if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
+  }
   return await get(userId)
 }
 
