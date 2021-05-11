@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8ab49fc7-5eed-4bf5-9e85-634e427a9a34",
+		"_postman_id": "09b6e63d-0720-4b9a-9355-67a12240d11f",
 		"name": "Mojipets",
 		"description": "### Route labels\n\n- 🆔 Correctly Authenticated\n- 🛑 Incorrectly authenticated\n- ❌ Erroneous",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -747,6 +747,234 @@
 									"key": "id",
 									"value": "{{jack.pet}}",
 									"description": "feed jack's only pet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔❌ /:id invalid ID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'jack', 'sick_password')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{jack.id}}",
+									"description": "Get info about a pet using an invalid ID while authenticated"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔❌ /:id invalid ID non-owner",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'gym3johto', 'normaltype')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{jack.id}}",
+									"description": "Get info about a pet using an invalid ID while authenticated"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🛑❌ /:id invalid ID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"logout(pm)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{jack.id}}",
+									"description": "Get info about a pet using an invalid ID whike unauthenticated"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔 /:id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'jack', 'sick_password')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{jack.pet}}",
+									"description": "Get info about Jack's pet as the owner"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🆔 /:id non-owner",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"login(pm, 'gym3johto', 'normaltype')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{jack.pet}}",
+									"description": "Get info about Jack's pet as an unauthenticated user"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🛑 /:id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"logout(pm)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/pet/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"pet",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{jack.pet}}",
+									"description": "Get info about Jack's pet as a non-user"
 								}
 							]
 						}
