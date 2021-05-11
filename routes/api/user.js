@@ -252,6 +252,8 @@ router.post('/:id/foods/:foodid', async (req, res) => {
   try { user = await data.users.get(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
+  req.session.user = user
+
   if (!req.session.user) return res.status(403).json({
     error: 'cannot place food without being logged in'
   })
@@ -275,7 +277,7 @@ router.post('/:id/foods/:foodid', async (req, res) => {
   }
 
   req.session.user = await protect.user.showSensitive(user)
-  res.json(protect.user.showSensitive(user))
+  res.json(user.foods[foodId])
 })
 
 router.post('/:id/favoritePets/:petid', async (req, res) => {
