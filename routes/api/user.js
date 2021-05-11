@@ -252,8 +252,6 @@ router.post('/:id/foods/:foodid', async (req, res) => {
   try { user = await data.users.get(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
-  req.session.user = user
-
   if (!req.session.user) return res.status(403).json({
     error: 'cannot place food without being logged in'
   })
