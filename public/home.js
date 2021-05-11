@@ -116,6 +116,23 @@ function startClickToPlace() {
   _container.click((event) => {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
+    
+    if (_selecteditem.type == 'food') {
+      // can't place anything if there's no food left
+      if ($(_selecteditem.node).children('p').eq(0).text() === '0')
+        return
+      
+      // inform the api that the user is trying to use the food
+      $.post(`/api/user/${_user._id}/foods/${_selecteditem.data}`)
+        .then(amt => {
+          // update the counter with the new amt
+          $(_selecteditem.node).children('p').eq(0).text(amt != -1 ? amt : '∞')
+        })
+        .fail(() => {
+          // forcibly set the counter to 0
+          $(_selecteditem.node).children('p').eq(0).text('0')
+        })
+    }
 
     let pt = {
       x: event.offsetX - 25,
@@ -460,7 +477,8 @@ function inventoryHandler() {
         type: 'food',
         data: $(food).attr('data-id'),
         img: $(food).children('input').eq(0).attr('src'),
-        alt: $(food).children('input').eq(0).attr('alt')
+        alt: $(food).children('input').eq(0).attr('alt'),
+        node: food
       }
     });
   });
@@ -487,7 +505,8 @@ function toysHandler() {
         type: 'toy',
         data: $(toy).attr('data-id'),
         img: $(toy).children('input').eq(0).attr('src'),
-        alt: $(toy).children('input').eq(0).attr('alt')
+        alt: $(toy).children('input').eq(0).attr('alt'),
+        node: toy
       }
     });
   });
