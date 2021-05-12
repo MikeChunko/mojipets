@@ -433,7 +433,7 @@ async function updateLoginTime(id) {
   }
   let currentDateTimestamp = new Date()
   const userCollection = await users()
-  if (user.lastLogin.getTime() == user.currentDateTimestamp.getTime()) { return await get(id) }
+  if (user.lastLogin.getTime() == currentDateTimestamp.getTime()) { return await get(id) }
   user.lastLogin = currentDateTimestamp
   let objId = ObjectIdMongo(id)
   delete user._id
