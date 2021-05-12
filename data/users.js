@@ -318,7 +318,7 @@ async function makeFriends(body) {
   delete user1._id
   delete user2._id
   const updateInfo1 = await userCollection.updateOne({ _id: objId1 }, { $set: user1 })
-  if (updateInfo1.modifiedCount == 0) throw 'Error: could not update user1.'
+  if (updateInfo1.modifiedCount == 0) throw 'Error: could not update user1 in makeFriends.'
   const updateInfo2 = await userCollection.updateOne({ _id: objId2 }, { $set: user2 })
   if (updateInfo2.modifiedCount == 0) throw 'Error: could not update user2.'
   return [await get(id1), await get(id2)]
@@ -373,7 +373,7 @@ async function removeFriends(body) {
   delete user1._id
   delete user2._id
   const updateInfo1 = await userCollection.updateOne({ _id: objId1 }, { $set: user1 })
-  if (updateInfo1.modifiedCount == 0) throw 'Error: could not update user1.'
+  if (updateInfo1.modifiedCount == 0) throw 'Error: could not update user1 in removeFriends.'
   const updateInfo2 = await userCollection.updateOne({ _id: objId2 }, { $set: user2 })
   if (updateInfo2.modifiedCount == 0) throw 'Error: could not update user2.'
   return [await get(id1), await get(id2)]
