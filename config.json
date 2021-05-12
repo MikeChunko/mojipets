@@ -1,3 +1,5 @@
 {
-  "saltRounds": 16
+  "saltRounds": 16,
+  "feedBaseCredits": 20,
+  "fetchBaseCredits": 5
 }

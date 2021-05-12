@@ -11,7 +11,8 @@ const express = require("express"),
       router = express.Router(),
       xss = require("xss"),
       data = require("../../data"),
-      { protect } = require("../../util");
+      { protect } = require("../../util"),
+      config = require("../../config.json");
 
 // For calculating the number of days from date d1 to date d2.
 const daysDifference = (d1, d2) =>
@@ -112,6 +113,16 @@ router.post('/:id/interactions/feed', async (req, res) => {
   try { pet = await data.userPets.feed(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
+  // Add credits for feeding
+  try {
+    req.session.user = await data.users.modifyCredits({
+      userId: req.session.user._id,
+      credits: config.feedBaseCredits
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.toString() })
+  }
+
   // send updated pet to browser
   res.json(protect.pet.showSensitive(pet))
 
@@ -159,6 +170,16 @@ router.post('/:id/interactions/fetch', async (req, res) => {
   // TODO: consider using error 400 for bad-input errors from this fcn?
   try { pet = await data.userPets.fetch(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  // Add credits for fetching
+  try {
+    req.session.user = await data.users.modifyCredits({
+      userId: req.session.user._id,
+      credits: config.fetchBaseCredits
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.toString() })
+  }
 
   // send updated pet to browser
   res.json(protect.pet.showSensitive(pet))
