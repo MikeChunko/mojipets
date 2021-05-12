@@ -9,6 +9,7 @@
 
 const express = require("express"),
       router = express.Router(),
+      xss = require("xss"),
       data = require("../data"),
       userData = data.users;
 
@@ -26,10 +27,10 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   // Input checking
-  const uname = req.body.usernameInput,
-        dname = req.body.displaynameInput,
-        password = req.body.passwordInput,
-        passwordRepeat = req.body.passwordRepeatInput;
+  const uname = xss(req.body.usernameInput),
+        dname = xss(req.body.displaynameInput),
+        password = xss(req.body.passwordInput),
+        passwordRepeat = xss(req.body.passwordRepeatInput);
 
   if (!uname || uname.trim().length == 0)
     return res.status(400).render("mojipets/signup", {

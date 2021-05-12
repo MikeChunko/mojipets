@@ -10,6 +10,7 @@
 const express = require("express"),
       router = express.Router(),
       bcrypt = require("bcrypt"),
+      xss = require("xss"),
       config = require("../config.json"),
       saltRounds = config.saltRounds,
       data = require("../data"),
@@ -30,8 +31,8 @@ router.get("/", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   // Input checking
-  const uname = req.body.usernameInput,
-        password = req.body.passwordInput;
+  const uname = xss(req.body.usernameInput),
+        password = xss(req.body.passwordInput);
 
   if (!uname || uname.trim().length == 0)
     return res.status(400).render("mojipets/login", {

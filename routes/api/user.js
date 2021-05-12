@@ -9,6 +9,7 @@
 
 const express = require("express"),
       router = express.Router(),
+      xss = require("xss"),
       data = require("../../data"),
       userData = data.users,
       bcrypt = require("bcrypt"),
@@ -31,7 +32,7 @@ router.get("/all", async (req, res) => {
 
 // TODO: 🐛 check for bugs
 router.get('/:id', async (req, res) => {
-  let id = req.params.id,
+  let id = xss(req.params.id),
       user = null;
 
   // Error checking
@@ -57,7 +58,7 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  let body = req.body;
+  let body = xss(req.body);
   if (!body) return res.status(400).json({ error: 'no info given' })
   let username = body.username
   let password = body.password
@@ -86,8 +87,8 @@ router.post('/', async (req, res) => {
 })
 
 router.put('/:id/password', async (req, res) => {
-  let id = req.params.id
-  let body = req.body;
+  let id = xss(req.params.id)
+  let body = xss(req.body);
   if (!id) return res.status(400).json({ error: 'id not given' })
   if (!body) return res.status(400).json({ error: 'body not given' })
   let oldpassword = body.oldpassword
@@ -138,7 +139,7 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/:id/pets', async (req, res) => {
   // Error checking
-  let id = req.params.id,
+  let id = xss(req.params.id),
       alive = req.query.alive == 'true',
       user = null
 
@@ -181,8 +182,8 @@ router.get('/:id/pets', async (req, res) => {
 })
 
 router.post('/:id/pets', async (req, res) => {
-  let userId = req.params.id
-  let body = req.body
+  let userId = xss(req.params.id)
+  let body = xss(req.body)
 
   if (!body) return res.status(400).json({ error: 'body not given' })
 
@@ -231,8 +232,8 @@ router.post('/:id/pets', async (req, res) => {
 })
 
 router.post('/:id/foods/:foodid', async (req, res) => {
-  let id = req.params.id
-  let foodId = req.params.foodid;
+  let id = xss(req.params.id);
+  let foodId = xss(req.params.foodid);
   if (!id) return res.status(400).json({ error: 'id not given' })
   if (typeof(id) != "string")
     return res.status(400).json({ error: 'type of id not string' })
@@ -279,8 +280,8 @@ router.post('/:id/foods/:foodid', async (req, res) => {
 })
 
 router.post('/:id/favoritePets/:petid', async (req, res) => {
-  let petId = req.params.petid
-  let userId = req.params.id
+  let petId = xss(req.params.petid)
+  let userId = xss(req.params.id)
 
   if (!userId) return res.status(400).json({ error: 'userId not given' })
   if (typeof(userId) != "string")
@@ -320,8 +321,8 @@ router.post('/:id/favoritePets/:petid', async (req, res) => {
 })
 
 router.delete('/:id/favoritePets/:petid', async (req, res) => {
-  let petId = req.params.petid
-  let userId = req.params.id
+  let petId = xss(req.params.petid)
+  let userId = xss(req.params.id)
 
   if (!userId) return res.status(400).json({ error: 'userId not given' })
   if (typeof(userId) != "string")
@@ -372,27 +373,27 @@ router.delete('/:id/favoritePets/:petid', async (req, res) => {
 })
 
 router.post('/:id/friends/:friendid', async (req, res) => {
-  if (!req.session.user || req.session.user._id.toString() != req.params.id)
+  if (!req.session.user || req.session.user._id.toString() != xss(req.params.id))
     return res.sendStatus(403);
 
   if (!req.params.id || typeof(req.params.id) != "string" ||
-      req.params.id.trim().length == 0)
+      xss(req.params.id).trim().length == 0)
     return res.sendStatus(400)
 
   if (!req.params.friendid || typeof(req.params.friendid) != "string" ||
-      req.params.friendid.trim().length == 0)
+      xss(req.params.friendid).trim().length == 0)
     return res.sendStatus(400)
 
   try {
-    await userData.get(req.params.friendid);
+    await userData.get(xss(req.params.friendid));
   } catch (e) {
     return res.status(400).json({ error: e.toString() });
   }
 
   try {
     let [u1, u2] = await userData.makeFriends({
-      userId1: req.params.id,
-      userId2: req.params.friendid
+      userId1: xss(req.params.id),
+      userId2: xss(req.params.friendid)
     });
 
     // Update session info
@@ -404,27 +405,27 @@ router.post('/:id/friends/:friendid', async (req, res) => {
 })
 
 router.delete('/:id/friends/:friendid', async (req, res) => {
-  if (!req.session.user || req.session.user._id.toString() != req.params.id)
+  if (!req.session.user || req.session.user._id.toString() != xss(req.params.id))
     return res.sendStatus(403);
 
   if (!req.params.id || typeof(req.params.id) != "string" ||
-      req.params.id.trim().length == 0)
+      xss(req.params.id).trim().length == 0)
     return res.sendStatus(400)
 
   if (!req.params.friendid || typeof(req.params.friendid) != "string" ||
-      req.params.friendid.trim().length == 0)
+      xss(req.params.friendid).trim().length == 0)
     return res.sendStatus(400)
 
   try {
-    await userData.get(req.params.friendid);
+    await userData.get(xss(req.params.friendid));
   } catch (e) {
     return res.status(400).json({ error: e.toString() });
   }
 
   try {
     let [u1, u2] = await userData.removeFriends({
-      userId1: req.params.id,
-      userId2: req.params.friendid
+      userId1: xss(req.params.id),
+      userId2: xss(req.params.friendid)
     });
 
     // Update session info

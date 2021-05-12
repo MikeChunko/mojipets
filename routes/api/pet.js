@@ -9,6 +9,7 @@
 
 const express = require("express"),
       router = express.Router(),
+      xss = require("xss"),
       data = require("../../data"),
       { protect } = require("../../util");
 
@@ -19,7 +20,7 @@ const daysDifference = (d1, d2) =>
 /** Router Functions **/
 
 router.get('/:id', async (req, res) => {
-  let id = req.params.id,
+  let id = xss(req.params.id),
     pet = null;
 
   // Error checking
@@ -61,8 +62,8 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/:id/interactions/feed', async (req, res) => {
   // Error checking
-  let id = req.params.id,
-      foodId = req.body['food.id'],
+  let id = xss(req.params.id),
+      foodId = xss(req.body['food.id']),
       user = null,
       pet = null;
 
@@ -122,7 +123,7 @@ router.post('/:id/interactions/feed', async (req, res) => {
 
 router.post('/:id/interactions/fetch', async (req, res) => {
   // Error checking
-  let id = req.params.id,
+  let id = xss(req.params.id),
       user = null,
       pet = null;
 
