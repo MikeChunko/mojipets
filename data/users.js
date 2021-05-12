@@ -433,11 +433,12 @@ async function updateLoginTime(id) {
   }
   let currentDateTimestamp = new Date()
   const userCollection = await users()
+  if (user.lastLogin.getTime() == user.currentDateTimestamp.getTime()) { return await get(id) }
   user.lastLogin = currentDateTimestamp
   let objId = ObjectIdMongo(id)
   delete user._id
   const updateInfo = await userCollection.updateOne({ _id: objId }, { $set: user })
-  if (updateInfo.modifiedCount == 0) throw 'Error: could not update user1.'
+  if (updateInfo.modifiedCount == 0) throw `Error: could not update user's login time.`
   return await get(id)
 }
 
@@ -462,7 +463,7 @@ async function updateLoginTimeWithDays(body) {
   let objId = ObjectIdMongo(id)
   delete user._id
   const updateInfo = await userCollection.updateOne({ _id: objId }, { $set: user })
-  if (updateInfo.modifiedCount == 0) throw 'Error: could not update user1.'
+  if (updateInfo.modifiedCount == 0) throw `Error: could not update user's login time.`
   return clean(await get(id))
 }
 
