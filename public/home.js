@@ -124,12 +124,12 @@ function startClickToPlace() {
   _container.click((event) => {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
-    
+
     if (_selecteditem.type == 'food') {
       // can't place anything if there's no food left
       if ($(_selecteditem.node).children('p').eq(0).text() === '0')
         return
-      
+
       // inform the api that the user is trying to use the food
       $.post(`/api/user/${_user._id}/foods/${_selecteditem.data}`)
         .then(amt => {
@@ -575,7 +575,7 @@ function addFriendsHandler() {
     }).fail(function (e) {
       $("#addFriendText").addClass("formError");
       $("#formErrorMessage").show();
-      $("#formErrorMessage").text(`Could not add friends`);
+      $("#formErrorMessage").text(`Could not add friend`);
     });
   });
 }
