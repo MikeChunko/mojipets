@@ -72,6 +72,10 @@ function startAnimation() {
           top: `${pet.target.pos.y}px`,
           left: `${pet.target.pos.x}px`
         })
+        pet.label.css({
+          top: `${pet.target.pos.y - 20}px`,
+          left: `${pet.target.pos.x}px`
+        })
         // remove target from DOM
         $(`#${pet.target.id}`).remove()
 
@@ -96,6 +100,10 @@ function startAnimation() {
           top: `${pet.pos.y}px`,
           left: `${pet.pos.x}px`
         })
+        pet.label.css({
+          top: `${pet.pos.y - 20}px`,
+          left: `${pet.pos.x}px`
+        })
         // compute rotation for next frame
         if (pet.rot.direction == 'L' && pet.rot.degrees == -15)
           pet.rot.direction = 'R'
@@ -116,21 +124,19 @@ function startClickToPlace() {
   _container.click((event) => {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
-    
+
     if (_selecteditem.type == 'food') {
       // can't place anything if there's no food left
       if ($(_selecteditem.node).children('p').eq(0).text() === '0')
         return
-      
+
       // inform the api that the user is trying to use the food
       $.post(`/api/user/${_user._id}/foods/${_selecteditem.data}`)
         .then(amt => {
-          // update the counter with the new amt
-          $(_selecteditem.node).children('p').eq(0).text(amt != -1 ? amt : '∞')
+          updateInventory();
         })
         .fail(() => {
-          // forcibly set the counter to 0
-          $(_selecteditem.node).children('p').eq(0).text('0')
+          updateInventory();
         })
     }
 
@@ -178,14 +184,23 @@ async function renderPets() {
       y: Math.floor((Math.random() * dims.height) + 25)
     }
 
-    // create html node for item
+    // create html nodes for item and label
     let petNode = $(`<img alt="${petData.emoji.name}" src="${petData.emoji.img}"
-                          id="pet${_pets.length}" class="pet" />`)
+                          id="pet${_pets.length}" class="pet" />`),
+        labelNode = $(`<div class="petlabel" data-id="pet${_pets.length}">
+                         ${petData.name}
+                       </div>`)
     petNode.css({
       left: `${pt.x}px`,
       top: `${pt.y}px`
     })
-    _container.append(petNode);
+    labelNode.css({
+      left: `${pt.x}px`,
+      top: `${pt.y - 20}px`
+    })
+    petNode.click((event) => { event.stopPropagation() })
+    labelNode.click((event) => { event.stopPropagation() })
+    _container.append(labelNode); _container.append(petNode);
 
     // add pet to list
     _pets.push({
@@ -196,6 +211,7 @@ async function renderPets() {
       rot: { degrees: 0, direction: 'L' }, // rotation
       target: null,
       node: petNode,
+      label: labelNode,
       data: petData
     })
   }
@@ -443,6 +459,10 @@ function updateInventory() {
     // Used for remembering which item was clicked
     clicked = $($("[data-clicked|='y'")[0]).attr("data-id");
 
+    // Last of this item was used
+    if ($($(`[data-id|='${clicked}']`)[0]).find("p")[0].innerHTML == "1")
+      _selecteditem = null;
+
     $("#inventory-ul").replaceWith($.parseHTML(res)[0]);
 
     $("#inventory-ul").scrollTop(scrollPos);
@@ -555,7 +575,7 @@ function addFriendsHandler() {
     }).fail(function (e) {
       $("#addFriendText").addClass("formError");
       $("#formErrorMessage").show();
-      $("#formErrorMessage").text(`Could not add friends`);
+      $("#formErrorMessage").text(`Could not add friend`);
     });
   });
 }

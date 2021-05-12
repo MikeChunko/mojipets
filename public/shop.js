@@ -56,25 +56,29 @@
     $(pet).click(function(e) {
       e.preventDefault();
 
-      var name = "";
-      while (name != null && name.trim().length == 0) {
-        name = prompt("Please enter a name for your new pet:", "");
+
+      // Ensure the user can buy this pet
+      if ($(pet).attr("data-price") <= credits.text().substring(0, credits.text().indexOf(" 💸"))) {
+        var name = "";
+        while (name != null && name.trim().length == 0) {
+          name = prompt("Please enter a name for your new pet:", "");
+        }
+
+        // User pressed 'cancel'
+        if (name == null)
+          return;
+
+        var requestConfig = {
+          method: "POST",
+          url: `/api/store/pet/${$($(pet).children()[0]).attr("id")}/${name}`
+        };
+
+        $.ajax(requestConfig).then(function (res) {
+          credits.text(`${res.newCredits} 💸`);
+        }).fail(function(e) {
+          // TODO: Display failures somehow
+        });
       }
-
-      // User pressed 'cancel'
-      if (name == null)
-        return;
-
-      var requestConfig = {
-        method: "POST",
-        url: `/api/store/pet/${$($(pet).children()[0]).attr("id")}/${name}`
-      };
-
-      $.ajax(requestConfig).then(function (res) {
-        credits.text(`${res.newCredits} 💸`);
-      }).fail(function(e) {
-        // TODO: Display failures somehow
-      });
     });
   }
 

@@ -9,6 +9,7 @@
 
 const express = require("express"),
       router = express.Router(),
+      xss = require("xss"),
       data = require("../../data"),
       userRoutes = require('./user.js'),
       userPetRoutes = require('./pet.js'),
@@ -22,8 +23,8 @@ router.use('/user/pet', userPetRoutes);
 
 router.post("/store/food/:id/:quantity", async (req, res) => {
   // Error checking
-  let id = req.params.id,
-      quantity = req.params.quantity;
+  let id = xss(req.params.id),
+      quantity = xss(req.params.quantity);
 
   if (!id || typeof(id) != "string")
     return res.sendStatus(404);
@@ -61,8 +62,8 @@ router.post("/store/food/:id/:quantity", async (req, res) => {
 
 router.post("/store/pet/:id/:name", async (req, res) => {
   // Error checking
-  const id = req.params.id,
-        name = req.params.name;
+  const id = xss(req.params.id),
+        name = xss(req.params.name);
 
   if (!id || typeof(id) != "string")
     return res.sendStatus(404);

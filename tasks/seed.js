@@ -20,6 +20,7 @@ const storeFoodData = data.storeFood
 async function main() {
   const db = await dbConnection();
   await db.dropDatabase();
+  // emoji objects
   let catEmoji = { codepoint:"😸", name:"cat", img:"/public/resources/pets/cat.svg" }
   let cowEmoji = { codepoint:"🐮", name:"cow", img:"/public/resources/pets/cow.svg" }
   let antEmoji = { codepoint:"🐜", name:"ant", img:"/public/resources/pets/ant.svg" }
@@ -58,6 +59,7 @@ async function main() {
   let strawberryEmoji = { codepoint:"🍓", name:"strawberry", img:"/public/resources/food/strawberry.svg" }
   let kiwiEmoji = { codepoint:"🥝", name:"kiwi", img:"/public/resources/food/kiwi.svg" }
   let broccoliEmoji = { codepoint:"🥦", name:"broccoli", img:"/public/resources/food/broccoli.svg" }
+  // food store
   let pizza = await storeFoodData.add({emoji:pizzaEmoji, price:20})
   let pie = await storeFoodData.add({emoji:pieEmoji, price:30})
   let melon = await storeFoodData.add({emoji:melonEmoji, price:40})
@@ -72,30 +74,7 @@ async function main() {
   let kiwi = await storeFoodData.add({emoji:kiwiEmoji, price:25})
   let steak = await storeFoodData.add({emoji:steakEmoji, price:50})
   let strawberry = await storeFoodData.add({emoji:strawberryEmoji, price:15})
-  let elijah = await userData.add({username: "elijah", plaintextPassword: "fun9password", displayname:"greatest dude"})
-  let jack = await userData.add({username: "jack", plaintextPassword: "sick_password", displayname:"greatest dude"})
-  let child = await userData.add({username: "child", plaintextPassword: "yewllosub", displayname:"kid"})
-  let elon = await userData.add({username: "muskrat", plaintextPassword: "teslaisPOG", displayname:"fuckin nerd"})
-  let bezos = await userData.add({username: "jeffBillionaire", plaintextPassword: "ilovemoney"})
-  let joey = await userData.add({username: "rattatauser", plaintextPassword: "rattataPower", displayname:"Yung Joe"})
-  let whitney = await userData.add({username: "gym3johto", plaintextPassword: "normaltype", displayname:"miltank is poggers"})
-  let brock = await userData.add({username: "gym1kanto", plaintextPassword: "dryingpan", displayname:"onix abuser"})
-  let notch = await userData.add({username: "notch", plaintextPassword: "isuckandsmell", displayname:"racist twitter user"})
-  let yu = await userData.add({username: "protag4", plaintextPassword: "izanagipicaro", displayname:"yu narukami"})
-  await userData.makeFriends({userId1: elijah._id, userId2: yu._id})
-  await userData.makeFriends({userId1: brock._id, userId2: whitney._id})
-  await userData.makeFriends({userId1: joey._id, userId2: whitney._id})
-  await userData.makeFriends({userId1: elon._id, userId2: bezos._id})
-  elijah = await userData.modifyCredits( { userId: elijah._id, credits: 10000 } )
-  jack = await userData.modifyCredits( { userId: jack._id, credits: 10000 } )
-  child = await userData.modifyCredits( { userId: child._id, credits: 10000 } )
-  elon = await userData.modifyCredits( { userId: elon._id, credits: 10000 } )
-  bezos = await userData.modifyCredits( { userId: bezos._id, credits: 10000 } )
-  joey = await userData.modifyCredits( { userId: joey._id, credits: 10000 } )
-  whitney = await userData.modifyCredits( { userId: whitney._id, credits: 10000 } )
-  brock = await userData.modifyCredits( { userId: brock._id, credits: 10000 } )
-  notch = await userData.modifyCredits( { userId: notch._id, credits: 10000 } )
-  yu = await userData.modifyCredits( { userId: yu._id, credits: 10000 } )
+  // pet store
   let cat = await storePetData.add({emoji:catEmoji, price:100, rarity:1})
   let cow = await storePetData.add({emoji:cowEmoji, price:100, rarity:1})
   let ant = await storePetData.add({emoji:antEmoji, price:100, rarity:1})
@@ -118,6 +97,34 @@ async function main() {
   let unicorn = await storePetData.add({emoji:unicornEmoji, price:300, rarity:4})
   let whale = await storePetData.add({emoji:whaleEmoji, price:100, rarity:1})
   let rat = await storePetData.add({emoji:ratEmoji, price:100, rarity:1})
+  // users
+  let elijah = await userData.add({username: "elijah", plaintextPassword: "fun9password", displayname:"greatest dude"})
+  let jack = await userData.add({username: "jack", plaintextPassword: "sick_password", displayname:"greatest dude"})
+  let child = await userData.add({username: "child", plaintextPassword: "yewllosub", displayname:"kid"})
+  let elon = await userData.add({username: "muskrat", plaintextPassword: "teslaisPOG", displayname:"fuckin nerd"})
+  let bezos = await userData.add({username: "jeffBillionaire", plaintextPassword: "ilovemoney"})
+  let joey = await userData.add({username: "rattatauser", plaintextPassword: "rattataPower", displayname:"Yung Joe"})
+  let whitney = await userData.add({username: "gym3johto", plaintextPassword: "normaltype", displayname:"miltank is poggers"})
+  let brock = await userData.add({username: "gym1kanto", plaintextPassword: "dryingpan", displayname:"onix abuser"})
+  let notch = await userData.add({username: "notch", plaintextPassword: "isuckandsmell", displayname:"racist twitter user"})
+  let yu = await userData.add({username: "protag4", plaintextPassword: "izanagipicaro", displayname:"yu narukami"})
+  // user friend data
+  await userData.makeFriends({userId1: elijah._id, userId2: yu._id})
+  await userData.makeFriends({userId1: brock._id, userId2: whitney._id})
+  await userData.makeFriends({userId1: joey._id, userId2: whitney._id})
+  await userData.makeFriends({userId1: elon._id, userId2: bezos._id})
+  // user balance
+  elijah = await userData.modifyCredits( { userId: elijah._id, credits: 10000 } )
+  jack = await userData.modifyCredits( { userId: jack._id, credits: 10000 } )
+  child = await userData.modifyCredits( { userId: child._id, credits: 10000 } )
+  elon = await userData.modifyCredits( { userId: elon._id, credits: 10000 } )
+  bezos = await userData.modifyCredits( { userId: bezos._id, credits: 10000 } )
+  joey = await userData.modifyCredits( { userId: joey._id, credits: 10000 } )
+  whitney = await userData.modifyCredits( { userId: whitney._id, credits: 10000 } )
+  brock = await userData.modifyCredits( { userId: brock._id, credits: 10000 } )
+  notch = await userData.modifyCredits( { userId: notch._id, credits: 10000 } )
+  yu = await userData.modifyCredits( { userId: yu._id, credits: 10000 } )
+  // userpets
   let sergio = await userPetData.add({owner:elijah._id, name:"sergio", emoji: catEmoji})
   let kowie = await userPetData.add({owner:elijah._id, name:"kowie", emoji: cowEmoji})
   let batty = await userPetData.add({owner:jack._id, name:"batty", emoji: batEmoji, price: 2500})
@@ -135,6 +142,7 @@ async function main() {
   let onix = await userPetData.add({owner:brock._id, name:"onix", emoji: caterpillarEmoji})
   let creeper = await userPetData.add({owner:notch._id, name:"creeper", emoji: pigEmoji})
   let jackFrost = await userPetData.add({owner:yu._id, name:"Jack Frost", emoji: snowmanEmoji})
+  // user favorites
   let favData = await userPetData.favorite(miltank._id)
   favData = await userPetData.favorite(onix._id)
   favData = await userPetData.favorite(tauros._id)
@@ -145,6 +153,7 @@ async function main() {
   favData = await userPetData.favorite(rattata_4._id)
   favData = await userPetData.favorite(sonic._id)
   favData = await userPetData.unfavorite(sonic._id)
+  // user inventories
   elijah = await storeFoodData.buy({userId: elijah._id, foodId: pizza._id, quantity: 20})
   jack = await storeFoodData.buy({userId: jack._id, foodId: pie._id, quantity: 20})
   child = await storeFoodData.buy({userId: child._id, foodId: melon._id, quantity: 20})
@@ -155,7 +164,9 @@ async function main() {
   brock = await storeFoodData.buy({userId: brock._id, foodId: onigiri._id, quantity: 20})
   notch = await storeFoodData.buy({userId: notch._id, foodId: donut._id, quantity: 20})
   yu = await storeFoodData.buy({userId: yu._id, foodId: sushi._id, quantity: 20})
+  // idk
   let hermit = await storePetData.buy({userId: yu._id, petId: fox._id, petName: "hermit"})
+
   await db.serverConfig.close();
 }
 

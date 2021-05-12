@@ -9,7 +9,8 @@
 
 const express = require("express"),
       router = express.Router(),
-      data = require("../data")
+      xss = require("xss"),
+      data = require("../data"),
       userData = data.users,
       userPets = data.userPets,
       storeFood = data.storeFood,
@@ -90,12 +91,13 @@ router.get("/pets", async (req, res) => {
 });
 
 router.get("/pets/:id", async (req, res) => {
-  if (!req.params.id || typeof(req.params.id) != "string" || req.params.id.trim().length == 0)
+  if (!req.params.id || typeof(req.params.id) != "string" || xss(req.params.id).trim().length == 0)
     return res.sendStatus(400);
 
   // Find the full info for the desired pet
+  const sanitized_id = xss(req.params.id);
   let pet = req.session.user.pets.find((pet, i) => {
-    if (pet._id == req.params.id)
+    if (pet._id == sanitized_id)
       return cloneDeep(pet);
   });
 

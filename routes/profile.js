@@ -11,6 +11,7 @@ const { userPets } = require("../data");
 
 const express = require("express"),
   router = express.Router(),
+  xss = require("xss"),
   data = require("../data"),
   userData = data.users,
   config = require("../config.json"),
@@ -18,7 +19,7 @@ const express = require("express"),
   cloneDeep = require("lodash.clonedeep");
 
 router.get("/:uname", async (req, res) => {
-  let uname = req.params.uname;
+  let uname = xss(req.params.uname);
 
   if (!uname || typeof (uname) != "string")
     res.sendStatus(404);
@@ -71,7 +72,7 @@ router.get("/:uname", async (req, res) => {
 });
 
 router.get("/:uname/all", async (req, res) => {
-  let uname = req.params.uname;
+  let uname = xss(req.params.uname);
 
   if (!uname || typeof (uname) != "string")
     res.sendStatus(404);
@@ -123,7 +124,7 @@ router.get("/:uname/all", async (req, res) => {
 });
 
 router.get("/:uname/most", async (req, res) => {
-  let uname = req.params.uname;
+  let uname = xss(req.params.uname);
 
   if (!uname || typeof (uname) != "string")
     res.sendStatus(404);
