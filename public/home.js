@@ -131,7 +131,6 @@ function startAnimation() {
 
 /** Proof of concept click-to-place **/
 function startClickToPlace() {
-  // TODO: subtract correct val so obj is placed in center of mouse
   _container.click((event) => {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
@@ -190,7 +189,6 @@ async function renderPets() {
     }
 
     // pick a random point
-    // TODO: make it so that pets don't spawn on top of each other
     let pt = {
       x: Math.floor((Math.random() * dims.width) + 25),
       y: Math.floor((Math.random() * dims.height) + 25)
