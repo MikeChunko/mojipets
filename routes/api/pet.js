@@ -37,7 +37,6 @@ router.get('/:id', async (req, res) => {
   catch (e) {
     if (e.toString().startsWith('No pet could be found'))
       return res.status(404).json({ error: e.toString() })
-    // TODO: consider using error 400 for bad-input errors from this fcn?
     return res.status(500).json({ error: e.toString() })
   }
 
@@ -109,7 +108,6 @@ router.post('/:id/interactions/feed', async (req, res) => {
     req.session.health_owed -= 1;
   }
 
-  // TODO: consider using error 400 for bad-input errors from this fcn?
   try { pet = await data.userPets.feed(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
@@ -153,7 +151,6 @@ router.post('/:id/interactions/fetch', async (req, res) => {
   catch (e) {
     if (e.toString().startsWith('No pet could be found'))
       return res.status(404).json({ error: e.toString() })
-    // TODO: consider using error 400 for bad-input errors from this fcn?
     return res.status(500).json({ error: e.toString() })
   }
 
@@ -170,7 +167,6 @@ router.post('/:id/interactions/fetch', async (req, res) => {
       error: `Cannot play fetch with pet '${id}'. This pet is dead.`
     })
 
-  // TODO: consider using error 400 for bad-input errors from this fcn?
   try { pet = await data.userPets.fetch(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 

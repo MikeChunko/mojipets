@@ -30,7 +30,6 @@ router.get("/all", async (req, res) => {
   res.json(users.map(user => protect.user.hideSensitive(user)));
 })
 
-// TODO: 🐛 check for bugs
 router.get('/:id', async (req, res) => {
   let id = xss(req.params.id),
       user = null;
@@ -48,7 +47,6 @@ router.get('/:id', async (req, res) => {
   catch (e) {
     if (e.toString().startsWith('No user could be found'))
       return res.status(404).json({ error: e.toString() })
-    // TODO: consider using error 400 for bad-input errors from this fcn?
     return res.status(500).json({ error: e.toString() })
   }
 
@@ -129,10 +127,6 @@ router.put('/:id/password', async (req, res) => {
   res.json(protect.user.hideSensitive(pwUpdate))
 })
 
-router.put('/:id/food', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
-})
-
 router.delete('/:id', async (req, res) => {
   res.status(500).json({ error: 'TODO: implement' })
 })
@@ -155,7 +149,6 @@ router.get('/:id/pets', async (req, res) => {
   catch (e) {
     if (e.toString().startsWith('No user could be found'))
       return res.status(404).json({ error: e.toString() })
-    // TODO: consider using error 400 for bad-input errors from this fcn?
     return res.status(500).json({ error: e.toString() })
   }
 
