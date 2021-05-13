@@ -23,14 +23,6 @@ const { ObjectID } = require('bson'),
 async function hash_password(plaintextPassword) {
   return await bcrypt.hash(plaintextPassword, saltRounds);
 }
-
-// TODO: Do we need this?
-function validPassword (pwdStr) {
-  var pwdFormat = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$";
-  if (pwdStr.match(pwdFormat)) { return true }
-  return false
-} // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-
 async function add(body) {
   username = body.username
   plaintextPassword = body.plaintextPassword
