@@ -18,6 +18,23 @@ const express = require("express"),
   { dateToMMDDYY } = require("../util"),
   cloneDeep = require("lodash.clonedeep");
 
+// Check if the inciting user has permission to access this profile
+function canAccess(user1, user2) {
+    // Nobody can view
+    if (user2.privacy == 2)
+      return false;
+
+    // Friends only
+    if (user2.privacy == 1 &&
+       (!user1 || !user1.friends.find((friend, i) => {
+        if (friend == user2._id)
+          return friend;
+      })))
+      return false;
+
+    return true;
+}
+
 router.get("/:uname", async (req, res) => {
   let uname = xss(req.params.uname);
 
@@ -47,9 +64,7 @@ router.get("/:uname", async (req, res) => {
     }
 
     // Check if the inciting user has permission to access this profile
-
-    // Nobody can view
-    if (userObj.privacy == 2)
+    if (!canAccess(req.session.user, userObj))
       return res.render("mojipets/profile", {
         title: uname + "'s Profile",
         username: uname,
@@ -57,30 +72,6 @@ router.get("/:uname", async (req, res) => {
         error_msg: `You do not have permission to view this user's profile`,
         css: "/public/site.css"
       });
-
-    // Friends only
-    if (userObj.privacy == 1) {
-      if (!req.session.user)
-        return res.render("mojipets/profile", {
-          title: uname + "'s Profile",
-          username: uname,
-          error: true,
-          error_msg: `You do not have permission to view this user's profile`,
-          css: "/public/site.css"
-        });
-
-        if (!req.session.user.friends.find((friend, i) => {
-          if (friend == userObj._id)
-            return friend;
-        }))
-          return res.render("mojipets/profile", {
-            title: uname + "'s Profile",
-            username: uname,
-            error: true,
-            error_msg: `You do not have permission to view this user's profile`,
-            css: "/public/site.css"
-          });
-    }
 
     pets = cloneDeep(userObj.favoritePets);
 
@@ -136,6 +127,16 @@ router.get("/:uname/all", async (req, res) => {
       });
     }
 
+    // Check if the inciting user has permission to access this profile
+    if (!canAccess(req.session.user, userObj))
+      return res.render("mojipets/profile", {
+        title: uname + "'s Profile",
+        username: uname,
+        error: true,
+        error_msg: `You do not have permission to view this user's profile`,
+        css: "/public/site.css"
+      });
+
     let pets = await userPets.getPetsFromUser(userObj._id);
 
     // Map happiness, health, and age
@@ -188,6 +189,16 @@ router.get("/:uname/most", async (req, res) => {
         css: "/public/site.css"
       });
     }
+
+    // Check if the inciting user has permission to access this profile
+    if (!canAccess(req.session.user, userObj))
+      return res.render("mojipets/profile", {
+        title: uname + "'s Profile",
+        username: uname,
+        error: true,
+        error_msg: `You do not have permission to view this user's profile`,
+        css: "/public/site.css"
+      });
 
     // Arbitrarily limit to 6
     let pets = (await userPets.getPetsFromUser(userObj._id)).slice(0, 6);
