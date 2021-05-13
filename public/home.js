@@ -51,6 +51,8 @@ function startAnimation() {
         }
       }
     }
+    if (!closest) throw 'No available pair found'
+    else return closest
     return !closest ? null : closest
   }
 
@@ -59,8 +61,11 @@ function startAnimation() {
     // pets without a target should pair up with targets without a pet
     if (_items.some(i => !i.targetedBy) && _pets.some(p => !p.target)) {
       while (_items.some(i => !i.targetedBy)) {
-        let { pet, target } = findClosestPair(_pets, _items)
-        if (pet && target) setTarget(pet, target)
+        try {
+          let { pet, target } = findClosestPair(_pets, _items)
+          if (pet && target) setTarget(pet, target)
+        }
+        catch (_) { break }
       }
     }
     // pets that are close enough to their target should consume the target
