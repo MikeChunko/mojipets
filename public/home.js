@@ -388,14 +388,17 @@ function bindEventsToPet(pet) {
 
       // Bind (un)favorite handlers
       $("#replaceable-container").find("div > img").each(function(i, icon) {
-        // Switch icon class if the pet is favorited already
-        // Defaults to assuming the pet is unfavorited so no need for an else
-        if (_user.favoritePets.includes($(icon).attr("data-id"))) {
-          $(icon).removeClass("favorite-icon");
-          $(icon).addClass("unfavorite-icon");
-        }
+        // Try to exclude non-icons
+        if ($(icon).attr("data-id")) {
+          // Switch icon class if the pet is favorited already
+          // Defaults to assuming the pet is unfavorited so no need for an else
+          if (_user.favoritePets.includes($(icon).attr("data-id"))) {
+            $(icon).removeClass("favorite-icon");
+            $(icon).addClass("unfavorite-icon");
+          }
 
-        favoriteHandler(icon, $(icon).attr("class").indexOf("unfavorite-icon") != 0);
+          favoriteHandler(icon, $(icon).attr("class").indexOf("unfavorite-icon") != 0);
+        }
       });
 
       // Return link now exists
