@@ -127,10 +127,6 @@ router.put('/:id/password', async (req, res) => {
   res.json(protect.user.hideSensitive(pwUpdate))
 })
 
-router.delete('/:id', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
-})
-
 router.get('/:id/pets', async (req, res) => {
   // Error checking
   let id = xss(req.params.id),
