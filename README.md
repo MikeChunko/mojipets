@@ -1,8 +1,11 @@
 # MojiPets
 
-![Login Screen](https://i.imgur.com/ipCB5BX.png)
-
-![Home Page](https://i.imgur.com/8n40fLP.png)
+<p align="center">
+  <img alt="Login Page" src="https://github.com/MikeChunko/mojipets/blob/master/previews/login.png">
+</p>
+<p align="center">
+  <img alt="Home Page" src="https://github.com/MikeChunko/mojipets/blob/master/previews/home.png">
+</p>
 
 **[🌐 Mojipets is live at mojipets.myriaco.re 🌐](https://mojipets.myriaco.re)**
 
