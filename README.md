@@ -4,29 +4,31 @@
 
 ![Home Page](https://i.imgur.com/8n40fLP.png)
 
-Mojipets is a pet collecting game similar to tamagotchi with emojis, built by
+MojiPets is a virtual pet website with emojis, built by
 [@ezwendel](https://github.com/ezwendel),
 [@MikeChunko](https://github.com/MikeChunko),
 [@myriacore](https://github.com/myriacore), and
-[@njdom24](https://github.com/njdom24) as a CS 546 - web dev project.
+[@njdom24](https://github.com/njdom24) as a project for CS 546 - Web Programming.
 
 It's built using mongodb + node + expressjs + handlebars for the backend, and
-plain html + css + js + jquery for the frontend.
+html + css + js + jquery +ajax for the frontend.
 
 ### To Run
 
-This project requires a working npm installation. Run the following commands to
+This project requires a working npm and mongodb installation. Run the following commands to
 run this project for yourself:
 
 ```
 $ git clone https://github.com/MikeChunko/mojipets.git
 $ cd mojipets
-$ npm update
+$ npm install
 $ npm run seed
 $ npm start
 ```
+then simply head over to the link printed in your terminal (typically http://localhost:3000) and enter the world of MojiPets! Once your logged in, you can buy pets and food, feed and play with your pets, and add friends and check out their profiles.
 
-Once run, you'll have a few user accounts to test with. Make your own, or try
+
+The provided database seed gives a few user accounts to test with. Make your own, or try
 the following:
 
 - Username: `elijah`, Password: `fun9password`
