@@ -524,6 +524,16 @@ li > div > p {
   right: 1.2vw;
 }
 
+
+#settings {
+  color: #1d2e44;
+  text-align: right;
+  font-size: 20px;
+  position: absolute;
+  bottom: 1vh;
+  right: 8vw;
+}
+
 .money {
   position: fixed;
 

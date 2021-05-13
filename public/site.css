@@ -55,6 +55,14 @@ h1 {
   color: #FFFFFF;
 }
 
+.centered {
+  width: inherit;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: auto;
+}
+
 #content-wrapper {
   position: absolute;
   width: 50em;

@@ -20,19 +20,23 @@ const express = require("express"),
 
 // Check if the inciting user has permission to access this profile
 function canAccess(user1, user2) {
-    // Nobody can view
-    if (user2.privacy == 2)
-      return false;
+  // Userse can always view their own profile
+  if (user1._id == user2._id)
+    return true;  
 
-    // Friends only
-    if (user2.privacy == 1 &&
-       (!user1 || !user1.friends.find((friend, i) => {
-        if (friend == user2._id)
-          return friend;
-      })))
-      return false;
+  // Nobody can view
+  if (user2.privacy == 2)
+    return false;
 
-    return true;
+  // Friends only
+  if (user2.privacy == 1 &&
+      (!user1 || !user1.friends.find((friend, i) => {
+      if (friend == user2._id)
+        return friend;
+    })))
+    return false;
+
+  return true;
 }
 
 router.get("/:uname", async (req, res) => {
