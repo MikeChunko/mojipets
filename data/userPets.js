@@ -56,7 +56,7 @@ async function add(body) {
   let birthday = new Date();
   let interactions = { fetch: [], feed: [] }
   let foods = await storeFood.getAll();
-  let favoriteFood = foods[Math.floor(Math.random() * foods.length)];
+  let favoriteFood = foods[Math.floor(Math.random() * foods.length)]._id;
 
   // No store foods exist
   if (foods == "undefined")

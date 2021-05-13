@@ -88,6 +88,7 @@ router.get("/pets", async (req, res) => {
       pets: pets,
     });
   } catch (e) {  // Some error has occured in the db
+    console.log(e)
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
 });
