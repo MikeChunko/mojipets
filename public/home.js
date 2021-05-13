@@ -87,9 +87,15 @@ function startAnimation() {
         // use ajax to inform server of this interaction
         if (pet.target.type == 'food' && pet.target.data)
           $.post(`/api/user/pet/${pet.data._id}/interactions/feed`,
-                 { 'food.id': pet.target.data })
+                 { 'food.id': pet.target.data }).then(async function (_) {
+                  _user = await $.get('/api/user');
+                  $("#credits").text(`${_user.credits} 💸`);
+                 });
         else if (pet.target.type == 'toy')
-          $.post(`/api/user/pet/${pet.data._id}/interactions/fetch`)
+          $.post(`/api/user/pet/${pet.data._id}/interactions/fetch`).then(async function (_) {
+            _user = await $.get('/api/user');
+            $("#credits").text(`${_user.credits} 💸`);
+          });
 
         // remove target from foodlist and from pet's targeting info
         _items.splice(_items.indexOf(pet.target), 1)
