@@ -62,6 +62,7 @@ router.get("/", async (req, res) => {
       inventory: inventoryKeys,
       toys: toys,
       friends: friends,
+      money: req.session.user.credits,
       onload: "start()"
     });
   } catch (e) {  // Some error has occured in the db
