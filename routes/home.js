@@ -77,7 +77,6 @@ router.get("/pets", async (req, res) => {
 
     // Map happiness, health, age, and favorite food
     for (let i = 0; i < pets.length; i++) {
-      console.log(pets[i]);
       pets[i].happiness = await userPets.getHappiness(pets[i]._id);
       pets[i].status = await userPets.getStatus(pets[i]._id);
       pets[i].age = await userPets.getAge(pets[i]._id);
