@@ -1,10 +1,10 @@
 # MojiPets
 
 <p align="center">
-  <img alt="Login Page" src="https://github.com/MikeChunko/mojipets/blob/master/previews/login.png">
+  <img alt="Login Page" src="https://github.com/MikeChunko/mojipets/blob/main/previews/login.png">
 </p>
 <p align="center">
-  <img alt="Home Page" src="https://github.com/MikeChunko/mojipets/blob/master/previews/home.png">
+  <img alt="Home Page" src="https://github.com/MikeChunko/mojipets/blob/main/previews/home.png">
 </p>
 
 **[🌐 Mojipets is live at mojipets.myriaco.re 🌐](https://mojipets.myriaco.re)**
