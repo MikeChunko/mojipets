@@ -115,9 +115,12 @@ router.post('/:id/interactions/feed', async (req, res) => {
 
   // Add credits for feeding
   try {
+    // Check for if the favorite food was given
+    let favoriteModifier = pet.favoriteFood == foodId ? 3.0 : 1.0;
+
     req.session.user = await data.users.modifyCredits({
       userId: req.session.user._id,
-      credits: config.feedBaseCredits
+      credits: config.feedBaseCredits * favoriteModifier
     });
   } catch (e) {
     return res.status(500).json({ error: e.toString() })
