@@ -512,6 +512,7 @@ li > div > p {
 }
 
 .money > p {
+  font-weight: bold;
   text-align: center;
   font-size: 25px;
   padding-bottom: 0;
