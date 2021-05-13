@@ -74,7 +74,8 @@ async function add(body) {
     pets: [],
     favoritePets: [],
     notifiedDeaths: [],
-    foods: {}
+    foods: {},
+    privacy: 1  // 0: Profile visible to everybody, 1: only friends, 2: nobody
   }
 
   // Add an infinite source of meat_on_bone

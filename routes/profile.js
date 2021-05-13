@@ -41,8 +41,45 @@ router.get("/:uname", async (req, res) => {
         title: uname + "'s Profile",
         username: uname,
         error: true,
+        error_msg: `The user ${uname} does not exist`,
         css: "/public/site.css"
       });
+    }
+
+    // Check if the inciting user has permission to access this profile
+
+    // Nobody can view
+    if (userObj.privacy == 2)
+      return res.render("mojipets/profile", {
+        title: uname + "'s Profile",
+        username: uname,
+        error: true,
+        error_msg: `You do not have permission to view this user's profile`,
+        css: "/public/site.css"
+      });
+
+    // Friends only
+    if (userObj.privacy == 1) {
+      if (!req.session.user)
+        return res.render("mojipets/profile", {
+          title: uname + "'s Profile",
+          username: uname,
+          error: true,
+          error_msg: `You do not have permission to view this user's profile`,
+          css: "/public/site.css"
+        });
+
+        if (!req.session.user.friends.find((friend, i) => {
+          if (friend == userObj._id)
+            return friend;
+        }))
+          return res.render("mojipets/profile", {
+            title: uname + "'s Profile",
+            username: uname,
+            error: true,
+            error_msg: `You do not have permission to view this user's profile`,
+            css: "/public/site.css"
+          });
     }
 
     pets = cloneDeep(userObj.favoritePets);
@@ -94,6 +131,7 @@ router.get("/:uname/all", async (req, res) => {
         title: uname + "'s Profile",
         username: uname,
         error: true,
+        error_msg: `The user ${uname} does not exist`,
         css: "/public/site.css"
       });
     }
@@ -146,6 +184,7 @@ router.get("/:uname/most", async (req, res) => {
         title: uname + "'s Profile",
         username: uname,
         error: true,
+        error_msg: `The user ${uname} does not exist`,
         css: "/public/site.css"
       });
     }
