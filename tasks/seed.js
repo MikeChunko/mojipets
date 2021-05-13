@@ -106,7 +106,6 @@ async function main() {
   let joey = await userData.add({username: "rattatauser", plaintextPassword: "rattataPower", displayname:"Yung Joe"})
   let whitney = await userData.add({username: "gym3johto", plaintextPassword: "normaltype", displayname:"miltank is poggers"})
   let brock = await userData.add({username: "gym1kanto", plaintextPassword: "dryingpan", displayname:"onix abuser"})
-  let notch = await userData.add({username: "notch", plaintextPassword: "isuckandsmell", displayname:"racist twitter user"})
   let yu = await userData.add({username: "protag4", plaintextPassword: "izanagipicaro", displayname:"yu narukami"})
   // user friend data
   await userData.makeFriends({userId1: elijah._id, userId2: yu._id})
@@ -122,7 +121,6 @@ async function main() {
   joey = await userData.modifyCredits( { userId: joey._id, credits: 10000 } )
   whitney = await userData.modifyCredits( { userId: whitney._id, credits: 10000 } )
   brock = await userData.modifyCredits( { userId: brock._id, credits: 10000 } )
-  notch = await userData.modifyCredits( { userId: notch._id, credits: 10000 } )
   yu = await userData.modifyCredits( { userId: yu._id, credits: 10000 } )
   // userpets
   let sergio = await userPetData.add({owner:elijah._id, name:"sergio", emoji: catEmoji})
@@ -140,7 +138,6 @@ async function main() {
   let rattata_3 = await userPetData.add({owner:whitney._id, name:"rattata_3", emoji: ratEmoji})
   let rattata_4 = await userPetData.add({owner:whitney._id, name:"rattata_4", emoji: ratEmoji})
   let onix = await userPetData.add({owner:brock._id, name:"onix", emoji: caterpillarEmoji})
-  let creeper = await userPetData.add({owner:notch._id, name:"creeper", emoji: pigEmoji})
   let jackFrost = await userPetData.add({owner:yu._id, name:"Jack Frost", emoji: snowmanEmoji})
   // user favorites
   let favData = await userPetData.favorite(miltank._id)
@@ -162,7 +159,6 @@ async function main() {
   joey = await storeFoodData.buy({userId: joey._id, foodId: falaffel._id, quantity: 20})
   whitney = await storeFoodData.buy({userId: whitney._id, foodId: bagel._id, quantity: 20})
   brock = await storeFoodData.buy({userId: brock._id, foodId: onigiri._id, quantity: 20})
-  notch = await storeFoodData.buy({userId: notch._id, foodId: donut._id, quantity: 20})
   yu = await storeFoodData.buy({userId: yu._id, foodId: sushi._id, quantity: 20})
   // idk
   let hermit = await storePetData.buy({userId: yu._id, petId: fox._id, petName: "hermit"})
