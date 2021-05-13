@@ -19,6 +19,9 @@ router.get("/", async (req, res) => {
   res.render("mojipets/settings", {
     title: "MojiPets",
     ...req.session.user,
+    privacy0: req.session.user.privacy == 0 ? "checked" : "",
+    privacy1: req.session.user.privacy == 1 ? "checked" : "",
+    privacy2: req.session.user.privacy == 2 ? "checked" : "",
     css: "public/site.css",
     postjs: "/public/settings.js"
   })
