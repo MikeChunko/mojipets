@@ -19,7 +19,8 @@ router.get("/", async (req, res) => {
   res.render("mojipets/settings", {
     title: "MojiPets",
     ...req.session.user,
-    css: "public/site.css"
+    css: "public/site.css",
+    postjs: "/public/settings.js"
   })
 })
 

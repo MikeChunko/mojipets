@@ -149,11 +149,13 @@ async function update(body) {
   let user = null
   try {
     user = await get(uid)
+    delete user._id
   } catch (e) {
     throw e
   }
 
   const newUser = {
+    ...user,
     username: username.trim().toLowerCase(),
     passwordhash: user.passwordhash,
     displayname: displayname.trim(),
@@ -193,6 +195,7 @@ async function updatePassword(body) {
   let user = null
   try {
     user = await get(uid)
+    delete user._id
   } catch (e) {
     throw e
   }
@@ -200,18 +203,9 @@ async function updatePassword(body) {
   const passwordhash = await hash_password(plaintextPassword)
 
   const newUser = {
-    username: user.username,
+    ...user,
     passwordhash: passwordhash,
     displayname: user.displayname.trim(),
-    credits: user.credits,
-    pfp: user.pfp,
-    joinDate: user.joinDate,
-    lastLogin: user.lastLogin,
-    friends: user.friends,
-    pets: user.pets,
-    favoritePets: user.favoritePets,
-    notifiedDeaths: user.notifiedDeaths,
-    foods: user.foods
   }
 
   let updateId = ObjectIdMongo(uid)
@@ -235,6 +229,7 @@ async function modifyCredits(body) {
   let user = null
   try {
     user = await get(uid)
+    delete user._id
   } catch (e) {
     throw e
   }
@@ -243,18 +238,38 @@ async function modifyCredits(body) {
   if (user.credits + credits <= 0) throw `Error: user does not have enough credits to deduct ${-credits}`
 
   const newUser = {
-    username: user.username,
-    passwordhash: user.passwordhash,
-    displayname: user.displayname,
+    ...user,
     credits: user.credits + credits,
-    pfp: user.pfp,
-    joinDate: user.joinDate,
-    lastLogin: user.lastLogin,
-    friends: user.friends,
-    pets: user.pets,
-    favoritePets: user.favoritePets,
-    notifiedDeaths: user.notifiedDeaths,
-    foods: user.foods
+  }
+
+  const userCollection = await users()
+
+  let updateId = ObjectIdMongo(uid)
+
+  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: newUser })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not update user.'
+  let changedUser = await get(uid.toString())
+  return changedUser
+}
+
+async function updatePrivacy(uid, level) {
+  if (!uid) throw 'Error: uid not given.'
+  if (typeof (level) == "undefined") throw 'Error: must provide a level.'
+  if (typeof(uid) != "string") throw 'Error: type of uid not string.'
+  if (typeof(level) != 'number' || level < 0 || level > 2) throw 'Error: level must be a number between 0 and 2.'
+  if (uid.trim().length == 0) throw 'Error: uid is either an empty string or just whitespace.'
+
+  let user = null
+  try {
+    user = await get(uid)
+    delete user._id
+  } catch (e) {
+    throw e
+  }
+
+  const newUser = {
+    ...user,
+    privacy: level
   }
 
   const userCollection = await users()
@@ -563,6 +578,7 @@ module.exports = {
   update,
   updatePassword,
   modifyCredits,
+  updatePrivacy,
   makeFriends,
   removeFriends,
   getDeadPets,

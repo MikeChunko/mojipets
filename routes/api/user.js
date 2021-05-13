@@ -200,7 +200,7 @@ router.post('/:id/pets', async (req, res) => {
     return res.status(400).json({
       error: 'store is either an empty string or just whitespace.'
     })
-  
+
   let user = null;
   try { user = await data.users.get(userId) }
   catch (e) { return res.status(500).json({error: e.toString()}) }
@@ -424,5 +424,25 @@ router.delete('/:id/friends/:friendid', async (req, res) => {
     return res.status(500).json({ error: e.toString() });
   }
 })
+
+router.post("/privacy", async (req, res) => {
+  if (!req.session.user)
+    return res.sendStatus(403);
+
+  let level = xss(req.body.level);
+  if (!level)
+    return res.sendStatus(400);
+
+  level = parseInt(level);
+  if (isNaN(level) || level < 0 || level > 2)
+    return res.sendStatus(400);
+
+  try {
+    req.session.user = await userData.updatePrivacy(req.session.user._id, level);
+    return res.sendStatus(200)
+  } catch (e) {
+    return res.status(500).json({ error: e.toString() });
+  }
+});
 
 module.exports = router
