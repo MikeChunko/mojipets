@@ -4,6 +4,10 @@
 
 ![Home Page](https://i.imgur.com/8n40fLP.png)
 
+**[🌐 Mojipets is live at mojipets.myriaco.re 🌐](https://mojipets.myriaco.re)**
+
+---
+
 MojiPets is a virtual pet website with emojis, built by
 [@ezwendel](https://github.com/ezwendel),
 [@MikeChunko](https://github.com/MikeChunko),
