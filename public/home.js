@@ -158,6 +158,7 @@ function startClickToPlace() {
       left: `${pt.x}px`,
       top: `${pt.y}px`
     })
+    placedItem.click((event) => { event.stopPropagation() })
     _container.append(placedItem);
 
     // update info and add item to list
