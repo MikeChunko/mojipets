@@ -4,11 +4,14 @@
 
 ![Home Page](https://i.imgur.com/8n40fLP.png)
 
-Mojipets is a tamagatchi clone with emojis, built by @ezwendel, @MikeChunko,
-@MyriaCore, and @njdom24 as a CS 546 - web dev project.
+Mojipets is a pet collecting game similar to tamagotchi with emojis, built by
+[@ezwendel](https://github.com/ezwendel),
+[@MikeChunko](https://github.com/MikeChunko),
+[@myriacore](https://github.com/myriacore), and
+[@njdom24](https://github.com/myriacore) as a CS 546 - web dev project.
 
-It's built using node + expressjs + handlebars for the backend, and plain html +
-css + js + jquery for the frontend.
+It's built using mongodb + node + expressjs + handlebars for the backend, and
+plain html + css + js + jquery for the frontend.
 
 ### To Run
 
