@@ -116,7 +116,6 @@ router.get("/pets/:id", async (req, res) => {
     pet.age = await userPets.getAge(pet._id);
     pet.interactions = await userPets.getTotalInteractions(pet._id);
     pet.favoriteFood = await storeFood.get(pet.favoriteFood);
-    console.log(pet.favoriteFood)
 
     // Fetch and scale percentages
     pet.happiness_percent = 100 * (await userPets.getHappinessAsNumber(pet._id));
