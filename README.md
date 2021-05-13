@@ -8,15 +8,16 @@ MojiPets is a virtual pet website with emojis, built by
 [@ezwendel](https://github.com/ezwendel),
 [@MikeChunko](https://github.com/MikeChunko),
 [@myriacore](https://github.com/myriacore), and
-[@njdom24](https://github.com/njdom24) as a project for CS 546 - Web Programming.
+[@njdom24](https://github.com/njdom24) as a project for CS 546 - Web
+Programming.
 
 It's built using mongodb + node + expressjs + handlebars for the backend, and
 html + css + js + jquery +ajax for the frontend.
 
 ### To Run
 
-This project requires a working npm and mongodb installation. Run the following commands to
-run this project for yourself:
+This project requires a working npm and mongodb installation. Run the following
+commands to run this project for yourself:
 
 ```
 $ git clone https://github.com/MikeChunko/mojipets.git
@@ -25,11 +26,15 @@ $ npm install
 $ npm run seed
 $ npm start
 ```
-then simply head over to the link printed in your terminal (typically http://localhost:3000) and enter the world of MojiPets! Once your logged in, you can buy pets and food, feed and play with your pets, and add friends and check out their profiles.
+
+then simply head over to the link printed in your terminal (typically
+http://localhost:3000) and enter the world of MojiPets! Once your logged in, you
+can buy pets and food, feed and play with your pets, and add friends and check
+out their profiles.
 
 
-The provided database seed gives a few user accounts to test with. Make your own, or try
-the following:
+The provided database seed gives a few user accounts to test with. Make your
+own, or try the following:
 
 - Username: `elijah`, Password: `fun9password`
 - Username: `jack`, Password: `sick_password`
