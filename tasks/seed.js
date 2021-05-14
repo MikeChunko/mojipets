@@ -183,7 +183,7 @@ async function main() {
   brock = await storeFoodData.buy({userId: brock._id, foodId: onigiri._id, quantity: 20})
   yu = await storeFoodData.buy({userId: yu._id, foodId: sushi._id, quantity: 20})
   // user inventories - toys
-  elijah = await storeToyData.buy({userId: elijah._id, toyId: basketball._id, quantity: 20})
+  elijah = await storeToyData.buy({userId: elijah._id, toyId: yoyo._id, quantity: 20})
   jack = await storeToyData.buy({userId: jack._id, toyId: balloon._id, quantity: 20})
   child = await storeToyData.buy({userId: child._id, toyId: baseball._id, quantity: 20})
   elon = await storeToyData.buy({userId: elon._id, toyId: fireworks._id, quantity: 20})
@@ -191,7 +191,6 @@ async function main() {
   joey = await storeToyData.buy({userId: joey._id, toyId: palette._id, quantity: 20})
   whitney = await storeToyData.buy({userId: whitney._id, toyId: thread._id, quantity: 20})
   brock = await storeToyData.buy({userId: brock._id, toyId: volleyball._id, quantity: 20})
-  notch = await storeToyData.buy({userId: notch._id, toyId: yoyo._id, quantity: 20})
   yu = await storeToyData.buy({userId: yu._id, toyId: soccerball._id, quantity: 20})
   // idk
   let hermit = await storePetData.buy({userId: yu._id, petId: fox._id, petName: "hermit"})
