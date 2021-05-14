@@ -426,3 +426,22 @@ input[type="submit"] {
   margin-right: 40px;
   margin-bottom: 5px;
 }
+
+#privacyForm {
+  align-content: center;
+}
+
+#privacyForm div {
+  height: 3em;
+}
+
+#privacyForm label {
+  width: 16em;
+  display: inline-block;
+}
+
+input[type="radio"] {
+  width: 4em;
+  padding-top: 1em;
+  vertical-align: middle;
+}
