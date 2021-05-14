@@ -395,11 +395,15 @@ input[type="submit"] {
 }
 
 #food-tab {
-  width: 50%;
+  width: 33%;
 }
 
 #pets-tab {
-  width: 50%;
+  width: 33%;
+}
+
+#toys-tab {
+  width: 33%;
 }
 
 [data-clicked="y"] {

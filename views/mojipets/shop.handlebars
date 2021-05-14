@@ -1,6 +1,7 @@
 <div class="tab-container">
   <button id="food-tab" data-clicked="n">Food</button>
   <button id="pets-tab" data-clicked="y">Pets</button>
+  <button id="toys-tab" data-clicked="n">Toys</button>
 </div>
 
 <div data-state={{initial_state}} class="shop-window" id="shop-window">
@@ -18,6 +19,15 @@
 
   <div id="shop-food" class="shop-items">
     {{#each shopFood}}
+    <div class="emoji-container" data-price="{{price}}">
+      <input type="image" data-price="{{price}}" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />
+      <p>{{price}} 💸</p>
+    </div>
+    {{/each}}
+  </div>
+
+  <div id="shop-toys" class="shop-items">
+    {{#each shopToys}}
     <div class="emoji-container" data-price="{{price}}">
       <input type="image" data-price="{{price}}" id="{{_id}}" alt="{{emoji.name}}" src="{{emoji.img}}" />
       <p>{{price}} 💸</p>
