@@ -250,7 +250,7 @@ async function renderPets() {
     }).append($('<input>', {
       type: 'hidden',
       name: 'shopType',
-      value: "true"
+      value: "1"
     })).appendTo('body').submit();
   });
 
