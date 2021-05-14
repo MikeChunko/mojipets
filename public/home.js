@@ -135,18 +135,26 @@ function startClickToPlace() {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
 
-    if (_selecteditem.type == 'food') {
-      // can't place anything if there's no food left
+      // can't place anything if there's no items left
       if ($(_selecteditem.node).children('p').eq(0).text() === '0')
         return
 
-      // inform the api that the user is trying to use the food
+    // inform the api that the user is trying to use the item
+    if (_selecteditem.type == 'food') {
       $.post(`/api/user/${_user._id}/foods/${_selecteditem.data}`)
         .then(amt => {
           updateInventory();
         })
         .fail(() => {
           updateInventory();
+        })
+    } else {
+      $.post(`/api/user/${_user._id}/toys/${_selecteditem.data}`)
+        .then(amt => {
+          updateInventory(); // TODO: updateToys??
+        })
+        .fail(() => {
+          updateInventory(); // TODO: updateToys??
         })
     }
 
