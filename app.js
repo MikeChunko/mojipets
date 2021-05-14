@@ -16,7 +16,8 @@ const express = require("express"),
       configRoutes = require("./routes"),
       exphbs = require("express-handlebars"),
       data = require("./data"),
-      userData = data.users;
+      userData = data.users,
+      userPets = data.userPets;
 
 app.use(session({
   name: "MojiPets",
