@@ -15,6 +15,20 @@
       shopFood = $('#shop-food'),
       credits = $('#credits');
 
+  if ($("#shop-window").attr("data-state") == "0") {
+    foodTab.attr("data-clicked", "y");
+    petsTab.attr("data-clicked", "n");
+    shopTitle.text("Food Items");
+    shopFood.removeClass("hidden-div");
+    shopPets.addClass("hidden-div");
+  } else if ($("#shop-window").attr("data-state") == "1") {
+    petsTab.attr("data-clicked", "y");
+    foodTab.attr("data-clicked", "n");
+    shopTitle.text("New Pets");
+    shopPets.removeClass("hidden-div");
+    shopFood.addClass("hidden-div");
+  }
+
   foodTab.click(function(e) {
     foodTab.attr("data-clicked", "y");
     petsTab.attr("data-clicked", "n");

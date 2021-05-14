@@ -11,17 +11,28 @@ const express = require("express"),
       router = express.Router(),
       data = require("../data"),
       storePets = data.storePets,
-      storeFood = data.storeFood;
+      storeFood = data.storeFood,
+      storeToys = data.storeToys;
 
 async function handleRequest(req, res) {
-  let petShop = false;
-  if(req.body.shopType) {
-    petShop = true;
-  }
+  let initial_state = 0;
+  if(req.body.shopType)
+    switch (req.body.shopType) {
+      case "0":
+        initial_state = 0;
+        break
+      case "1":
+        initial_state = 1;
+        break
+      case "2": 
+        initial_state = 2;
+        break;
+    }
 
   try {
     let shopPets = await storePets.getAll(),
-        shopFood = await storeFood.getAll();
+        shopFood = await storeFood.getAll(),
+        shopToys = await storeToys.getAll();
     
     // Remove our infinite food source from the shop
     const mob = shopFood.find((food, i) => {
@@ -36,8 +47,9 @@ async function handleRequest(req, res) {
       title: "MojiPets",
       shopPets: shopPets,
       shopFood: shopFood,
+      shopToys: shopToys,
       money: req.session.user.credits,
-      petShop: petShop,
+      initial_state: initial_state,
       css: "/public/site.css",
       postjs: "/public/shop.js"
     });

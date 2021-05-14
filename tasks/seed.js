@@ -7,15 +7,14 @@
   I pledge my honor that I have abided by the Stevens Honor System.
 */
 
-const express = require('express')
-const router = express.Router()
+const express = require('express');
 const dbConnection = require('../config/mongoConnection');
 const data = require('../data');
-const storePetData = data.storePets
-const userPetData = data.userPets
-const userData = data.users
-const storeFoodData = data.storeFood
-const storeToyData = data.storeToys
+const storePetData = data.storePets;
+const userPetData = data.userPets;
+const userData = data.users;
+const storeFoodData = data.storeFood;
+const storeToyData = data.storeToys;
 
 
 async function main() {
