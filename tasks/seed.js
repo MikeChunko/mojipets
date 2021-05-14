@@ -63,10 +63,10 @@ async function main() {
   let basketballEmoji = { codepoint:"🏀", name:"basketball", img:"/public/resources/toys/basketball.svg" }
   let balloonEmoji = { codepoint:"🎈", name:"balloon", img:"/public/resources/toys/balloon.svg" }
   let baseballEmoji = { codepoint:"⚾", name:"baseball", img:"/public/resources/toys/baseball.svg" }
-  let fireworksEmoji = { codepoint:"🎆", name:"fireworks", img:"/public/resources/toys/fireworks.svg" }
+  let fireworksEmoji = { codepoint:"🎉", name:"popper", img:"/public/resources/toys/popper.svg" }
   let confettiEmoji = { codepoint:"🎊", name:"confetti", img:"/public/resources/toys/confetti.svg" }
   let paletteEmoji = { codepoint:"🎨", name:"palette", img:"/public/resources/toys/palette.svg" }
-  let threadEmoji = { codepoint:"🧵", name:"thread", img:"/public/resources/toys/thread.svg" }
+  let threadEmoji = { codepoint:"🧶", name:"yarn", img:"/public/resources/toys/yarn.svg" }
   let volleyballEmoji = { codepoint:"🏐", name:"volleyball", img:"/public/resources/toys/volleyball.svg" }
   let yoyoEmoji = { codepoint:"🪀", name:"yo-yo", img:"/public/resources/toys/yo-yo.svg" }
   let soccerballEmoji = { codepoint:"⚽", name:"soccer ball", img:"/public/resources/toys/soccerball.svg" }

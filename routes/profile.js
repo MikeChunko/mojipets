@@ -20,8 +20,8 @@ const express = require("express"),
 
 // Check if the inciting user has permission to access this profile
 function canAccess(user1, user2) {
-  // Userse can always view their own profile
-  if (user1._id == user2._id)
+  // Users can always view their own profile
+  if (user1 && user1._id == user2._id)
     return true;  
 
   // Nobody can view
