@@ -163,6 +163,14 @@ router.post('/:id/interactions/fetch', async (req, res) => {
       error: `Cannot play fetch with pet '${id}'. This pet is dead.`
     })
 
+    if (!req.session.happiness_owed || req.session.happiness_owed <= 0) { // new health_owed
+      return res.status(400).json({
+        error: `Cannot play with pet if no toys have been placed.`
+      })
+    } else {
+      req.session.happiness_owed -= 1;
+    }
+
   try { pet = await data.userPets.fetch(id) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 

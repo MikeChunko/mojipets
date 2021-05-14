@@ -268,6 +268,54 @@ router.post('/:id/foods/:foodid', async (req, res) => {
   res.json(user.foods[foodId])
 })
 
+router.post('/:id/toys/:toyid', async (req, res) => {
+  let id = xss(req.params.id);
+  let toyId = xss(req.params.toyid);
+  if (!id) return res.status(400).json({ error: 'id not given' })
+  if (typeof(id) != "string")
+    return res.status(400).json({ error: 'type of id not string' })
+  if (id.trim().length == 0)
+    return res.status(400).json({
+      error: 'id is either an empty string or just whitespace.'
+    })
+  if (!toyId) return res.status(400).json({ error: 'toyId not given' })
+  if (typeof(toyId) != "string")
+    return res.status(400).json({ error: 'type of toyId not string' })
+  if (toyId.trim().length == 0)
+    return res.status(400).json({
+      error: 'toyId is either an empty string or just whitespace.'
+    })
+
+  let user = null;
+  try { user = await data.users.get(id) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  if (!req.session.user) return res.status(403).json({
+    error: 'cannot place toy without being logged in'
+  })
+  if (req.session.user._id != id) return res.status(403).json({
+    error: `cannot place toy as a different user`
+  })
+
+  if (!user.toys[toyId] || user.toys[toyId] <= 0) {
+    if (!user.toys[toyId] || user.toys[toyId] != -1) {
+      return res.status(400).json({ error: 'Error: not enough food to feed pet.' })
+    }
+  }
+
+  try { user = await data.users.placeFood({userId: id, foodId: foodId}) }
+  catch (e) { return res.status(500).json({ error: e.toString() }) }
+
+  if (!req.session.happiness_owed) {
+    req.session.happiness_owed = 1;
+  } else {
+    req.session.happiness_owed += 1;
+  }
+
+  req.session.user = await protect.user.showSensitive(user)
+  res.json(user.toys[toyId])
+})
+
 router.post('/:id/favoritePets/:petid', async (req, res) => {
   let petId = xss(req.params.petid)
   let userId = xss(req.params.id)
