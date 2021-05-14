@@ -303,7 +303,7 @@ router.post('/:id/toys/:toyid', async (req, res) => {
     }
   }
 
-  try { user = await data.users.placeFood({userId: id, foodId: foodId}) }
+  try { user = await data.users.placeToy({userId: id, toyId: toyId}) }
   catch (e) { return res.status(500).json({ error: e.toString() }) }
 
   if (!req.session.happiness_owed) {
