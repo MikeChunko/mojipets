@@ -43,6 +43,9 @@
       data: { displayname: dname }
     }
 
-    $.ajax(requestConfig);
+    $.ajax(requestConfig).then(function (_) {
+      $("#formErrorMessage").show();
+      $("#formErrorMessage").text("👍");
+    });
   })
 })(window.jQuery);

@@ -462,6 +462,7 @@ router.post("/displayname", async (req, res) => {
     });
     return res.sendStatus(200);
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ error: e.toString() });
   }
 });

@@ -174,7 +174,7 @@ async function update(body) {
 
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: newUser })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not update user.'
-  let changedUser = await getUser(uid.toString())
+  let changedUser = await get(uid.toString())
   return changedUser
 }
 
@@ -212,7 +212,7 @@ async function updatePassword(body) {
 
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: newUser })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not update user.'
-  let changedUser = await getUser(uid.toString())
+  let changedUser = await get(uid.toString())
   return changedUser
 }
 
