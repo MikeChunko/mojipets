@@ -9,7 +9,7 @@
 
 const { ObjectID } = require('bson'),
       ObjectIdMongo = require('mongodb').ObjectID,
-      { users, storeFood } = require('../config/mongoCollections'),
+      { users, storeFood, storeToys } = require('../config/mongoCollections'),
       bcrypt = require('bcrypt'),
       settings = require("../config.json"),
       saltRounds = settings.saltRounds,
@@ -82,7 +82,8 @@ async function add(body) {
     pets: [],
     favoritePets: [],
     notifiedDeaths: [],
-    foods: {}
+    foods: {},
+    toys: {}
   }
 
   // Add an infinite source of meat_on_bone
@@ -99,6 +100,22 @@ async function add(body) {
 
   if (mob) {
     newUser.foods[mob._id] = -1
+  };
+
+  // Add an infinite source of basketball
+
+  // Need to have this code here to avoid circular dependencies
+  const storeToyCollection = await storeToys();
+  const storeToyArr = await storeToyCollection.find({}).toArray()
+  const shopToy = storeToyArr.map(clean)
+
+  const bball = shopToy.find((toy, i) => {
+    if (toy.emoji.name == "basketball")
+      return toy;
+  });
+
+  if (bball) {
+    newUser.toys[bball._id] = -1
   };
 
   let insertInfo = await userCollection.insertOne(newUser)
@@ -172,7 +189,8 @@ async function update(body) {
     pets: user.pets,
     favoritePets: user.favoritePets,
     notifiedDeaths: user.notifiedDeaths,
-    foods: user.foods
+    foods: user.foods,
+    toys: user.toys
   }
 
   let updateId = ObjectIdMongo(uid)
@@ -218,7 +236,8 @@ async function updatePassword(body) {
     pets: user.pets,
     favoritePets: user.favoritePets,
     notifiedDeaths: user.notifiedDeaths,
-    foods: user.foods
+    foods: user.foods,
+    toys: user.toys
   }
 
   let updateId = ObjectIdMongo(uid)
@@ -261,7 +280,8 @@ async function modifyCredits(body) {
     pets: user.pets,
     favoritePets: user.favoritePets,
     notifiedDeaths: user.notifiedDeaths,
-    foods: user.foods
+    foods: user.foods,
+    toys: user.toys
   }
 
   const userCollection = await users()
@@ -563,6 +583,42 @@ async function placeFood(body) {
   return await get(userId)
 }
 
+async function placeToy(body) {
+  userId = body.userId
+  toyId = body.toyId
+  if (!userId) throw 'Error: must provide an userId for get.'
+  if (typeof(userId) != "string") throw 'Error: type of userId not string.'
+  if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
+  if (!toyId) throw 'Error: must provide an toyId for get.'
+  if (typeof(toyId) != "string") throw 'Error: type of toyId not string.'
+  if (toyId.trim().length == 0) throw 'Error: toyId is either an empty string or just whitespace.'
+
+  owner = null;
+  try { owner = await get(userId) }
+  catch (e) { throw e }
+
+  changed = false;
+  if (!owner.toys[toyId] || owner.toys[toyId] <= 0) {
+    if (!owner.toys[toyId] || owner.toys[toyId] != -1) throw 'Error: not enough toys to feed pet.'
+  }
+  if (owner.toys[toyId] != -1) {
+    owner.toys[toyId] -= 1
+    changed = true;
+  }
+  if (owner.toys[toyId] == 0) {
+    delete owner.toys[toyId]
+  }
+
+  if (changed) {
+    let updateId = ObjectIdMongo(owner._id)
+    delete owner._id
+    const userCollection = await users()
+    const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: owner })
+    if (updateInfo.modifiedCount == 0) throw 'Error: could not feed pet.'
+  }
+  return await get(userId)
+}
+
 module.exports = {
   add,
   get,
@@ -577,5 +633,6 @@ module.exports = {
   updateLoginTime,
   updateLoginTimeWithDays,
   checkDeaths,
-  placeFood
+  placeFood,
+  placeToy
 }

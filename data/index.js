@@ -10,11 +10,13 @@
 const userData = require("./users"),
       userPetData = require("./userPets"),
       storePetData = require("./storePets"),
-      storeFoodData = require("./storeFood");
+      storeFoodData = require("./storeFood"),
+      storeToyData = require("./storeToys");
 
 module.exports = {
   users: userData,
   userPets: userPetData,
   storePets: storePetData,
-  storeFood: storeFoodData
+  storeFood: storeFoodData,
+  storeToys: storeToyData
 }

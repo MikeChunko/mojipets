@@ -15,6 +15,7 @@ const storePetData = data.storePets
 const userPetData = data.userPets
 const userData = data.users
 const storeFoodData = data.storeFood
+const storeToyData = data.storeToys
 
 
 async function main() {
@@ -59,6 +60,16 @@ async function main() {
   let strawberryEmoji = { codepoint:"🍓", name:"strawberry", img:"/public/resources/food/strawberry.svg" }
   let kiwiEmoji = { codepoint:"🥝", name:"kiwi", img:"/public/resources/food/kiwi.svg" }
   let broccoliEmoji = { codepoint:"🥦", name:"broccoli", img:"/public/resources/food/broccoli.svg" }
+  let basketballEmoji = { codepoint:"🏀", name:"basketball", img:"/public/resources/toys/basketball.svg" }
+  let balloonEmoji = { codepoint:"🎈", name:"balloon", img:"/public/resources/toys/balloon.svg" }
+  let baseballEmoji = { codepoint:"⚾", name:"baseball", img:"/public/resources/toys/baseball.svg" }
+  let fireworksEmoji = { codepoint:"🎆", name:"fireworks", img:"/public/resources/toys/fireworks.svg" }
+  let confettiEmoji = { codepoint:"🎊", name:"confetti", img:"/public/resources/toys/confetti.svg" }
+  let paletteEmoji = { codepoint:"🎨", name:"palette", img:"/public/resources/toys/palette.svg" }
+  let threadEmoji = { codepoint:"🧵", name:"thread", img:"/public/resources/toys/thread.svg" }
+  let volleyballEmoji = { codepoint:"🏐", name:"volleyball", img:"/public/resources/toys/volleyball.svg" }
+  let yoyoEmoji = { codepoint:"🪀", name:"yo-yo", img:"/public/resources/toys/yo-yo.svg" }
+  let soccerballEmoji = { codepoint:"⚽", name:"soccer ball", img:"/public/resources/toys/soccerball.svg" }
   // food store
   let pizza = await storeFoodData.add({emoji:pizzaEmoji, price:20})
   let pie = await storeFoodData.add({emoji:pieEmoji, price:30})
@@ -97,6 +108,17 @@ async function main() {
   let unicorn = await storePetData.add({emoji:unicornEmoji, price:300, rarity:4})
   let whale = await storePetData.add({emoji:whaleEmoji, price:100, rarity:1})
   let rat = await storePetData.add({emoji:ratEmoji, price:100, rarity:1})
+  // toy store
+  let basketball = await storeToyData.add({emoji:basketballEmoji, price:20})
+  let balloon = await storeToyData.add({emoji:balloonEmoji, price:15})
+  let baseball = await storeToyData.add({emoji:baseballEmoji, price:18})
+  let fireworks = await storeToyData.add({emoji:fireworksEmoji, price:30})
+  let confetti = await storeToyData.add({emoji:confettiEmoji, price:25})
+  let palette = await storeToyData.add({emoji:paletteEmoji, price:22})
+  let thread = await storeToyData.add({emoji:threadEmoji, price:10})
+  let volleyball = await storeToyData.add({emoji:volleyballEmoji, price:19})
+  let yoyo = await storeToyData.add({emoji:yoyoEmoji, price:17})
+  let soccerball = await storeToyData.add({emoji:soccerballEmoji, price:20})
   // users
   let elijah = await userData.add({username: "elijah", plaintextPassword: "fun9password", displayname:"greatest dude"})
   let jack = await userData.add({username: "jack", plaintextPassword: "sick_password", displayname:"greatest dude"})
@@ -153,7 +175,7 @@ async function main() {
   favData = await userPetData.favorite(rattata_4._id)
   favData = await userPetData.favorite(sonic._id)
   favData = await userPetData.unfavorite(sonic._id)
-  // user inventories
+  // user inventories - food
   elijah = await storeFoodData.buy({userId: elijah._id, foodId: pizza._id, quantity: 20})
   jack = await storeFoodData.buy({userId: jack._id, foodId: pie._id, quantity: 20})
   child = await storeFoodData.buy({userId: child._id, foodId: melon._id, quantity: 20})
@@ -164,6 +186,17 @@ async function main() {
   brock = await storeFoodData.buy({userId: brock._id, foodId: onigiri._id, quantity: 20})
   notch = await storeFoodData.buy({userId: notch._id, foodId: donut._id, quantity: 20})
   yu = await storeFoodData.buy({userId: yu._id, foodId: sushi._id, quantity: 20})
+  // user inventories - toys
+  elijah = await storeToyData.buy({userId: elijah._id, toyId: basketball._id, quantity: 20})
+  jack = await storeToyData.buy({userId: jack._id, toyId: balloon._id, quantity: 20})
+  child = await storeToyData.buy({userId: child._id, toyId: baseball._id, quantity: 20})
+  elon = await storeToyData.buy({userId: elon._id, toyId: fireworks._id, quantity: 20})
+  bezos = await storeToyData.buy({userId: bezos._id, toyId: confetti._id, quantity: 20})
+  joey = await storeToyData.buy({userId: joey._id, toyId: palette._id, quantity: 20})
+  whitney = await storeToyData.buy({userId: whitney._id, toyId: thread._id, quantity: 20})
+  brock = await storeToyData.buy({userId: brock._id, toyId: volleyball._id, quantity: 20})
+  notch = await storeToyData.buy({userId: notch._id, toyId: yoyo._id, quantity: 20})
+  yu = await storeToyData.buy({userId: yu._id, toyId: soccerball._id, quantity: 20})
   // idk
   let hermit = await storePetData.buy({userId: yu._id, petId: fox._id, petName: "hermit"})
 

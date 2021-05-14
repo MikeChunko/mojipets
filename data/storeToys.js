@@ -10,7 +10,7 @@
 const { ObjectID } = require('bson'),
       ObjectIdMongo = require('mongodb').ObjectID,
       mongoCollections = require('../config/mongoCollections'),
-      { storeFood } = require('../config/mongoCollections'),
+      { storeToys } = require('../config/mongoCollections'),
       { users } = require('../config/mongoCollections'),
       usersJs = require('./users'),
       {
@@ -37,18 +37,18 @@ async function add(body) {
 
   if (price < 0) throw 'Error: price for a pet cannot be < 0.'
 
-  let newStoreFood = {
+  let newStoreToy = {
     emoji: emoji,
     price: price
   }
 
-  let storeFoodCollection = await storeFood()
+  let storeToyCollection = await storeToys()
 
-  let insertInfo = await storeFoodCollection.insertOne(newStoreFood)
-  if (insertInfo.insertedCount == 0) throw 'Error: could not add storeFood.'
+  let insertInfo = await storeToyCollection.insertOne(newStoreToy)
+  if (insertInfo.insertedCount == 0) throw 'Error: could not add storeToy.'
   const newId = insertInfo.insertedId
-  const food = await get(newId.toString())
-  return clean(food)
+  const toy = await get(newId.toString())
+  return clean(toy)
 }
 
 async function get(id) {
@@ -56,31 +56,31 @@ async function get(id) {
   if (typeof(id) != "string") throw 'Error: type of id not string.'
   if (id.trim().length == 0) throw 'Error: id is either an empty string or just whitespace.'
 
-  const storeFoodCollection = await storeFood()
+  const storeToyCollection = await storeToys()
 
-  const food =  await storeFoodCollection.findOne({ _id: ObjectID(id) })
-  if (food === null) throw `No food could be found with the id '${id}'`
-  return clean(food)
+  const toy =  await storeToyCollection.findOne({ _id: ObjectID(id) })
+  if (toy === null) throw `No toy could be found with the id '${id}'`
+  return clean(toy)
 }
 
 async function getAll() {
-  const storeFoodCollection = await storeFood()
-  const storeFoodArr = await storeFoodCollection.find({}).toArray()
-  return storeFoodArr.map(clean)
+  const storeToyCollection = await storeToys()
+  const storeToyArr = await storeToyCollection.find({}).toArray()
+  return storeToyArr.map(clean)
 }
 
 async function buy(body) {
   let userId = body.userId
-  let foodId = body.foodId
+  let toyId = body.toyId
   let quantity = body.quantity
   if (!userId) throw 'Error: userId not given.'
-  if (!foodId) throw 'Error: foodId not given.'
+  if (!toyId) throw 'Error: toyId not given.'
   if (!quantity) throw 'Error: quantity not given.'
   if (typeof(userId) != "string") throw 'Error: type of userId not string.'
-  if (typeof(foodId) != "string") throw 'Error: type of foodId not string.'
+  if (typeof(toyId) != "string") throw 'Error: type of toyId not string.'
   if (typeof(quantity) != "number") throw 'Error: type of quantity not number.'
   if (userId.trim().length == 0) throw 'Error: userId is either an empty string or just whitespace.'
-  if (foodId.trim().length == 0) throw 'Error: foodId is either an empty string or just whitespace.'
+  if (toyId.trim().length == 0) throw 'Error: toyId is either an empty string or just whitespace.'
   if (quantity < 0) throw 'Error: quantity must be a positive number.'
 
   let user = null
@@ -90,24 +90,24 @@ async function buy(body) {
     throw e
   }
 
-  let food = null
+  let toy = null
   try {
-    food = await get(foodId)
+    toy = await get(toyId)
   } catch (e) {
     throw e
   }
 
-  newCredits = user.credits - (quantity * food.price)
+  newCredits = user.credits - (quantity * toy.price)
 
   if (newCredits < 0) throw 'Error: user does not have enough credits to make this purchase.'
 
-  const realFoodId = ObjectIdMongo(foodId)
+  const realToyId = ObjectIdMongo(toyId)
 
   user.credits = newCredits
-  if (!(realFoodId in user.foods)) {
-    user.foods[realFoodId] = quantity
+  if (!(realToyId in user.toys)) {
+    user.toys[realToyId] = quantity
   } else {
-    user.foods[realFoodId] += quantity
+    user.toys[realToyId] += quantity
   }
 
   delete user._id
@@ -117,7 +117,7 @@ async function buy(body) {
   let updateId = ObjectIdMongo(userId)
 
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: user })
-  if (updateInfo.modifiedCount == 0) throw 'Error: could not add new food to user.'
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not add new toy to user.'
   let changedUser = await usersJs.get(userId)
   return clean(changedUser)
 }
