@@ -14,6 +14,7 @@ const express = require("express"),
       userData = data.users,
       userPets = data.userPets,
       storeFood = data.storeFood,
+      storeToys = data.storeToys
       cloneDeep = require("lodash.clonedeep"),
       { protect } = require("../util");
 
@@ -40,27 +41,30 @@ router.get("/", async (req, res) => {
         inventoryKeys[i].quantity = "∞";
     }
 
+    // Fetch user's toys
+    // For some reason req.session.user inventory refuses to update properly
+    let toys = cloneDeep((await userData.get(req.session.user._id)).toys),
+        toysKeys = Object.keys(toys);
+
+    for (let i = 0; i < toysKeys.length; i++) {
+      toysKeys[i] = { quantity: toys[toysKeys[i]], ...await storeToys.get(toysKeys[i]) };
+
+      // Handle "infinite" quantities
+      if (toysKeys[i].quantity == -1)
+        toysKeys[i].quantity = "∞";
+    }
+
     // Fetch user's friends
     let friends = cloneDeep(req.session.user.friends);
 
     for (let i = 0; i < friends.length; i++)
       friends[i] = await userData.get(friends[i]);
 
-    // Harcoding since we only have a single toy for now
-    toys = [{
-      _id: "-1",
-      quantity: "∞",
-      emoji: {
-        name: "basketball",
-        img: "/public/resources/toys/basketball.svg"
-      }
-    }]
-
     res.render("mojipets/home", {
       title: "MojiPets",
       favorites: favorites,
       inventory: inventoryKeys,
-      toys: toys,
+      toys: toysKeys,
       friends: friends,
       money: req.session.user.credits,
       onload: "start()"

@@ -99,10 +99,10 @@ async function add(body) {
 
   // Need to have this code here to avoid circular dependencies
   const storeToyCollection = await storeToys();
-  const storeToyArr = await storeToyCollection.find({}).toArray()
-  const shopToy = storeToyArr.map(clean)
+  const storeToysArr = await storeToyCollection.find({}).toArray()
+  const shopToys = storeToysArr.map(clean)
 
-  const bball = shopToy.find((toy, i) => {
+  const bball = shopToys.find((toy, i) => {
     if (toy.emoji.name == "basketball")
       return toy;
   });
