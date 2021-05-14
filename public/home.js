@@ -556,7 +556,7 @@ function addFriendsHandler() {
     var uname = $("#addFriendText").val();
 
     // Check for well-formedness
-    if (!uname || uname.trim().length == 0) {
+    if (!uname || typeof(uname) != "string" || uname.trim().length == 0) {
       $("#addFriendText").addClass("formError");
       $("#formErrorMessage").show();
       $("#formErrorMessage").text("Enter a non-empty username");

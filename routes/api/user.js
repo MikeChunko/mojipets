@@ -439,7 +439,28 @@ router.post("/privacy", async (req, res) => {
 
   try {
     req.session.user = await userData.updatePrivacy(req.session.user._id, level);
-    return res.sendStatus(200)
+    return res.sendStatus(200);
+  } catch (e) {
+    return res.status(500).json({ error: e.toString() });
+  }
+});
+
+router.post("/displayname", async (req, res) => {
+  if (!req.session.user)
+    return res.sendStatus(403);
+
+  let dname = xss(req.body.displayname);
+  if (!dname || typeof (dname) != "string" || dname.trim().length == 0)
+    return res.sendStatus(400);
+
+  try {
+    req.session.user = await userData.update({
+      userId: req.session.user._id,
+      username: req.session.user.username,
+      displayname: dname,
+      pfp: req.session.user.pfp
+    });
+    return res.sendStatus(200);
   } catch (e) {
     return res.status(500).json({ error: e.toString() });
   }

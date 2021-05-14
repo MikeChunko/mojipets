@@ -19,4 +19,30 @@
 
     $.ajax(requestConfig);
   })
+
+  $("#dnameForm").submit(function (e) {
+    e.preventDefault();
+
+    // Purge errors
+    $("#dnameInput").removeClass("formError");
+    $("#formErrorMessage").hide()
+
+    var dname = $("#dnameInput").val();
+
+    // Check for well-formedness
+    if (!dname || typeof(dname) != "string" || dname.trim().length == 0) {
+      $("#dnameInput").addClass("formError");
+      $("#formErrorMessage").show();
+      $("#formErrorMessage").text("Enter a non-empty display name");
+      return;
+    }
+
+    var requestConfig = {
+      method: "POST",
+      url: "api/user/displayname",
+      data: { displayname: dname }
+    }
+
+    $.ajax(requestConfig);
+  })
 })(window.jQuery);
