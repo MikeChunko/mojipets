@@ -12,6 +12,7 @@ const { ObjectID } = require('bson'),
       mongoCollections = require('../config/mongoCollections'),
       { users } = require('../config/mongoCollections'),
       usersJs = require('./users'),
+      storeFood = require("./storeFood")
       moment = require("moment"),
       {
         isEmoji,
@@ -54,6 +55,12 @@ async function add(body) {
 
   let birthday = new Date();
   let interactions = { fetch: [], feed: [] }
+  let foods = await storeFood.getAll();
+  let favoriteFood = foods[Math.floor(Math.random() * foods.length)]._id;
+
+  // No store foods exist
+  if (foods == "undefined")
+    favoriteFood = "";
 
   let newPet = {
     _id: ObjectID(),
@@ -62,7 +69,8 @@ async function add(body) {
     emoji: emoji,
     happiness: birthday,
     health: birthday,
-    interactions: interactions
+    interactions: interactions,
+    favoriteFood: favoriteFood
   }
 
   let user = null;

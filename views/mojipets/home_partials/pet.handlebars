@@ -4,7 +4,7 @@
 
   <div class="pet-view-container">
     <input type="image" data-id="{{pet._id}}" alt="{{pet.emoji.name}}" src="{{pet.emoji.img}}" class="left" />
-    <img class="favorite-icon" data-id="{{pet._id}}" src="/public/resources/star.svg" />
+    <img class="favorite-icon" data-id="{{pet._id}}" alt="star" src="/public/resources/star.svg" />
   </div>
   <br />
 
@@ -17,6 +17,11 @@
     </p>
     <p>{{pet.age}}</p>
     <p>{{pet.interactions}} interactions</p>
+
+    <div id="pet-favorite-food" class="emoji-container">
+      <p>Favorite food</p>
+      <img alt="{{pet.favoriteFood.emoji.name}}" src="{{pet.favoriteFood.emoji.img}}" />
+    </div>
   </div>
 
   <div class="bottom">

@@ -8,7 +8,7 @@
         <li>
           <div class="favoriteable-container">
             <input class="pet-container" type="image" data-id={{_id}} alt="{{emoji.name}}" src="{{emoji.img}}" />
-            <img class="unfavorite-icon" data-id={{_id}} src="/public/resources/star.svg" />
+            <img class="unfavorite-icon" data-id={{_id}} alt="star" src="/public/resources/star.svg" />
           </div>
         </li>
         {{/each}}
@@ -106,7 +106,12 @@
 
 </div>
 
+<div class="money">
+  <p id="credits">{{money}} 💸</p>
+</div>
+
 <div class="bottom-bar">
+  <a id="settings" href="/settings">Settings</a>
   <a id="logout" href="/logout">Log out</a>
 </div>
 

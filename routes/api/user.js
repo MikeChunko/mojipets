@@ -30,7 +30,6 @@ router.get("/all", async (req, res) => {
   res.json(users.map(user => protect.user.hideSensitive(user)));
 })
 
-// TODO: 🐛 check for bugs
 router.get('/:id', async (req, res) => {
   let id = xss(req.params.id),
       user = null;
@@ -48,7 +47,6 @@ router.get('/:id', async (req, res) => {
   catch (e) {
     if (e.toString().startsWith('No user could be found'))
       return res.status(404).json({ error: e.toString() })
-    // TODO: consider using error 400 for bad-input errors from this fcn?
     return res.status(500).json({ error: e.toString() })
   }
 
@@ -129,14 +127,6 @@ router.put('/:id/password', async (req, res) => {
   res.json(protect.user.hideSensitive(pwUpdate))
 })
 
-router.put('/:id/food', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
-})
-
-router.delete('/:id', async (req, res) => {
-  res.status(500).json({ error: 'TODO: implement' })
-})
-
 router.get('/:id/pets', async (req, res) => {
   // Error checking
   let id = xss(req.params.id),
@@ -155,7 +145,6 @@ router.get('/:id/pets', async (req, res) => {
   catch (e) {
     if (e.toString().startsWith('No user could be found'))
       return res.status(404).json({ error: e.toString() })
-    // TODO: consider using error 400 for bad-input errors from this fcn?
     return res.status(500).json({ error: e.toString() })
   }
 
@@ -211,7 +200,7 @@ router.post('/:id/pets', async (req, res) => {
     return res.status(400).json({
       error: 'store is either an empty string or just whitespace.'
     })
-  
+
   let user = null;
   try { user = await data.users.get(userId) }
   catch (e) { return res.status(500).json({error: e.toString()}) }
@@ -435,5 +424,47 @@ router.delete('/:id/friends/:friendid', async (req, res) => {
     return res.status(500).json({ error: e.toString() });
   }
 })
+
+router.post("/privacy", async (req, res) => {
+  if (!req.session.user)
+    return res.sendStatus(403);
+
+  let level = xss(req.body.level);
+  if (!level)
+    return res.sendStatus(400);
+
+  level = parseInt(level);
+  if (isNaN(level) || level < 0 || level > 2)
+    return res.sendStatus(400);
+
+  try {
+    req.session.user = await userData.updatePrivacy(req.session.user._id, level);
+    return res.sendStatus(200);
+  } catch (e) {
+    return res.status(500).json({ error: e.toString() });
+  }
+});
+
+router.post("/displayname", async (req, res) => {
+  if (!req.session.user)
+    return res.sendStatus(403);
+
+  let dname = xss(req.body.displayname);
+  if (!dname || typeof (dname) != "string" || dname.trim().length == 0)
+    return res.sendStatus(400);
+
+  try {
+    req.session.user = await userData.update({
+      userId: req.session.user._id,
+      username: req.session.user.username,
+      displayname: dname,
+      pfp: req.session.user.pfp
+    });
+    return res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ error: e.toString() });
+  }
+});
 
 module.exports = router

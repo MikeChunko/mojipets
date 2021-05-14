@@ -23,14 +23,6 @@ const { ObjectID } = require('bson'),
 async function hash_password(plaintextPassword) {
   return await bcrypt.hash(plaintextPassword, saltRounds);
 }
-
-// TODO: Do we need this?
-function validPassword (pwdStr) {
-  var pwdFormat = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$";
-  if (pwdStr.match(pwdFormat)) { return true }
-  return false
-} // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-
 async function add(body) {
   username = body.username
   plaintextPassword = body.plaintextPassword
@@ -83,7 +75,8 @@ async function add(body) {
     favoritePets: [],
     notifiedDeaths: [],
     foods: {},
-    toys: {}
+    toys: {},
+    privacy: 1  // 0: Profile visible to everybody, 1: only friends, 2: nobody
   }
 
   // Add an infinite source of meat_on_bone
@@ -173,11 +166,13 @@ async function update(body) {
   let user = null
   try {
     user = await get(uid)
+    delete user._id
   } catch (e) {
     throw e
   }
 
   const newUser = {
+    ...user,
     username: username.trim().toLowerCase(),
     passwordhash: user.passwordhash,
     displayname: displayname.trim(),
@@ -197,7 +192,7 @@ async function update(body) {
 
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: newUser })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not update user.'
-  let changedUser = await getUser(uid.toString())
+  let changedUser = await get(uid.toString())
   return changedUser
 }
 
@@ -218,6 +213,7 @@ async function updatePassword(body) {
   let user = null
   try {
     user = await get(uid)
+    delete user._id
   } catch (e) {
     throw e
   }
@@ -225,7 +221,7 @@ async function updatePassword(body) {
   const passwordhash = await hash_password(plaintextPassword)
 
   const newUser = {
-    username: user.username,
+    ...user,
     passwordhash: passwordhash,
     displayname: user.displayname.trim(),
     credits: user.credits,
@@ -237,14 +233,15 @@ async function updatePassword(body) {
     favoritePets: user.favoritePets,
     notifiedDeaths: user.notifiedDeaths,
     foods: user.foods,
-    toys: user.toys
+    toys: user.toys,
+    privacy: user.privacy
   }
 
   let updateId = ObjectIdMongo(uid)
 
   const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: newUser })
   if (updateInfo.modifiedCount == 0) throw 'Error: could not update user.'
-  let changedUser = await getUser(uid.toString())
+  let changedUser = await get(uid.toString())
   return changedUser
 }
 
@@ -261,6 +258,7 @@ async function modifyCredits(body) {
   let user = null
   try {
     user = await get(uid)
+    delete user._id
   } catch (e) {
     throw e
   }
@@ -269,9 +267,7 @@ async function modifyCredits(body) {
   if (user.credits + credits <= 0) throw `Error: user does not have enough credits to deduct ${-credits}`
 
   const newUser = {
-    username: user.username,
-    passwordhash: user.passwordhash,
-    displayname: user.displayname,
+    ...user,
     credits: user.credits + credits,
     pfp: user.pfp,
     joinDate: user.joinDate,
@@ -281,7 +277,38 @@ async function modifyCredits(body) {
     favoritePets: user.favoritePets,
     notifiedDeaths: user.notifiedDeaths,
     foods: user.foods,
-    toys: user.toys
+    toys: user.toys,
+    privacy: user.privacy
+  }
+
+  const userCollection = await users()
+
+  let updateId = ObjectIdMongo(uid)
+
+  const updateInfo = await userCollection.updateOne({ _id: updateId }, { $set: newUser })
+  if (updateInfo.modifiedCount == 0) throw 'Error: could not update user.'
+  let changedUser = await get(uid.toString())
+  return changedUser
+}
+
+async function updatePrivacy(uid, level) {
+  if (!uid) throw 'Error: uid not given.'
+  if (typeof (level) == "undefined") throw 'Error: must provide a level.'
+  if (typeof(uid) != "string") throw 'Error: type of uid not string.'
+  if (typeof(level) != 'number' || level < 0 || level > 2) throw 'Error: level must be a number between 0 and 2.'
+  if (uid.trim().length == 0) throw 'Error: uid is either an empty string or just whitespace.'
+
+  let user = null
+  try {
+    user = await get(uid)
+    delete user._id
+  } catch (e) {
+    throw e
+  }
+
+  const newUser = {
+    ...user,
+    privacy: level
   }
 
   const userCollection = await users()
@@ -626,6 +653,7 @@ module.exports = {
   update,
   updatePassword,
   modifyCredits,
+  updatePrivacy,
   makeFriends,
   removeFriends,
   getDeadPets,

@@ -460,6 +460,37 @@ li {
   background-color: #00000000;
 }
 
+#pet-favorite-food > img {
+  margin-top: -3vw;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: #F5F5F5;
+  width: 8vw;
+  height: 8vw;
+}
+
+#pet-favorite-food > p {
+  margin-top: -10px;
+  margin-left: 10px;
+  font-size: 30px; 
+  font-weight: normal;
+}
+
+#pet-favorite-food {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: #F5F5F5;
+  width: 10vw;
+  height: 13vw;
+  border-radius: 0.5vw;
+  box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+  text-align: center;
+}
+
 li > div > form {
   visibility: hidden;
   float: right;
@@ -491,6 +522,43 @@ li > div > p {
   position: absolute;
   bottom: 1vh;
   right: 1.2vw;
+}
+
+
+#settings {
+  color: #1d2e44;
+  text-align: right;
+  font-size: 20px;
+  position: absolute;
+  bottom: 1vh;
+  right: 8vw;
+}
+
+.money {
+  position: fixed;
+
+  background-color: #F5F5F5;
+  width: 140px;
+  height: 35px;
+  border-radius: 0.5vw;
+  box-shadow: 0.2vw 0.2vw 0.2vw #BCBCBC;
+  text-align: center;
+
+  bottom: 0;
+  left: 0;
+  margin-bottom: 5px;
+  margin-left: .7vw;
+
+  text-align: center;
+}
+
+.money > p {
+  font-weight: bold;
+  text-align: center;
+  font-size: 25px;
+  padding-bottom: 0;
+  padding: 0;
+  margin-top: 6px;
 }
 
 form > label {

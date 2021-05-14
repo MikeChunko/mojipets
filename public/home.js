@@ -87,9 +87,15 @@ function startAnimation() {
         // use ajax to inform server of this interaction
         if (pet.target.type == 'food' && pet.target.data)
           $.post(`/api/user/pet/${pet.data._id}/interactions/feed`,
-                 { 'food.id': pet.target.data })
+                 { 'food.id': pet.target.data }).then(async function (_) {
+                  _user = await $.get('/api/user');
+                  $("#credits").text(`${_user.credits} 💸`);
+                 });
         else if (pet.target.type == 'toy')
-          $.post(`/api/user/pet/${pet.data._id}/interactions/fetch`)
+          $.post(`/api/user/pet/${pet.data._id}/interactions/fetch`).then(async function (_) {
+            _user = await $.get('/api/user');
+            $("#credits").text(`${_user.credits} 💸`);
+          });
 
         // remove target from foodlist and from pet's targeting info
         _items.splice(_items.indexOf(pet.target), 1)
@@ -125,7 +131,6 @@ function startAnimation() {
 
 /** Proof of concept click-to-place **/
 function startClickToPlace() {
-  // TODO: subtract correct val so obj is placed in center of mouse
   _container.click((event) => {
     // Can't place anything if nothing is selected
     if (_selecteditem == null) return
@@ -158,6 +163,7 @@ function startClickToPlace() {
       left: `${pt.x}px`,
       top: `${pt.y}px`
     })
+    placedItem.click((event) => { event.stopPropagation() })
     _container.append(placedItem);
 
     // update info and add item to list
@@ -183,7 +189,6 @@ async function renderPets() {
     }
 
     // pick a random point
-    // TODO: make it so that pets don't spawn on top of each other
     let pt = {
       x: Math.floor((Math.random() * dims.width) + 25),
       y: Math.floor((Math.random() * dims.height) + 25)
@@ -381,14 +386,17 @@ function bindEventsToPet(pet) {
 
       // Bind (un)favorite handlers
       $("#replaceable-container").find("div > img").each(function(i, icon) {
-        // Switch icon class if the pet is favorited already
-        // Defaults to assuming the pet is unfavorited so no need for an else
-        if (_user.favoritePets.includes($(icon).attr("data-id"))) {
-          $(icon).removeClass("favorite-icon");
-          $(icon).addClass("unfavorite-icon");
-        }
+        // Try to exclude non-icons
+        if ($(icon).attr("data-id")) {
+          // Switch icon class if the pet is favorited already
+          // Defaults to assuming the pet is unfavorited so no need for an else
+          if (_user.favoritePets.includes($(icon).attr("data-id"))) {
+            $(icon).removeClass("favorite-icon");
+            $(icon).addClass("unfavorite-icon");
+          }
 
-        favoriteHandler(icon, $(icon).attr("class").indexOf("unfavorite-icon") != 0);
+          favoriteHandler(icon, $(icon).attr("class").indexOf("unfavorite-icon") != 0);
+        }
       });
 
       // Return link now exists
@@ -548,7 +556,7 @@ function addFriendsHandler() {
     var uname = $("#addFriendText").val();
 
     // Check for well-formedness
-    if (!uname || uname.trim().length == 0) {
+    if (!uname || typeof(uname) != "string" || uname.trim().length == 0) {
       $("#addFriendText").addClass("formError");
       $("#formErrorMessage").show();
       $("#formErrorMessage").text("Enter a non-empty username");

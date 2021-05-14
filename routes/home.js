@@ -62,6 +62,7 @@ router.get("/", async (req, res) => {
       inventory: inventoryKeys,
       toys: toys,
       friends: friends,
+      money: req.session.user.credits,
       onload: "start()"
     });
   } catch (e) {  // Some error has occured in the db
@@ -74,11 +75,12 @@ router.get("/pets", async (req, res) => {
   try {
     let pets = cloneDeep(req.session.user.pets);
 
-    // Map happiness, health, and age
+    // Map happiness, health, age, and favorite food
     for (let i = 0; i < pets.length; i++) {
       pets[i].happiness = await userPets.getHappiness(pets[i]._id);
       pets[i].status = await userPets.getStatus(pets[i]._id);
       pets[i].age = await userPets.getAge(pets[i]._id);
+      pets[i].food = (await storeFood.get(pets[i].favoriteFood)).emoji.codepoint;
     }
 
     res.render("mojipets/home_partials/pets", {
@@ -86,6 +88,7 @@ router.get("/pets", async (req, res) => {
       pets: pets,
     });
   } catch (e) {  // Some error has occured in the db
+    console.log(e)
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
 });
@@ -98,19 +101,22 @@ router.get("/pets/:id", async (req, res) => {
   const sanitized_id = xss(req.params.id);
   let pet = req.session.user.pets.find((pet, i) => {
     if (pet._id == sanitized_id)
-      return cloneDeep(pet);
+      return pet;
   });
+
+  pet = cloneDeep(pet)
 
   // Either the pet doesn't exist or doesn't belong to this user
   if (!pet)
     return res.sendStatus(403);
 
   try {
-    // Map happiness, health, agel and total interactions
+    // Map happiness, health, age, total interactions, and favorite food
     pet.happiness = await userPets.getHappiness(pet._id);
     pet.status = await userPets.getStatus(pet._id);
     pet.age = await userPets.getAge(pet._id);
     pet.interactions = await userPets.getTotalInteractions(pet._id);
+    pet.favoriteFood = await storeFood.get(pet.favoriteFood);
 
     // Fetch and scale percentages
     pet.happiness_percent = 100 * (await userPets.getHappinessAsNumber(pet._id));
@@ -148,6 +154,7 @@ router.get("/pets/:id", async (req, res) => {
       status_class: status_class
     });
   } catch (e) {  // Some error has occured in the db
+    console.log(e)
     res.status(500).sendFile(path.resolve("static/error_db.html"));
   }
 });
@@ -161,6 +168,7 @@ router.get("/graveyard", async (req, res) => {
       pets[i].happiness = await userPets.getHappiness(pets[i]._id.toString());
       pets[i].status = await userPets.getStatus(pets[i]._id.toString());
       pets[i].age = await userPets.getAge(pets[i]._id.toString());
+      pets[i].food = (await storeFood.get(pets[i].favoriteFood)).emoji.codepoint;
     }
 
     res.render("mojipets/home_partials/graveyard", {

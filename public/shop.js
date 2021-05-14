@@ -12,7 +12,7 @@
       petsTab = $('#pets-tab'),
       shopTitle = $('#shop-title'),
       shopPets = $('#shop-pets'),
-      shopFood = $('#shop-food');
+      shopFood = $('#shop-food'),
       credits = $('#credits');
 
   foodTab.click(function(e) {

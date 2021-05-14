@@ -14,6 +14,7 @@ const loginRoutes = require("./login"),
       profileRoutes = require("./profile");
       shopRoutes = require("./shop"),
       apiRoutes = require("./api"),
+      settingsRoutes = require("./settings"),
       path = require("path");
 
 const constructorMethod = (app) => {
@@ -23,6 +24,7 @@ const constructorMethod = (app) => {
   app.use("/logout", logoutRoutes);
   app.use("/profile", profileRoutes);
   app.use("/shop", shopRoutes);
+  app.use("/settings", settingsRoutes);
   app.use("/api", apiRoutes);
 
   app.use("*", (req, res) => {

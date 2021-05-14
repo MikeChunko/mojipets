@@ -1,0 +1,40 @@
+<div id="profile">
+  <div id="profile-header" class="centered">
+    <h1>Settings</h1>
+  </div>
+
+  <div class="center">
+  <form id="privacyForm">
+    <p>Profile privacy:</p>
+    <div>
+      <label for="privacy0">Everybody can view your profile</label>
+      <input type="radio" id="privacy0" name="privacy" value="0" {{privacy0}} />
+    </div>
+
+    <div>
+      <label for="privacy1">Only friends can view your profile</label>
+      <input type="radio" id="privacy1" name="privacy" value="1" {{privacy1}} />
+    </div>
+
+    <div>
+      <label for="privacy2">Nobody can view your profile</label>
+      <input type="radio" id="privacy2" name="privacy" value="2" {{privacy2}} />
+    </div>
+  </form>
+  
+  <form id="dnameForm">
+    <p>Display name:</p>
+    <label for="dnameInput">
+      <input id="dnameInput" name="dnameInput" type="text" placeholder="Display name" />
+    </label><br />
+    <label for="dnameSubmit">
+      <input id="dnameSubmit" name="dnameSubmit" type="submit" value="Submit" />
+    </label>
+    <p id="formErrorMessage" hidden></p>
+  </form>
+  </div>
+
+  <div class="center">
+  <a href="/">Return to home page</a>
+  </div>
+</div>
