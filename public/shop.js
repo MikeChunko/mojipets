@@ -121,7 +121,10 @@
 
 
       // Ensure the user can buy this pet
-      if ($(pet).attr("data-price") <= credits.text().substring(0, credits.text().indexOf(" 💸"))) {
+      let petPrice = parseInt($(pet).attr('data-price'))
+      let numCredits =
+          parseInt(credits.text().substring(0, credits.text().indexOf(" 💸")))
+      if (petPrice <= numCredits) {
         var name = "";
         while (name != null && name.trim().length == 0) {
           name = prompt("Please enter a name for your new pet:", "");
