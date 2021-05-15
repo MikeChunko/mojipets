@@ -353,7 +353,6 @@ async function getAge(id) {
         months = diff.month(),
         days = diff.date() - 1;
   let age = "";
-  console.log(pet.birthday, years, months, days)
 
   if (years != 0) {
     age += String(years);
