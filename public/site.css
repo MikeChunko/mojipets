@@ -55,6 +55,14 @@ h1 {
   color: #FFFFFF;
 }
 
+.big-text {
+  font-size: 30px;
+  font-weight: bold;
+  color: black;
+  position: relative;
+  top: 0px;
+}
+
 .centered {
   width: inherit;
   text-align: center;

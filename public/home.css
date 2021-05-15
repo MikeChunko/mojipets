@@ -328,6 +328,16 @@ input[type="text"] {
   padding: 0;
 }
 
+.big-text {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.med-text {
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
 .individual-pet > h2 {
   font-size: 40px;
 }
@@ -369,6 +379,13 @@ div > div {
 }
 
 div > h2 {
+  text-align: center;
+  vertical-align: bottom;
+  margin-top: 1vh;
+  margin-bottom: 0vh;
+}
+
+div > .big-text {
   text-align: center;
   vertical-align: bottom;
   margin-top: 1vh;
