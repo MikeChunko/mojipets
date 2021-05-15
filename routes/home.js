@@ -67,6 +67,9 @@ router.get("/", async (req, res) => {
       toys: toysKeys,
       friends: friends,
       money: req.session.user.credits,
+      owndisplayname: req.session.user.displayname,
+      ownusername: req.session.user.username,
+      own_id: req.session.user._id,
       onload: "start()"
     });
   } catch (e) {  // Some error has occured in the db
@@ -211,6 +214,9 @@ router.get("/friends", async (req, res) => {
 
     res.render("mojipets/home_partials/friends", {
       layout: false,
+      owndisplayname: req.session.user.displayname,
+      ownusername: req.session.user.username,
+      own_id: req.session.user._id,
       friends: friends
     });
   } catch (e) {  // Some error has occured in the db
