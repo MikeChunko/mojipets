@@ -115,14 +115,14 @@ input[type="text"] {
 
 .inventory-ul {
   overflow-y: scroll;
-  height: 18.4vh;
-  padding-bottom: 5vh;
+  height: 15.5vh;
+  padding-bottom: 3vh;
 }
 
 .toys-ul {
   overflow-y: scroll;
-  height: 13.5vh;
-  padding-bottom: 0;
+  height: 15.5vh;
+  padding-bottom: 3vh;
 }
 
 .right-sidebar {

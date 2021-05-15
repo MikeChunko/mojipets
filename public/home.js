@@ -239,6 +239,8 @@ async function renderPets() {
 
 (function ($) {
   const petShop = $('#pet-shop'),
+        foodShop = $("#item-shop"),
+        toyShop = $("#toy-shop"),
         favoritePets = $("#favorite-pets-ul");
 
   // Create form and submit it
@@ -251,6 +253,32 @@ async function renderPets() {
       type: 'hidden',
       name: 'shopType',
       value: "1"
+    })).appendTo('body').submit();
+  });
+
+  // Create form and submit it
+  foodShop.click(function (e) {
+    e.preventDefault();
+    $('<form>', {
+      action: '/shop',
+      method: 'POST'
+    }).append($('<input>', {
+      type: 'hidden',
+      name: 'shopType',
+      value: "0"
+    })).appendTo('body').submit();
+  });
+
+  // Create form and submit it
+  toyShop.click(function (e) {
+    e.preventDefault();
+    $('<form>', {
+      action: '/shop',
+      method: 'POST'
+    }).append($('<input>', {
+      type: 'hidden',
+      name: 'shopType',
+      value: "2"
     })).appendTo('body').submit();
   });
 
