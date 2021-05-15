@@ -56,11 +56,11 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  let body = xss(req.body);
+  let body = req.body;
   if (!body) return res.status(400).json({ error: 'no info given' })
-  let username = body.username
-  let password = body.password
-  let displayname = body.displayname
+  let username = xss(body.username)
+  let password = xss(body.password)
+  let displayname = xss(body.displayname)
   if (!username) return res.status(400).json({ error: 'username not given' })
   if (!password) return res.status(400).json({ error: 'password not given' })
   if (!displayname) return res.status(400).json({ error: 'displayname not given' })
@@ -86,11 +86,11 @@ router.post('/', async (req, res) => {
 
 router.put('/:id/password', async (req, res) => {
   let id = xss(req.params.id)
-  let body = xss(req.body);
+  let body = req.body;
   if (!id) return res.status(400).json({ error: 'id not given' })
   if (!body) return res.status(400).json({ error: 'body not given' })
-  let oldpassword = body.oldpassword
-  let newpassword = body.newpassword
+  let oldpassword = xss(body.oldpassword)
+  let newpassword = xss(body.newpassword)
   if (typeof(id) != "string")
     return res.status(400).json({ error: 'type of id not string' })
   if (id.trim().length == 0)
@@ -172,12 +172,10 @@ router.get('/:id/pets', async (req, res) => {
 
 router.post('/:id/pets', async (req, res) => {
   let userId = xss(req.params.id)
-  let body = xss(req.body)
-
+  let body = req.body
   if (!body) return res.status(400).json({ error: 'body not given' })
-
-  let name = body.name
-  let petId = body.store
+  let name = xss(body.name)
+  let petId = xss(body.store)
 
   if (!userId) return res.status(400).json({ error: 'userId not given' })
   if (typeof(userId) != "string")
