@@ -351,11 +351,11 @@ async function getAge(id) {
   const diff = moment.utc(moment().diff(pet.birthday)),
         years = diff.year() - 1970,
         months = diff.month(),
-        days = diff.dayOfYear() - 1;
+        days = diff.date() - 1;
   let age = "";
 
   if (years != 0) {
-    age += years;
+    age += String(years);
 
     if (years == 1)
       age += " year ";
@@ -364,7 +364,7 @@ async function getAge(id) {
   }
 
   if (months != 0) {
-    age += months;
+    age += String(months);
 
     if (months == 1)
       age += " month ";
@@ -373,7 +373,7 @@ async function getAge(id) {
   }
 
   if (days != 0) {
-    age += days;
+    age += String(days);
 
     if (days == 1)
       age += " day ";

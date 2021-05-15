@@ -1,4 +1,14 @@
 <ul id="friends-ul">
+  <li>
+    <div>
+      <p>{{owndisplayname}} (you)</p>
+      <form class="friend-form" method="GET" action="profile/{{ownusername}}">
+        <label for="{{own_id}}">
+          <input id="{{own_id}}" type="submit" name="profile" value="View Profile" />
+        </label>
+      </form>
+    </div>
+  </li>
   {{#each friends}}
   <li>
     <div>
