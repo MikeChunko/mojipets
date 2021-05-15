@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "09b6e63d-0720-4b9a-9355-67a12240d11f",
+		"_postman_id": "eacf9f7a-ffcd-4972-b59a-ce4d85ab6f35",
 		"name": "Mojipets",
 		"description": "### Route labels\n\n- 🆔 Correctly Authenticated\n- 🛑 Incorrectly authenticated\n- ❌ Erroneous",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -12,6 +12,269 @@
 				{
 					"name": "/:id",
 					"item": [
+						{
+							"name": "/:id/foods",
+							"item": [
+								{
+									"name": "number /:id/foods/:foodid",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/user/:id/foods/:foodid",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												":id",
+												"foods",
+												":foodid"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{jack.id}}"
+												},
+												{
+													"key": "foodid",
+													"value": "{{pie.id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "❌  /:id/foods/:foodid user has no food",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/user/:id/foods/:foodid",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												":id",
+												"foods",
+												":foodid"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{gym3johto.id}}"
+												},
+												{
+													"key": "foodid",
+													"value": "{{pie.id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "/:id/toys",
+							"item": [
+								{
+									"name": "number /:id/toys/:toyid",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/user/:id/toys/:toyid",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												":id",
+												"toys",
+												":toyid"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{jack.id}}"
+												},
+												{
+													"key": "toyid",
+													"value": "{{balloon.id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "❌  /:id/toys/:toyid user has no toys",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/user/:id/toys/:toyid",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												":id",
+												"toys",
+												":toyid"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{gym3johto.id}}"
+												},
+												{
+													"key": "toyid",
+													"value": "{{balloon.id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "/:id/favoritePets",
+							"item": [
+								{
+									"name": "list of pets /:id/favoreitePets/:petid",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/user/:id/favoritePets/:petid",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												":id",
+												"favoritePets",
+												":petid"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{jack.id}}"
+												},
+												{
+													"key": "petid",
+													"value": "{{jack.pet}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "❌  /:id/favoreitePets/:petid badid",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/user/:id/favoritePets/:petid",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												":id",
+												"favoritePets",
+												":petid"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{jack.id}}"
+												},
+												{
+													"key": "petid",
+													"value": "badid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "list of pets /:id/favoreitePets/:petid",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/user/:id/favoritePets/:petid",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												":id",
+												"favoritePets",
+												":petid"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{jack.id}}"
+												},
+												{
+													"key": "petid",
+													"value": "{{jack.pet}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "❌  /:id/favoreitePets/:petid badid",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/user/:id/favoritePets/:petid",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												":id",
+												"favoritePets",
+												":petid"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{jack.id}}"
+												},
+												{
+													"key": "petid",
+													"value": "badid"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
 						{
 							"name": "🛑 /:id",
 							"event": [
@@ -366,6 +629,76 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "pet /:id/pets",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"bullet\",\r\n    \"store\":\"{{ant.id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/user/:id/pets",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id",
+										"pets"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{jack.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "❌ /:id/pets missing part of body",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"store\":\"{{ant.id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/user/:id/pets",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":id",
+										"pets"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{jack.id}}"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -417,6 +750,60 @@
 							"request": {
 								"method": "GET",
 								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "user /",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"newUserPostman\",\r\n    \"displayname\":\"postmanGuy\",\r\n    \"password\":\"postmanPW\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "❌ / missing part of body",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"newUserPostman\",\r\n    \"displayname\":\"postmanGuy\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{base_url}}/api/user",
 									"host": [
@@ -1102,15 +1489,27 @@
 		},
 		{
 			"key": "gym3johto.id",
-			"value": "608b19f2cb49ac364985d2e5"
+			"value": "609f1c8bf835950c84f42b5c"
 		},
 		{
 			"key": "jack.pet",
-			"value": "608b1a00cb49ac364985d300"
+			"value": "609f1c92f835950c84f42b61"
 		},
 		{
 			"key": "jack.id",
-			"value": "608b19dacb49ac364985d2e0"
+			"value": "609f1c79f835950c84f42b57"
+		},
+		{
+			"key": "balloon.id",
+			"value": "609f1c72f835950c84f42b4d"
+		},
+		{
+			"key": "pie.id",
+			"value": "609f1c72f835950c84f42b29"
+		},
+		{
+			"key": "ant.id",
+			"value": "609f1c72f835950c84f42b38"
 		}
 	]
 }
