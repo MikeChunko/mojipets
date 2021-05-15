@@ -244,4 +244,29 @@ router.get("/inventory", async (req, res) => {
   }
 });
 
+router.get("/toys", async (req, res) => {
+  try {
+    // Fetch user's toys
+    // For some reason req.session.user toys refuses to update properly
+    let toys = cloneDeep((await userData.get(req.session.user._id)).toys),
+        toysKeys = Object.keys(toys);
+
+    for (let i = 0; i < toysKeys.length; i++) {
+      toysKeys[i] = { quantity: toys[toysKeys[i]], ...await storeToys.get(toysKeys[i]) };
+
+      // Handle "infinite" quantities
+      if (toysKeys[i].quantity == -1)
+        toysKeys[i].quantity = "∞";
+    }
+
+    res.render("mojipets/home_partials/toys", {
+      layout: false,
+      toys: toysKeys
+    });
+  } catch (e) {  // Some error has occured in the db
+    console.log(e);
+    res.status(500).sendFile(path.resolve("static/error_db.html"));
+  }
+});
+
 module.exports = router;

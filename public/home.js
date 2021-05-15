@@ -151,10 +151,10 @@ function startClickToPlace() {
     } else {
       $.post(`/api/user/${_user._id}/toys/${_selecteditem.data}`)
         .then(amt => {
-          updateInventory(); // TODO: updateToys??
+          updateToys(); // TODO: updateToys??
         })
         .fail(() => {
-          updateInventory(); // TODO: updateToys??
+          updateToys(); // TODO: updateToys??
         })
     }
 
@@ -492,6 +492,37 @@ function updateInventory() {
     $($(`[data-id|='${clicked}']`)[0]).attr("data-clicked", "y");
 
     inventoryHandler();
+  }).fail(function (e) {
+    // TODO: Show an error somehow
+  });
+}
+
+function updateToys() {
+  // Re-render favorite pets
+  var requestConfig = {
+    method: "GET",
+    url: "/home/toys"
+  };
+
+  $.ajax(requestConfig).then(function (res) {
+    // Used to keep scroll position
+    scrollPos = $("#toys-ul").scrollTop();
+
+    // Used for remembering which item was clicked
+    clicked = $($("[data-clicked|='y'")[0]).attr("data-id");
+
+    // Last of this item was used
+    if ($($(`[data-id|='${clicked}']`)[0]).find("p")[0].innerHTML == "1")
+      _selecteditem = null;
+
+    $("#toys-ul").replaceWith($.parseHTML(res)[0]);
+
+    $("#toys-ul").scrollTop(scrollPos);
+
+    // "Click" the item again
+    $($(`[data-id|='${clicked}']`)[0]).attr("data-clicked", "y");
+
+    toysHandler();
   }).fail(function (e) {
     // TODO: Show an error somehow
   });
