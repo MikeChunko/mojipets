@@ -28,7 +28,7 @@
     "lodash.clonedeep": "*",
     "moment": "*",
     "mongo": "*",
-    "mongodb": "^4.1.0",
+    "mongodb": "^4.17.0",
     "path": "*",
     "xss": "^1.0.9"
   }
